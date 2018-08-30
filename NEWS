@@ -1,0 +1,174 @@
+
+chicane v0.1.0							2018-08-24
+--------------------------------------------------
+* First CRAN release
+
+chicane v0.0.3.3						2018-08-09
+--------------------------------------------------
+* Remove restriction fragments from package
+* Slim down extdata folder
+
+chicane v0.0.3.2						2018-06-28
+--------------------------------------------------
+* Fix fill.in.zeros to replace NAs with zeros across all replicate columns
+
+chicane v0.0.3.1						2018-06-19
+--------------------------------------------------
+* Add adjustment.terms argument to allow user to adjust for covariates of their choice
+
+chicane v0.0.3.0						2018-06-14
+--------------------------------------------------
+* Support for parallel processing in cis-interactions model fitting
+
+chicane v0.0.2.10						2018-04-30
+--------------------------------------------------
+* Expanded test coverage, small code tweaks
+
+chicane v0.0.2.9						2018-04-17
+--------------------------------------------------
+* Added option for removing counts between adjacent restriction fragments
+* Fixed vignette to run without bedtools
+
+chicane v0.0.2.8						2018-04-11
+--------------------------------------------------
+* Move model fitting try-catch to helper function
+
+chicane v0.0.2.7						2018-04-10
+--------------------------------------------------
+* Option to store temporary files in specific directory
+
+chicane v0.0.2.6						2018-03-19
+--------------------------------------------------
+* Added convert.hicup.digest.bed helper function
+
+chicane v0.0.2.5						2018-03-08
+--------------------------------------------------
+* Vectorize get.id.components function
+
+chicane v0.0.2.4						2018-03-06
+--------------------------------------------------
+* Bugfix in get.id.components function
+
+chicane v0.0.2.3						2018-03-02
+--------------------------------------------------
+* Changes to pass CRAN checks 
+	- moved gamlss and gamlss.tr to Depends
+* Gracefully catch unknown errors
+
+chicane v0.0.2.2						2018-03-01
+--------------------------------------------------
+* refuse to proceed with data processing if intermediate files already exist
+* set data processing examples as \dontrun to get around bedtools dependency on CRAN
+* pass keep.files argument through chicane
+
+chicane v0.0.2.1						2018-02-26
+--------------------------------------------------
+* catch error if model fitting fails after warning
+
+
+chicane v0.0.2.0						2018-02-15
+--------------------------------------------------
+* minor test.enrichment bug fix
+* catch some --as-cran comments/ warnings
+* expanded test coverage
+
+
+chicane v0.0.1.9						2018-02-14
+--------------------------------------------------
+* Improvements to test.enrichment:
+	- stratified sampling
+	- exclude bait-to-bait by default
+	- return results as data frame
+	- consider proportion of total features 
+	- bugfixes
+
+chicane v0.0.1.8 						2018-02-13
+--------------------------------------------------
+* Revamped data preparation step
+* fixed issue where keep.files was not passed through prepare.data
+
+
+chicane v0.0.1.7						2018-02-12
+--------------------------------------------------
+* Bare bones enrichment testing
+
+
+chicane v0.0.1.6						2018-02-05
+--------------------------------------------------
+* Graceful handling of glm.fitter errors
+* Added new level of verbosity
+
+
+chicane v0.0.1.5						2018-02-02
+--------------------------------------------------
+* Graceful handling of "no suitable coefficients found" errors
+* Pass starting values between distance bins when fitting model 
+
+
+chicane v0.0.1.4						2018-01-31
+--------------------------------------------------
+* Retiring some TO DOs
+* Minor documentation tweaks
+
+
+chicane v0.0.1.3						2018-01-30
+--------------------------------------------------
+* Renamed package
+* Added tests for get.trans.count
+
+
+Dudbridge v0.0.1.2						2018-01-24
+--------------------------------------------------
+* Error/ warning catching for lack of overdispersion in data
+* Added epsilon parameter to be passed to GLM control objects
+
+
+Dudbridge v0.0.1.1						2018-01-23
+--------------------------------------------------
+* Switched from VGAM to GAMLSS for truncated distributions
+* Added truncated negative binomial
+* Added trace and maxit parameters to be passed to GLM/ GAMLSS control objects
+
+
+Dudbridge v0.0.1.0						2018-01-19
+--------------------------------------------------
+* Refactored to include run.model.fitting function
+* Removed more excess printing
+
+
+Dudbridge v0.0.0.8						2018-01-19
+--------------------------------------------------
+* Prettified verbose reports, removed excess printing
+* Added smart.split function and incorporated it into split.by.distance
+
+Dudbridge v0.0.0.7						2018-01-18
+--------------------------------------------------
+* Fixed bug in handling of distance.bins = 1
+* Switch to Poisson distribution when negative
+  binomial fails to fit
+
+
+Dudbridge v0.0.0.6						2018-01-17
+--------------------------------------------------
+* Added truncated negative binomial distribution
+
+
+Dudbridge v0.0.0.5						2018-01-15
+--------------------------------------------------
+* Implemented filtering
+
+
+Dudbridge v0.0.0.4						2018-01-12
+--------------------------------------------------
+* Option to include zero counts in data (all or cis-only)
+* Minor bug fixes and sanity checks
+
+
+Dudbridge v0.0.0.3						2018-01-09
+--------------------------------------------------
+* Fixed trans count calculation
+
+
+Dudbridge v0.0.0.2						2018-01-03
+--------------------------------------------------
+* Removed other end adjustment from non bait-to-bait model

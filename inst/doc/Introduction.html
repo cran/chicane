@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="date" content="2018-08-24" />
+
+<title>Getting Started with Capture Hi-C Analysis Engine</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+</style>
+
+
+
+<link href="data:text/css,body%20%7B%0A%20%20background%2Dcolor%3A%20%23fff%3B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20max%2Dwidth%3A%20700px%3B%0A%20%20overflow%3A%20visible%3B%0A%20%20padding%2Dleft%3A%202em%3B%0A%20%20padding%2Dright%3A%202em%3B%0A%20%20font%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0A%20%20font%2Dsize%3A%2014px%3B%0A%20%20line%2Dheight%3A%201%2E35%3B%0A%7D%0A%0A%23header%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0A%0A%23TOC%20%7B%0A%20%20clear%3A%20both%3B%0A%20%20margin%3A%200%200%2010px%2010px%3B%0A%20%20padding%3A%204px%3B%0A%20%20width%3A%20400px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20border%2Dradius%3A%205px%3B%0A%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20font%2Dsize%3A%2013px%3B%0A%20%20line%2Dheight%3A%201%2E3%3B%0A%7D%0A%20%20%23TOC%20%2Etoctitle%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%20%20font%2Dsize%3A%2015px%3B%0A%20%20%20%20margin%2Dleft%3A%205px%3B%0A%20%20%7D%0A%0A%20%20%23TOC%20ul%20%7B%0A%20%20%20%20padding%2Dleft%3A%2040px%3B%0A%20%20%20%20margin%2Dleft%3A%20%2D1%2E5em%3B%0A%20%20%20%20margin%2Dtop%3A%205px%3B%0A%20%20%20%20margin%2Dbottom%3A%205px%3B%0A%20%20%7D%0A%20%20%23TOC%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dleft%3A%20%2D2em%3B%0A%20%20%7D%0A%20%20%23TOC%20li%20%7B%0A%20%20%20%20line%2Dheight%3A%2016px%3B%0A%20%20%7D%0A%0Atable%20%7B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dcolor%3A%20%23DDDDDD%3B%0A%20%20border%2Dstyle%3A%20outset%3B%0A%20%20border%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0A%20%20border%2Dwidth%3A%202px%3B%0A%20%20padding%3A%205px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%20%20line%2Dheight%3A%2018px%3B%0A%20%20padding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0A%20%20border%2Dleft%2Dstyle%3A%20none%3B%0A%20%20border%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Ap%20%7B%0A%20%20margin%3A%200%2E5em%200%3B%0A%7D%0A%0Ablockquote%20%7B%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20padding%3A%200%2E25em%200%2E75em%3B%0A%7D%0A%0Ahr%20%7B%0A%20%20border%2Dstyle%3A%20solid%3B%0A%20%20border%3A%20none%3B%0A%20%20border%2Dtop%3A%201px%20solid%20%23777%3B%0A%20%20margin%3A%2028px%200%3B%0A%7D%0A%0Adl%20%7B%0A%20%20margin%2Dleft%3A%200%3B%0A%7D%0A%20%20dl%20dd%20%7B%0A%20%20%20%20margin%2Dbottom%3A%2013px%3B%0A%20%20%20%20margin%2Dleft%3A%2013px%3B%0A%20%20%7D%0A%20%20dl%20dt%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%7D%0A%0Aul%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%7D%0A%20%20ul%20li%20%7B%0A%20%20%20%20list%2Dstyle%3A%20circle%20outside%3B%0A%20%20%7D%0A%20%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dbottom%3A%200%3B%0A%20%20%7D%0A%0Apre%2C%20code%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20color%3A%20%23333%3B%0A%20%20white%2Dspace%3A%20pre%2Dwrap%3B%20%20%20%20%2F%2A%20Wrap%20long%20lines%20%2A%2F%0A%7D%0Apre%20%7B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20margin%3A%205px%200px%2010px%200px%3B%0A%20%20padding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Acode%20%7B%0A%20%20font%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0A%20%20font%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0A%20%20padding%3A%202px%200px%3B%0A%7D%0A%0Adiv%2Efigure%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0A%20%20background%2Dcolor%3A%20%23FFFFFF%3B%0A%20%20padding%3A%202px%3B%0A%20%20border%3A%201px%20solid%20%23DDDDDD%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20margin%3A%200%205px%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%20%20font%2Dsize%3A%2035px%3B%0A%20%20line%2Dheight%3A%2040px%3B%0A%7D%0A%0Ah2%20%7B%0A%20%20border%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20padding%2Dbottom%3A%202px%3B%0A%20%20font%2Dsize%3A%20145%25%3B%0A%7D%0A%0Ah3%20%7B%0A%20%20border%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20font%2Dsize%3A%20120%25%3B%0A%7D%0A%0Ah4%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0A%20%20margin%2Dleft%3A%208px%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Ah5%2C%20h6%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23ccc%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Aa%20%7B%0A%20%20color%3A%20%230033dd%3B%0A%20%20text%2Ddecoration%3A%20none%3B%0A%7D%0A%20%20a%3Ahover%20%7B%0A%20%20%20%20color%3A%20%236666ff%3B%20%7D%0A%20%20a%3Avisited%20%7B%0A%20%20%20%20color%3A%20%23800080%3B%20%7D%0A%20%20a%3Avisited%3Ahover%20%7B%0A%20%20%20%20color%3A%20%23BB00BB%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%0A%2F%2A%20Class%20described%20in%20https%3A%2F%2Fbenjeffrey%2Ecom%2Fposts%2Fpandoc%2Dsyntax%2Dhighlighting%2Dcss%0A%20%20%20Colours%20from%20https%3A%2F%2Fgist%2Egithub%2Ecom%2Frobsimmons%2F1172277%20%2A%2F%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Keyword%20%2A%2F%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%2F%2A%20DataType%20%2A%2F%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%2F%2A%20DecVal%20%28decimal%20values%29%20%2A%2F%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20BaseN%20%2A%2F%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Float%20%2A%2F%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Char%20%2A%2F%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20String%20%2A%2F%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%2F%2A%20Comment%20%2A%2F%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%2F%2A%20OtherToken%20%2A%2F%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20AlertToken%20%2A%2F%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Function%20calls%20%2A%2F%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%2F%2A%20ErrorTok%20%2A%2F%0A%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Getting Started with Capture Hi-C Analysis Engine</h1>
+<h4 class="date"><em>2018-08-24</em></h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#quickstart">Quickstart</a></li>
+<li><a href="#preprocessing">Pre-Processing Data</a></li>
+<li><a href="#statistical-model">Statistical Model</a><ul>
+<li><a href="#distribution-of-the-counts">Distribution of the Counts</a><ul>
+<li><a href="#negative-binomial">Negative Binomial</a></li>
+<li><a href="#poisson">Poisson</a></li>
+<li><a href="#truncated-negative-binomial">Truncated Negative Binomial</a></li>
+<li><a href="#truncated-poisson">Truncated Poisson</a></li>
+</ul></li>
+<li><a href="#adjusting-for-covariates">Adjusting for Covariates</a></li>
+<li><a href="#filtering-baits-and-targets">Filtering Baits and Targets</a></li>
+<li><a href="#multiple-testing-correction">Multiple Testing Correction</a></li>
+<li><a href="#merging-biological-replicates">Merging Biological Replicates</a></li>
+<li><a href="#adjusting-for-custom-covariates">Adjusting for Custom Covariates</a></li>
+</ul></li>
+<li><a href="#helper-functions">Helper Functions</a></li>
+<li><a href="#session-info">Session Info</a></li>
+<li><a href="#acknowledgements">Acknowledgements</a></li>
+</ul>
+</div>
+
+<div id="quickstart" class="section level1">
+<h1>Quickstart</h1>
+<p>The main function for running the chicane method is <code>chicane()</code>. This takes a bam file and bed files with all restriction fragments and targeted restriction fragments as input, and produces a table with fragment interactions and associated p-values.</p>
+<p>The package comes with a subset of reads from a capture Hi-C experiment on the Bre80 normal epithelial breast tissue cell line <span class="citation">(Baxter et al. 2018)</span>. The experiment targeted several breast cancer risk loci in non-coding regions of the genome, and aimed to associate these risk variants with genes. Two of the risk SNPs are rs13387042 and rs16857609, and reads that map to them have been included in the file Bre80_2q35.bam.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(chicane);
+<span class="co">#&gt; Loading required package: gamlss.tr</span>
+<span class="co">#&gt; Loading required package: gamlss.dist</span>
+<span class="co">#&gt; Loading required package: MASS</span>
+<span class="co">#&gt; Loading required package: gamlss</span>
+<span class="co">#&gt; Loading required package: splines</span>
+<span class="co">#&gt; Loading required package: gamlss.data</span>
+<span class="co">#&gt; Loading required package: nlme</span>
+<span class="co">#&gt; Loading required package: parallel</span>
+<span class="co">#&gt;  **********   GAMLSS Version 5.1-0  **********</span>
+<span class="co">#&gt; For more on GAMLSS look at http://www.gamlss.org/</span>
+<span class="co">#&gt; Type gamlssNews() to see new features/changes/bug fixes.</span>
+
+<span class="co"># example BAM file, baits, and restriction fragments</span>
+bam &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">'extdata'</span>, <span class="st">'Bre80_2q35.bam'</span>, <span class="dt">package =</span> <span class="st">'chicane'</span>);
+baits &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">'extdata'</span>, <span class="st">'2q35.bed'</span>, <span class="dt">package =</span> <span class="st">'chicane'</span>);
+fragments &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">'extdata'</span>, <span class="st">'GRCh38_HindIII_chr2.bed.gz'</span>, <span class="dt">package =</span> <span class="st">'chicane'</span>); <span class="co"># HindIII fragments on chromosome 2</span>
+
+if( <span class="kw">bedtools.installed</span>() ) {
+  chicane.results &lt;-<span class="st"> </span><span class="kw">chicane</span>(
+    <span class="dt">bam =</span> bam,
+    <span class="dt">baits =</span> baits,
+    <span class="dt">fragments =</span> fragments
+    );
+
+    <span class="kw">print</span>( chicane.results[ <span class="dv">1</span>:<span class="dv">10</span> ] );
+}
+<span class="co">#&gt;                    target.id                  bait.id target.chr</span>
+<span class="co">#&gt;  1: chr2:217491009-217492415 chr2:217035649-217042355       chr2</span>
+<span class="co">#&gt;  2: chr2:216650000-216651600 chr2:217430817-217437011       chr2</span>
+<span class="co">#&gt;  3: chr2:217290048-217292530 chr2:217430817-217437011       chr2</span>
+<span class="co">#&gt;  4: chr2:216269087-216273140 chr2:217430817-217437011       chr2</span>
+<span class="co">#&gt;  5: chr2:216551051-216551968 chr2:217430817-217437011       chr2</span>
+<span class="co">#&gt;  6: chr2:216696003-216698549 chr2:217430817-217437011       chr2</span>
+<span class="co">#&gt;  7: chr2:216879929-216883553 chr2:217430817-217437011       chr2</span>
+<span class="co">#&gt;  8: chr2:216687613-216696003 chr2:217430817-217437011       chr2</span>
+<span class="co">#&gt;  9: chr2:217162758-217166250 chr2:217430817-217437011       chr2</span>
+<span class="co">#&gt; 10: chr2:216682129-216687613 chr2:217430817-217437011       chr2</span>
+<span class="co">#&gt;     target.start target.end bait.chr bait.start  bait.end bait.to.bait</span>
+<span class="co">#&gt;  1:    217491009  217492415     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt;  2:    216650000  216651600     chr2  217430817 217437011        FALSE</span>
+<span class="co">#&gt;  3:    217290048  217292530     chr2  217430817 217437011        FALSE</span>
+<span class="co">#&gt;  4:    216269087  216273140     chr2  217430817 217437011        FALSE</span>
+<span class="co">#&gt;  5:    216551051  216551968     chr2  217430817 217437011        FALSE</span>
+<span class="co">#&gt;  6:    216696003  216698549     chr2  217430817 217437011        FALSE</span>
+<span class="co">#&gt;  7:    216879929  216883553     chr2  217430817 217437011        FALSE</span>
+<span class="co">#&gt;  8:    216687613  216696003     chr2  217430817 217437011        FALSE</span>
+<span class="co">#&gt;  9:    217162758  217166250     chr2  217430817 217437011        FALSE</span>
+<span class="co">#&gt; 10:    216682129  216687613     chr2  217430817 217437011        FALSE</span>
+<span class="co">#&gt;     bait.trans.count target.trans.count  distance count expected</span>
+<span class="co">#&gt;  1:                0                  0  452710.0    28 6.064476</span>
+<span class="co">#&gt;  2:                0                  0  783114.0    16 2.990237</span>
+<span class="co">#&gt;  3:                0                  0  142625.0    33 9.143598</span>
+<span class="co">#&gt;  4:                0                  0 1162800.5     8 2.101966</span>
+<span class="co">#&gt;  5:                0                  0  882404.5    11 2.745668</span>
+<span class="co">#&gt;  6:                0                  0  736638.0    16 4.032253</span>
+<span class="co">#&gt;  7:                0                  0  552173.0    11 3.896133</span>
+<span class="co">#&gt;  8:                0                  0  742106.0    15 3.889132</span>
+<span class="co">#&gt;  9:                0                  0  269410.0    24 7.968272</span>
+<span class="co">#&gt; 10:                0                  0  749043.0    14 3.716266</span>
+<span class="co">#&gt;          p.value   q.value</span>
+<span class="co">#&gt;  1: 0.0001206449 0.2038899</span>
+<span class="co">#&gt;  2: 0.0005035504 0.8182288</span>
+<span class="co">#&gt;  3: 0.0012757379 0.8182288</span>
+<span class="co">#&gt;  4: 0.0018935853 0.8182288</span>
+<span class="co">#&gt;  5: 0.0021356645 0.8182288</span>
+<span class="co">#&gt;  6: 0.0037456864 0.8182288</span>
+<span class="co">#&gt;  7: 0.0037711109 0.8182288</span>
+<span class="co">#&gt;  8: 0.0048756166 0.8182288</span>
+<span class="co">#&gt;  9: 0.0055434462 0.8182288</span>
+<span class="co">#&gt; 10: 0.0061512164 0.8182288</span></code></pre>
+<p>The <code>chicane</code> method returns a <code>data.table</code> object sorted by q-value. Each row contains information about the target and bait fragments, and the observed and expected number of reads linking the two fragments.</p>
+</div>
+<div id="preprocessing" class="section level1">
+<h1>Pre-Processing Data</h1>
+<p>The <code>chicane</code> method can operate directly on BAM files. To convert the BAM file into a text file, R calls the shell script <code>prepare_bam.sh</code>. This script relies on <a href="http://bedtools.readthedocs.io/en/latest/index.html">bedtools</a> to select reads overlapping the captured fragments and identify the restriction fragments corresponding to each read. The resulting data is read into a <a href="https://CRAN.R-project.org/package=data.table"><code>data.table</code></a> object, and the number of reads linking any two fragments is calculated.</p>
+<p>This processing can take a while (~45 minutes for a 19GB BAM file on a commodity computer with 13GB RAM), and only needs to be done once for each BAM. To speed up model fitting, it is possible to pre-process the data with the <code>prepare.data()</code> function and run <code>chicane</code> directly on the resulting data table.</p>
+<pre class="sourceCode r"><code class="sourceCode r">if( <span class="kw">bedtools.installed</span>() ) {
+  interaction.data &lt;-<span class="st"> </span><span class="kw">prepare.data</span>(
+    <span class="dt">bam =</span> bam,
+    <span class="dt">baits =</span> baits,
+    <span class="dt">fragments =</span> fragments
+    );
+}</code></pre>
+<p>The interaction data object contains details of the fragments, and the number of reads linking the two fragments.</p>
+<pre class="sourceCode r"><code class="sourceCode r">if( <span class="kw">bedtools.installed</span>() ) <span class="kw">print</span>(interaction.data);
+<span class="co">#&gt;                      target.id                  bait.id target.chr</span>
+<span class="co">#&gt;    1: chr2:200013520-200014510 chr2:217035649-217042355       chr2</span>
+<span class="co">#&gt;    2: chr2:200018581-200020582 chr2:217035649-217042355       chr2</span>
+<span class="co">#&gt;    3: chr2:200020582-200023537 chr2:217430817-217437011       chr2</span>
+<span class="co">#&gt;    4: chr2:200033118-200034885 chr2:217430817-217437011       chr2</span>
+<span class="co">#&gt;    5: chr2:200040560-200041826 chr2:217430817-217437011       chr2</span>
+<span class="co">#&gt;   ---                                                             </span>
+<span class="co">#&gt; 4479: chr2:229867689-229872871 chr2:217035649-217042355       chr2</span>
+<span class="co">#&gt; 4480: chr2:229872871-229875614 chr2:217035649-217042355       chr2</span>
+<span class="co">#&gt; 4481: chr2:229882404-229887121 chr2:217430817-217437011       chr2</span>
+<span class="co">#&gt; 4482: chr2:229894321-229904945 chr2:217035649-217042355       chr2</span>
+<span class="co">#&gt; 4483: chr2:229917543-229919836 chr2:217430817-217437011       chr2</span>
+<span class="co">#&gt;       target.start target.end bait.chr bait.start  bait.end bait.to.bait</span>
+<span class="co">#&gt;    1:    200013520  200014510     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt;    2:    200018581  200020582     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt;    3:    200020582  200023537     chr2  217430817 217437011        FALSE</span>
+<span class="co">#&gt;    4:    200033118  200034885     chr2  217430817 217437011        FALSE</span>
+<span class="co">#&gt;    5:    200040560  200041826     chr2  217430817 217437011        FALSE</span>
+<span class="co">#&gt;   ---                                                                   </span>
+<span class="co">#&gt; 4479:    229867689  229872871     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt; 4480:    229872871  229875614     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt; 4481:    229882404  229887121     chr2  217430817 217437011        FALSE</span>
+<span class="co">#&gt; 4482:    229894321  229904945     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt; 4483:    229917543  229919836     chr2  217430817 217437011        FALSE</span>
+<span class="co">#&gt;       bait.trans.count target.trans.count distance count</span>
+<span class="co">#&gt;    1:                0                  0 17024987     1</span>
+<span class="co">#&gt;    2:                0                  0 17019420     1</span>
+<span class="co">#&gt;    3:                0                  0 17411854     2</span>
+<span class="co">#&gt;    4:                0                  0 17399912     1</span>
+<span class="co">#&gt;    5:                0                  0 17392721     1</span>
+<span class="co">#&gt;   ---                                                   </span>
+<span class="co">#&gt; 4479:                0                  0 12831278     1</span>
+<span class="co">#&gt; 4480:                0                  0 12835240     1</span>
+<span class="co">#&gt; 4481:                0                  0 12450848     1</span>
+<span class="co">#&gt; 4482:                0                  0 12860631     1</span>
+<span class="co">#&gt; 4483:                0                  0 12484776     1</span></code></pre>
+<p>By default, only combinations of fragments that are detected at least once are included in the data. To also include zero counts, use the <code>include.zeros</code> argument. Setting <code>include.zeros = 'cis'</code> includes all zero counts for bait/ target combinations on the same chromosome, while <code>include.zeros = 'all'</code> includes all possible combinations.</p>
+<pre class="sourceCode r"><code class="sourceCode r">if( <span class="kw">bedtools.installed</span>() ) {
+  cis.zero.results &lt;-<span class="st"> </span><span class="kw">chicane</span>(
+    <span class="dt">bam =</span> bam,
+    <span class="dt">baits =</span> baits,
+    <span class="dt">fragments =</span> fragments,
+    <span class="dt">include.zeros =</span> <span class="st">'cis'</span>
+    ); 
+
+    <span class="kw">print</span>( cis.zero.results[ <span class="dv">1</span>:<span class="dv">10</span> ] );
+}
+<span class="co">#&gt;                    target.id                  bait.id target.chr</span>
+<span class="co">#&gt;  1: chr2:217430817-217437011 chr2:217035649-217042355       chr2</span>
+<span class="co">#&gt;  2: chr2:217035649-217042355 chr2:217035649-217042355       chr2</span>
+<span class="co">#&gt;  3: chr2:217042355-217043238 chr2:217035649-217042355       chr2</span>
+<span class="co">#&gt;  4: chr2:217043238-217043762 chr2:217035649-217042355       chr2</span>
+<span class="co">#&gt;  5: chr2:217043762-217045205 chr2:217035649-217042355       chr2</span>
+<span class="co">#&gt;  6: chr2:217045205-217048162 chr2:217035649-217042355       chr2</span>
+<span class="co">#&gt;  7: chr2:217026464-217035649 chr2:217035649-217042355       chr2</span>
+<span class="co">#&gt;  8: chr2:217024030-217026464 chr2:217035649-217042355       chr2</span>
+<span class="co">#&gt;  9: chr2:217023088-217024030 chr2:217035649-217042355       chr2</span>
+<span class="co">#&gt; 10: chr2:217048162-217060744 chr2:217035649-217042355       chr2</span>
+<span class="co">#&gt;     target.start target.end bait.chr bait.start  bait.end bait.to.bait</span>
+<span class="co">#&gt;  1:    217430817  217437011     chr2  217035649 217042355         TRUE</span>
+<span class="co">#&gt;  2:    217035649  217042355     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt;  3:    217042355  217043238     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt;  4:    217043238  217043762     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt;  5:    217043762  217045205     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt;  6:    217045205  217048162     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt;  7:    217026464  217035649     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt;  8:    217024030  217026464     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt;  9:    217023088  217024030     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt; 10:    217048162  217060744     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt;     bait.trans.count target.trans.count distance count expected   p.value</span>
+<span class="co">#&gt;  1:                0                  0 394912.0     8        8 0.5470392</span>
+<span class="co">#&gt;  2:                0                  0      0.0     4       NA        NA</span>
+<span class="co">#&gt;  3:                0                  0   3794.5    60       NA        NA</span>
+<span class="co">#&gt;  4:                0                  0   4498.0   126       NA        NA</span>
+<span class="co">#&gt;  5:                0                  0   5481.5   102       NA        NA</span>
+<span class="co">#&gt;  6:                0                  0   7681.5    85       NA        NA</span>
+<span class="co">#&gt;  7:                0                  0   7945.5    36       NA        NA</span>
+<span class="co">#&gt;  8:                0                  0  13755.0    56       NA        NA</span>
+<span class="co">#&gt;  9:                0                  0  15443.0    41       NA        NA</span>
+<span class="co">#&gt; 10:                0                  0  15451.0    45       NA        NA</span>
+<span class="co">#&gt;       q.value</span>
+<span class="co">#&gt;  1: 0.5470392</span>
+<span class="co">#&gt;  2:        NA</span>
+<span class="co">#&gt;  3:        NA</span>
+<span class="co">#&gt;  4:        NA</span>
+<span class="co">#&gt;  5:        NA</span>
+<span class="co">#&gt;  6:        NA</span>
+<span class="co">#&gt;  7:        NA</span>
+<span class="co">#&gt;  8:        NA</span>
+<span class="co">#&gt;  9:        NA</span>
+<span class="co">#&gt; 10:        NA</span></code></pre>
+<p>For most experiments including zeros will result in impractically large files. Another option for accounting for zero counts is to specify a truncated distribution through the <code>distribution</code> argument. However, this will slow down model fitting.</p>
+<p>The <code>interactions</code> argument of the <code>chicane()</code> function can take either a <code>data.table</code> object from <code>prepare.data</code> or the path to such a table.</p>
+<pre class="sourceCode r"><code class="sourceCode r">if( <span class="kw">bedtools.installed</span>() ) {
+  file.name &lt;-<span class="st"> </span><span class="kw">tempfile</span>(<span class="st">'interaction_data'</span>);
+  <span class="kw">write.table</span>(interaction.data, file.name, <span class="dt">row.names =</span> <span class="ot">FALSE</span>);
+
+  chicane.results &lt;-<span class="st"> </span><span class="kw">chicane</span>(<span class="dt">interactions =</span> file.name); 
+}</code></pre>
+</div>
+<div id="statistical-model" class="section level1">
+<h1>Statistical Model</h1>
+<p>The chicane method models the expected number of reads linking two restriction fragments as a function of the distance between the loci and the “interactibility” of the bait fragment.</p>
+<p>Let <span class="math">\(Y_{ij}\)</span> denote the number of reads linking bait <span class="math">\(i\)</span> and target fragment <span class="math">\(j\)</span>, <span class="math">\(d_{ij}\)</span> be the distance between the two fragments, and <span class="math">\(t_i\)</span> denote the number of reads linking the bait <span class="math">\(i\)</span> with another fragment in trans. The chicane model assumes that <span class="math">\(Y_{ij}\)</span> follows a distribution with mean <span class="math">\(\mu_{ij}\)</span>, where</p>
+
+<p>If the other end fragment <span class="math">\(j\)</span> is also a bait, terms are included to adjust for the trans counts of the fragment <span class="math">\(j\)</span>, as well as the product of the trans counts of the two fragments as shown below</p>
+
+<p>Once an expected value <span class="math">\(\mu_{ij}\)</span> is obtained for each combination of fragments, a <span class="math">\(p\)</span>-value for the observed counts <span class="math">\(y_{ij}\)</span> exceeding what’s expected by random chance is calculated as</p>
+
+<p>The probability <span class="math">\(P(Y_{ij} \geq y_{ij})\)</span> depends on how the distribution <span class="math">\(Y_{ij} \mid \mu_{ij}\)</span> of the counts conditional on the expected value is modelled.</p>
+<div id="distribution-of-the-counts" class="section level2">
+<h2>Distribution of the Counts</h2>
+<p>The chicane method supports several different distributions of the counts <span class="math">\(Y_{ij}\)</span> conditional on the mean <span class="math">\(\mu_{ij}\)</span>. By default the counts are assumed to follow a negative binomial distribution, but the Poisson, truncated Poisson, or truncated negative binomial distribution can be specified through the <code>distribution</code> argument.</p>
+<div id="negative-binomial" class="section level3">
+<h3>Negative Binomial</h3>
+<p>The negative binomial distribution models the counts as <span class="math">\(Y \sim NB(\mu, \theta)\)</span>, where <span class="math">\(\mu\)</span> is the mean and <span class="math">\(\theta\)</span> is a dispersion parameter. Under this model, the variance of the counts conditional on the mean <span class="math">\(\mu\)</span> is given by</p>
+
+<p>The model is fit using the <code>glm.nb()</code> function in the MASS package. The maximum likelihood estimates (MLEs) of the coefficients <span class="math">\(\hat{\beta_i}\)</span> are used to provide an estimate of the expected number of counts for each combination of restriction fragments. The MLE of the dispersion parameter <span class="math">\(\theta\)</span> is used as the dispersion parameter (<code>size</code>) in the negative binomial model.</p>
+<p>Occasionally, the model fitting procedure will result in numerical errors as the result of lack of convergence. This is most often due to lack of overdispersion in the data leading to an unstable estimate of <span class="math">\(\theta\)</span>. If the variance is approximately equal to the mean, the <span class="math">\(\theta\)</span> term goes to infinity and the model fails to converge.</p>
+<p>When the model throws a numerical warning or fails to converge, the <code>chicane()</code> function will attempt to diagnose if the problem was due to lack of overdispersion. This is done by fitting a negative binomial regerssion model with 25 iterations, and using the resulting fitted values and dispersion parameter to examine the variance of the negative binomial. If the estimated variance at the point with the largest fitted value is less than 0.1% greater than the corresponding estimate of the Poisson variance (i.e. the fitted value at that point), a Poisson distribution is fit instead.</p>
+</div>
+<div id="poisson" class="section level3">
+<h3>Poisson</h3>
+<p>Unlike the negative binomial, the Poisson distribution does not allow for the variance of the counts to exceed their mean. This model assumes that <span class="math">\(Y \sim \text{Poisson}(\mu)\)</span>, giving <span class="math">\(Var(Y) = \mu\)</span>. In practice, capture Hi-C counts often show more variability than can be explained by the Poisson model, leading to false positive interaction calls.</p>
+</div>
+<div id="truncated-negative-binomial" class="section level3">
+<h3>Truncated Negative Binomial</h3>
+<p>When fitting the model without including unobserved combinations of fragments (see <a href="#preprocessing">Pre-processing Data</a>), there are no counts of zero in the data. To accommodate this in the statistical model, a truncated Poisson distribution can be fit using the <a href="https://cran.r-project.org/package=gamlss.tr">GAMLSS package</a> <span class="citation">(Stasinopoulos and Rigby 2016)</span>. This model assigns <span class="math">\(P(Y = 0) = 0\)</span>, and assumes the probabilities are proportional to the negative binomial probabilities for values <span class="math">\(y &gt; 0\)</span>.</p>
+</div>
+<div id="truncated-poisson" class="section level3">
+<h3>Truncated Poisson</h3>
+<p>Similarly to the truncated negative binomial, the truncated Poisson distribution is supported by setting <code>distribution = 'truncated-poisson'</code>. This model assumes the probabilities are proportional to the Poisson probabilities for values <span class="math">\(y&gt;0\)</span>.</p>
+</div>
+</div>
+<div id="adjusting-for-covariates" class="section level2">
+<h2>Adjusting for Covariates</h2>
+<p>Adjusting for distance is done in a piecewise linear fashion. Cis-data is ordered by distance, and split into equally sized bins. The count model is then fit separately within each bin, and results are merged at the end by concatenating the results from the individual model fits.</p>
+<p>By default, <code>chicane</code> tries to split the data based on distance quantiles, i.e. into 100 equally sized groups. In some cases, particularly when dealing with smaller datasets, the resulting datasets are too small for model fitting. When this occurs, the number of distance bins are halved until all resulting datasets are large enough for the model to be fit. To override the default behaviour, pass the desired number of distance bins to <code>distance.bins</code>. For example, setting <code>distance.bins = 4</code> results in the count model being fit separately in each quartile. Trans interactions are fit separately from cis interactions.</p>
+</div>
+<div id="filtering-baits-and-targets" class="section level2">
+<h2>Filtering Baits and Targets</h2>
+<p>By default, all baits and targets are included when fitting the chicane model. An alternative approach is to filter out baits and fragments with low <span class="citation">(Dryden et al. 2014)</span> or high <span class="citation">(Cairns et al. 2016)</span> degree of “interactibility”, as inferred through the trans counts. Chicane also supports this model through the <code>bait.filters</code> and <code>target.filters</code> arguments.</p>
+<p>Each of these take a vector of length two, where each element corresponds to the proportion of fragments that should be considered to fall below the “lower limit” and “upper limit.” For example, passing in <code>bait.filters = c(0.3, 0.9)</code> means that the baits with the lowest 30% or highest 10% of trans counts will be removed before fitting the model.</p>
+<p>Filtering fragments may affect multiple testing correction by changing the number of tests performed.</p>
+</div>
+<div id="multiple-testing-correction" class="section level2">
+<h2>Multiple Testing Correction</h2>
+<p>By default, chicane performs multiple testing correction separately for each bait. To change this to a global multiple testing correction, set <code>multiple.testing.correction = 'global'</code> in the main <code>chicane()</code> function.</p>
+</div>
+<div id="merging-biological-replicates" class="section level2">
+<h2>Merging Biological Replicates</h2>
+<p>chicane can merge replicates at the data processing step. If more than one BAM file is available, these can be passed as vector to the <code>bam</code> argument of the <code>chicane()</code> and <code>prepare.data()</code> functions. The <code>replicate.merging.method</code> determines how replicates are merged. Available options are ‘sum’ and ‘weighted-sum’.</p>
+</div>
+<div id="adjusting-for-custom-covariates" class="section level2">
+<h2>Adjusting for Custom Covariates</h2>
+<p>chicane allows users to specify additional covariates that should be added to the model with the <code>adjustment.terms</code> argument. For example, we can add a term to adjust for the chromosome of the target fragment.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(bre80);
+adjusted.results &lt;-<span class="st"> </span><span class="kw">chicane</span>(
+  <span class="dt">interactions =</span> bre80, 
+  <span class="dt">adjustment.terms =</span> <span class="st">'target.chr'</span>
+  );
+
+<span class="kw">print</span>( adjusted.results[ <span class="dv">1</span>:<span class="dv">5</span> ] );
+<span class="co">#&gt;                   target.id                  bait.id target.chr</span>
+<span class="co">#&gt; 1:    chr19:1155128-1228414 chr2:217035649-217042355      chr19</span>
+<span class="co">#&gt; 2: chr1:117125276-117135137 chr2:217035649-217042355       chr1</span>
+<span class="co">#&gt; 3:   chr1:14950583-14951791 chr2:217035649-217042355       chr1</span>
+<span class="co">#&gt; 4:   chr1:49076960-49080684 chr2:217035649-217042355       chr1</span>
+<span class="co">#&gt; 5: chr3:145680459-145682483 chr2:217035649-217042355       chr3</span>
+<span class="co">#&gt;    target.start target.end bait.chr bait.start  bait.end bait.to.bait</span>
+<span class="co">#&gt; 1:      1155128    1228414     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt; 2:    117125276  117135137     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt; 3:     14950583   14951791     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt; 4:     49076960   49080684     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt; 5:    145680459  145682483     chr2  217035649 217042355        FALSE</span>
+<span class="co">#&gt;    bait.trans.count target.trans.count distance count expected   p.value</span>
+<span class="co">#&gt; 1:             9494                  2       NA     2 1.003963 0.2656989</span>
+<span class="co">#&gt; 2:             9494                  2       NA     2 1.003992 0.2657096</span>
+<span class="co">#&gt; 3:             9494                  2       NA     2 1.003992 0.2657096</span>
+<span class="co">#&gt; 4:             9494                  2       NA     2 1.003992 0.2657096</span>
+<span class="co">#&gt; 5:             9494                  2       NA     2 1.004014 0.2657179</span>
+<span class="co">#&gt;      q.value</span>
+<span class="co">#&gt; 1: 0.6417435</span>
+<span class="co">#&gt; 2: 0.6417435</span>
+<span class="co">#&gt; 3: 0.6417435</span>
+<span class="co">#&gt; 4: 0.6417435</span>
+<span class="co">#&gt; 5: 0.6417435</span></code></pre>
+<p>The <code>adjustment.terms</code> argument also supports more complex expressions such as log-transformations. Multiple adjustment terms can be added by passing a vector.</p>
+<p>Any adjustment term must correspond to a column already present in the data. If you would like to adjust for anything that is not already present in the chicane output (e.g. GC content), there’s a three step approach:</p>
+<ol style="list-style-type: decimal">
+<li>Run <code>prepare.data()</code> on your BAM file</li>
+<li>Add extra columns to the resulting data frame</li>
+<li>Run <code>chicane()</code> with the <code>interactions</code> argument</li>
+</ol>
+</div>
+</div>
+<div id="helper-functions" class="section level1">
+<h1>Helper Functions</h1>
+<p>The <code>convert.hicup.digest.bed()</code> function can be used to convert a digested genome in HiCUP format to a BED file.</p>
+</div>
+<div id="session-info" class="section level1">
+<h1>Session Info</h1>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>();
+<span class="co">#&gt; R version 3.5.0 (2018-04-23)</span>
+<span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span>
+<span class="co">#&gt; Running under: CentOS Linux 7 (Core)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Matrix products: default</span>
+<span class="co">#&gt; BLAS/LAPACK: /opt/gridware/apps/intel/compilers_and_libraries_2016.3.210/linux/mkl/lib/intel64_lin/libmkl_gf_lp64.so</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; locale:</span>
+<span class="co">#&gt;  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              </span>
+<span class="co">#&gt;  [3] LC_TIME=en_GB.UTF-8        LC_COLLATE=C              </span>
+<span class="co">#&gt;  [5] LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   </span>
+<span class="co">#&gt;  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                 </span>
+<span class="co">#&gt;  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span>
+<span class="co">#&gt; [11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; attached base packages:</span>
+<span class="co">#&gt; [1] parallel  splines   stats     graphics  grDevices utils     datasets </span>
+<span class="co">#&gt; [8] methods   base     </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; other attached packages:</span>
+<span class="co">#&gt; [1] data.table_1.11.4 chicane_0.1.0     gamlss.tr_5.0-0   gamlss_5.1-0     </span>
+<span class="co">#&gt; [5] nlme_3.1-137      gamlss.data_5.0-1 gamlss.dist_5.0-6 MASS_7.3-50      </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; loaded via a namespace (and not attached):</span>
+<span class="co">#&gt;  [1] Rcpp_0.12.18     knitr_1.20       magrittr_1.5     lattice_0.20-35 </span>
+<span class="co">#&gt;  [5] foreach_1.4.4    stringr_1.3.1    tools_3.5.0      grid_3.5.0      </span>
+<span class="co">#&gt;  [9] iterators_1.0.10 htmltools_0.3.6  yaml_2.2.0       survival_2.41-3 </span>
+<span class="co">#&gt; [13] rprojroot_1.3-2  digest_0.6.15    Matrix_1.2-14    codetools_0.2-15</span>
+<span class="co">#&gt; [17] evaluate_0.11    rmarkdown_1.10   stringi_1.2.4    compiler_3.5.0  </span>
+<span class="co">#&gt; [21] backports_1.1.2</span></code></pre>
+</div>
+<div id="acknowledgements" class="section level1">
+<h1>Acknowledgements</h1>
+<p>Development of chicane was supported by <a href="http://breastcancernow.org">Breast Cancer Now</a>.</p>
+<div class="references">
+<h1>References</h1>
+<p>Baxter, Joseph S, Olivia C Leavy, Nicola H Dryden, Sarah Maguire, Nichola Johnson, Vita Fedele, Nikiana Simigdala, et al. 2018. “Capture Hi-C Identifies Putative Target Genes at 33 Breast Cancer Risk Loci.” <em>Nature Communications</em> 9 (1): 1028.</p>
+<p>Cairns, Jonathan, Paula Freire-Pritchett, Steven W Wingett, Csilla V<span>á</span>rnai, Andrew Dimond, Vincent Plagnol, Daniel Zerbino, et al. 2016. “CHiCAGO: robust Detection of DNA Looping Interactions in Capture Hi-C Data.” <em>Genome Biology</em> 17 (1): 127.</p>
+<p>Dryden, Nicola H, Laura R Broome, Frank Dudbridge, Nichola Johnson, Nick Orr, Stefan Schoenfelder, Takashi Nagano, et al. 2014. “Unbiased Analysis of Potential Targets of Breast Cancer Susceptibility Loci by Capture Hi-C.” <em>Genome Research</em> 24 (11): 1854–1868.</p>
+<p>Stasinopoulos, Mikis, and Bob Rigby. 2016. <em>gamlss.Tr: Generating and Fitting Truncated “Gamlss.family” Distributions</em>. <a href="https://CRAN.R-project.org/package=gamlss.tr">https://CRAN.R-project.org/package=gamlss.tr</a>.</p>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

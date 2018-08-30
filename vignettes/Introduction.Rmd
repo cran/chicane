@@ -1,0 +1,214 @@
+---
+title: "Getting Started with Capture Hi-C Analysis Engine"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: yes
+  pdf_document:
+    toc: yes
+bibliography: bibliography.bib
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  cache = TRUE,
+  eval = TRUE
+  );
+
+```
+
+# Quickstart
+
+The main function for running the chicane method is `chicane()`. This takes a bam file and bed files with all restriction fragments and targeted restriction fragments as input, and produces a table with fragment interactions and associated p-values.
+
+The package comes with a subset of reads from a capture Hi-C experiment on the Bre80 normal epithelial breast tissue cell line [@baxter2018]. The experiment targeted several breast cancer risk loci in non-coding regions of the genome, and aimed to associate these risk variants with genes. Two of the risk SNPs are rs13387042 and rs16857609, and reads that map to them have been included in the file Bre80_2q35.bam.
+
+```{r, warning = FALSE}
+library(chicane);
+
+# example BAM file, baits, and restriction fragments
+bam <- system.file('extdata', 'Bre80_2q35.bam', package = 'chicane');
+baits <- system.file('extdata', '2q35.bed', package = 'chicane');
+fragments <- system.file('extdata', 'GRCh38_HindIII_chr2.bed.gz', package = 'chicane'); # HindIII fragments on chromosome 2
+
+if( bedtools.installed() ) {
+  chicane.results <- chicane(
+    bam = bam,
+    baits = baits,
+    fragments = fragments
+    );
+
+    print( chicane.results[ 1:10 ] );
+}
+
+```
+
+The `chicane` method returns a `data.table` object sorted by q-value. Each row contains information about the target and bait fragments, and the observed and expected number of reads linking the two fragments.
+
+# Pre-Processing Data {#preprocessing}
+
+The `chicane` method can operate directly on BAM files. To convert the BAM file into a text file, R calls the shell script `prepare_bam.sh`. This script relies on [bedtools](http://bedtools.readthedocs.io/en/latest/index.html) to select reads overlapping the captured fragments and identify the restriction fragments corresponding to each read. The resulting data is read into a [`data.table`](https://CRAN.R-project.org/package=data.table) object, and the number of reads linking any two fragments is calculated.
+
+This processing can take a while (~45 minutes for a 19GB BAM file on a commodity computer with 13GB RAM), and only needs to be done once for each BAM. To speed up model fitting, it is possible to pre-process the data with the `prepare.data()` function and run `chicane` directly on the resulting data table.
+
+```{r, warning = FALSE}
+if( bedtools.installed() ) {
+  interaction.data <- prepare.data(
+    bam = bam,
+    baits = baits,
+    fragments = fragments
+    );
+}
+```
+The interaction data object contains details of the fragments, and the number of reads linking the two fragments.
+
+```{r}
+if( bedtools.installed() ) print(interaction.data);
+```
+
+By default, only combinations of fragments that are detected at least once are included in the data. To also include zero counts, use the `include.zeros` argument. Setting `include.zeros = 'cis'` includes all zero counts for bait/ target combinations on the same chromosome, while `include.zeros = 'all'` includes all possible combinations.
+
+
+```{r}
+if( bedtools.installed() ) {
+  cis.zero.results <- chicane(
+    bam = bam,
+    baits = baits,
+    fragments = fragments,
+    include.zeros = 'cis'
+    ); 
+
+    print( cis.zero.results[ 1:10 ] );
+}
+```
+
+For most experiments including zeros will result in impractically large files. Another option for accounting for zero counts is to specify a truncated distribution through the `distribution` argument. However, this will slow down model fitting.
+
+The `interactions` argument of the `chicane()` function can take either a `data.table` object from `prepare.data` or the path to such a table.
+
+```{r, warning = FALSE, run = FALSE}
+if( bedtools.installed() ) {
+  file.name <- tempfile('interaction_data');
+  write.table(interaction.data, file.name, row.names = FALSE);
+
+  chicane.results <- chicane(interactions = file.name); 
+}
+```
+
+# Statistical Model
+
+The chicane method models the expected number of reads linking two restriction fragments as a function of the distance between the loci and the "interactibility" of the bait fragment.
+
+Let $Y_{ij}$ denote the number of reads linking bait $i$ and target fragment $j$, $d_{ij}$ be the distance between the two fragments, and $t_i$ denote the number of reads linking the bait $i$ with another fragment in trans. The chicane model assumes that $Y_{ij}$ follows a distribution with mean $\mu_{ij}$, where
+
+\begin{equation}
+    \mu_{ij} = \beta_0 + \beta_1\log(d_{ij}) + \beta_2\log(t_i + 1)
+\end{equation}
+
+If the other end fragment $j$ is also a bait, terms are included to adjust for the trans counts of the fragment $j$, as well as the product of the trans counts of the two fragments as shown below
+
+\begin{equation}
+    \mu_{ij} = \beta_0 + \beta_1\log(d_{ij}) + \beta_2\log(t_i + 1) + \beta_3\log(t_j + 1) + \beta_4\log(t_i + 1)\log(t_j + 1)
+\end{equation}
+
+Once an expected value $\mu_{ij}$ is obtained for each combination of fragments, a $p$-value for the observed counts $y_{ij}$ exceeding what's expected by random chance is calculated as
+
+\begin{equation}
+p = P(Y_{ij} \geq y_{ij})
+\end{equation}
+
+The probability $P(Y_{ij} \geq y_{ij})$ depends on how the distribution $Y_{ij} \mid \mu_{ij}$ of the counts conditional on the expected value is modelled.
+
+## Distribution of the Counts
+
+The chicane method supports several different distributions of the counts $Y_{ij}$ conditional on the mean $\mu_{ij}$. By default the counts are assumed to follow a negative binomial distribution, but the Poisson, truncated Poisson, or truncated negative binomial distribution can be specified through the `distribution` argument.
+
+### Negative Binomial
+
+The negative binomial distribution models the counts as $Y \sim NB(\mu, \theta)$, where $\mu$ is the mean and $\theta$ is a dispersion parameter. Under this model, the variance of the counts conditional on the mean $\mu$ is given by
+
+\begin{equation}
+Var(Y) = \mu + \frac{\mu^2}{\theta}
+\end{equation}
+
+The model is fit using the `glm.nb()` function in the MASS package. The maximum likelihood estimates (MLEs) of the coefficients $\hat{\beta_i}$ are used to provide an estimate of the expected number of counts for each combination of restriction fragments. The MLE of the dispersion parameter $\theta$ is used as the dispersion parameter (`size`) in the negative binomial model.
+
+Occasionally, the model fitting procedure will result in numerical errors as the result of lack of convergence. This is most often due to lack of overdispersion in the data leading to an unstable estimate of $\theta$. If the variance is approximately equal to the mean, the $\theta$ term goes to infinity and the model fails to converge. 
+
+When the model throws a numerical warning or fails to converge, the `chicane()` function will attempt to diagnose if the problem was due to lack of overdispersion. This is done by fitting a negative binomial regerssion model with 25 iterations, and using the resulting fitted values and dispersion parameter to examine the variance of the negative binomial. If the estimated variance at the point with the largest fitted value is less than 0.1% greater than the corresponding estimate of the Poisson variance (i.e. the fitted value at that point), a Poisson distribution is fit instead.
+
+### Poisson
+
+Unlike the negative binomial, the Poisson distribution does not allow for the variance of the counts to exceed their mean. This model assumes that $Y \sim \text{Poisson}(\mu)$, giving $Var(Y) = \mu$. In practice, capture Hi-C counts often show more variability than can be explained by the Poisson model, leading to false positive interaction calls.
+
+### Truncated Negative Binomial
+
+When fitting the model without including unobserved combinations of fragments (see [Pre-processing Data](#preprocessing)), there are no counts of zero in the data. To accommodate this in the statistical model, a truncated Poisson distribution can be fit using the [GAMLSS package](https://cran.r-project.org/package=gamlss.tr) [@stasinopoulos2016]. This model assigns $P(Y = 0) = 0$, and assumes the probabilities are proportional to the negative binomial probabilities for values $y > 0$.
+
+### Truncated Poisson
+
+Similarly to the truncated negative binomial, the truncated Poisson distribution is supported by setting `distribution = 'truncated-poisson'`. This model assumes the probabilities are proportional to the Poisson probabilities for values $y>0$.
+
+## Adjusting for Covariates
+
+Adjusting for distance is done in a piecewise linear fashion. Cis-data is ordered by distance, and split into equally sized bins. The count model is then fit separately within each bin, and results are merged at the end by concatenating the results from the individual model fits. 
+
+By default, `chicane` tries to split the data based on distance quantiles, i.e. into 100 equally sized groups. In some cases, particularly when dealing with smaller datasets, the resulting datasets are too small for model fitting. When this occurs, the number of distance bins are halved until all resulting datasets are large enough for the model to be fit. To override the default behaviour, pass the desired number of distance bins to `distance.bins`. For example, setting `distance.bins = 4` results in the count model being fit separately in each quartile. Trans interactions are fit separately from cis interactions.
+
+## Filtering Baits and Targets
+
+By default, all baits and targets are included when fitting the chicane model. An alternative approach is to filter out baits and fragments with low [@dryden2014] or high [@cairns2016] degree of "interactibility", as inferred through the trans counts. Chicane also supports this model through the `bait.filters` and `target.filters` arguments.
+
+Each of these take a vector of length two, where each element corresponds to the proportion of fragments that should be considered to fall below the "lower limit" and "upper limit." For example, passing in `bait.filters = c(0.3, 0.9)` means that the baits with the lowest 30% or highest 10% of trans counts will be removed before fitting the model. 
+
+Filtering fragments may affect multiple testing correction by changing the number of tests performed. 
+
+## Multiple Testing Correction
+
+By default, chicane performs multiple testing correction separately for each bait. To change this to a global multiple testing correction, set `multiple.testing.correction = 'global'` in the main `chicane()` function.
+
+## Merging Biological Replicates
+
+chicane can merge replicates at the data processing step. If more than one BAM file is available, these can be passed as vector to the `bam` argument of the `chicane()` and `prepare.data()` functions. The `replicate.merging.method` determines how replicates are merged. Available options are 'sum' and 'weighted-sum'.
+
+## Adjusting for Custom Covariates
+
+chicane allows users to specify additional covariates that should be added to the model with the `adjustment.terms` argument. For example, we can add a term to adjust for the chromosome of the target fragment.
+
+```{r}
+data(bre80);
+adjusted.results <- chicane(
+  interactions = bre80, 
+  adjustment.terms = 'target.chr'
+  );
+
+print( adjusted.results[ 1:5 ] );
+```
+
+The `adjustment.terms` argument also supports more complex expressions such as log-transformations. Multiple adjustment terms can be added by passing a vector.
+
+Any adjustment term must correspond to a column already present in the data. If you would like to adjust for anything that is not already present in the chicane output (e.g. GC content), there's a three step approach:
+
+1) Run `prepare.data()` on your BAM file
+2) Add extra columns to the resulting data frame 
+3) Run `chicane()` with the `interactions` argument
+
+# Helper Functions
+
+The `convert.hicup.digest.bed()` function can be used to convert a digested genome in HiCUP format to a BED file. 
+
+# Session Info
+```{r}
+sessionInfo();
+```
+
+# Acknowledgements
+Development of chicane was supported by [Breast Cancer Now](http://breastcancernow.org).
+
+# References
