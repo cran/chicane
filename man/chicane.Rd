@@ -11,7 +11,8 @@ chicane(bam = NULL, baits = NULL, fragments = NULL,
   distance.bins = NULL, multiple.testing.correction = c("bait-level",
   "global"), adjustment.terms = NULL, remove.adjacent = FALSE,
   temp.directory = NULL, keep.files = FALSE, maxit = 100,
-  epsilon = 1e-08, cores = 1, trace = FALSE, verbose = FALSE)
+  epsilon = 1e-08, cores = 1, trace = FALSE, verbose = FALSE,
+  interim.data.dir = NULL)
 }
 \arguments{
 \item{bam}{Path to a BAM file}
@@ -40,7 +41,7 @@ Changing this filtering setting may affect multiple testing correction by alteri
 
 \item{multiple.testing.correction}{String specifying how multiple testing correction should be performed, by bait or globally.}
 
-\item{adjustment.terms}{Character vector of extra terms to adjust for in the model fit}
+\item{adjustment.terms}{Character vector of extra terms to adjust for in the model fit.}
 
 \item{remove.adjacent}{Logical indicating whether to remove all reads mapping to adjacent restriction fragments.}
 
@@ -52,11 +53,13 @@ Changing this filtering setting may affect multiple testing correction by alteri
 
 \item{epsilon}{Positive convergence tolerance for Poisson and negative binomial models. Passed to \code{glm.control}}
 
-\item{cores}{Integer value specifying how many cores to use to fit model for cis-interactions}
+\item{cores}{Integer value specifying how many cores to use to fit model for cis-interactions.}
 
 \item{trace}{Logical indicating if output should be produced for each of model fitting procedure. Passed to \code{glm.control} or \code{gamlss.control}}
 
 \item{verbose}{Logical indicating whether to print progress reports.}
+
+\item{interim.data.dir}{Path to directory to store intermediate QC data and plots. NULL indicate skip intermediate results.}
 }
 \value{
 Data table with columns

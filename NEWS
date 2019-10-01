@@ -1,4 +1,10 @@
 
+chicane v0.1.1							2019-09-23
+--------------------------------------------------
+* improved memory handling
+* updated model definitions in the vignettes to match manuscript
+* add plots representing model fits against observed counts
+
 chicane v0.1.0							2018-08-24
 --------------------------------------------------
 * First CRAN release

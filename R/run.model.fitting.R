@@ -13,6 +13,7 @@
 #' @return Interactions data with expeceted number of interactions and p-values added.
 #'
 #' @importFrom foreach %dopar%
+#' @importFrom iterators icount
 run.model.fitting <- function(
 	interaction.data,
 	distance.bins = NULL, 
@@ -23,7 +24,8 @@ run.model.fitting <- function(
 	epsilon = 1e-8,
 	cores = 1,
 	trace = FALSE,
-	verbose = FALSE
+	verbose = FALSE,
+	interim.data.dir = NULL
 	) {
 
 	# TO DO:
@@ -74,12 +76,16 @@ run.model.fitting <- function(
 			stop(error.message);
 		}
 	}
-	
+
 	trans.data <- interaction.data[ is.na(distance) ];
 
 	# Fit models separately in each quantile of distance
 	cis.data <- interaction.data[ !is.na(distance) ];
 	cis.data <- cis.data[ order(distance) ];
+
+	# free up memory
+	rm(interaction.data);
+	gc();
 
 	# list of data.tables, where each element corresponds to 
 	# a specific distance
@@ -104,8 +110,10 @@ run.model.fitting <- function(
 		foreach::registerDoSEQ();
 	}
 
+	iter.i <- NULL;
 	p.value.data <- foreach::foreach(
 		temp.data = distance.binned.data,
+		iter.i = icount(),
 		.packages = c('MASS', 'data.table', 'gamlss', 'gamlss.tr')
 		) %dopar% {
 		
@@ -126,6 +134,11 @@ run.model.fitting <- function(
 
 		temp.data[, expected := model$expected.values ];
 		temp.data[, p.value := model$p.values ];
+
+		# plot model's fit
+		if (!is.null(interim.data.dir) && !is.null(model$model) && bait.to.bait == FALSE) {
+			make.modelfit.plot(model$model, file.name = file.path(interim.data.dir, paste0("model_fit_distance_adjusted_nonb2b_", iter.i, ".png")));
+			}
 
 		return(temp.data);
 	}

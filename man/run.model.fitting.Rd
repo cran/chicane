@@ -7,7 +7,7 @@
 run.model.fitting(interaction.data, distance.bins = NULL,
   distribution = "negative-binomial", bait.to.bait = FALSE,
   adjustment.terms = NULL, maxit = 100, epsilon = 1e-08, cores = 1,
-  trace = FALSE, verbose = FALSE)
+  trace = FALSE, verbose = FALSE, interim.data.dir = NULL)
 }
 \arguments{
 \item{interaction.data}{data.table object containing interaction counts. Must contain columns distance, count, and bait_trans_count.}
@@ -25,11 +25,13 @@ run.model.fitting(interaction.data, distance.bins = NULL,
 
 \item{epsilon}{Positive convergence tolerance for Poisson and negative binomial models. Passed to \code{glm.control}}
 
-\item{cores}{Integer value specifying how many cores to use to fit model for cis-interactions}
+\item{cores}{Integer value specifying how many cores to use to fit model for cis-interactions.}
 
 \item{trace}{Logical indicating if output should be produced for each of model fitting procedure. Passed to \code{glm.control} or \code{gamlss.control}}
 
 \item{verbose}{Logical indicating whether to print progress reports.}
+
+\item{interim.data.dir}{Path to directory to store intermediate QC data and plots.}
 }
 \value{
 Interactions data with expeceted number of interactions and p-values added.

@@ -8,11 +8,13 @@
 #' @param interaction.data 
 #'	data.table object containing interaction counts. Must contain columns distance, count, and bait_trans_count.
 #' @param adjustment.terms 
-#' 	Character vector of extra terms to adjust for in the model fit
+#' 	Character vector of extra terms to adjust for in the model fit.
 #' @param verbose
 #'	Logical indicating whether to print progress reports. 	
 #' @param cores
-#'	Integer value specifying how many cores to use to fit model for cis-interactions
+#'	Integer value specifying how many cores to use to fit model for cis-interactions.
+#' @param interim.data.dir
+#'  Path to directory to store intermediate QC data and plots.
 #'
 #' @return Interactions data with expected number of interactions and p-values added.
 #'
@@ -37,7 +39,8 @@ fit.model <- function(
 	epsilon = 1e-8,
 	cores = 1,
 	trace = FALSE,
-	verbose = FALSE
+	verbose = FALSE,
+	interim.data.dir = NULL
 	) {
 	
 	### INPUT TESTS ###########################################################
@@ -58,6 +61,10 @@ fit.model <- function(
 	b2b.data <- interaction.data[ interaction.data$bait.to.bait ];
 	non.b2b.data <- interaction.data[ !interaction.data$bait.to.bait ];
 
+	# free up memory
+	rm(interaction.data);
+	gc();
+
 	# fit models separately
 	b2b.results <- NULL;
 	non.b2b.results <- NULL;
@@ -73,7 +80,8 @@ fit.model <- function(
 			cores = cores,
 			maxit = maxit,
 			epsilon = epsilon,
-			trace = trace
+			trace = trace,
+			interim.data.dir = interim.data.dir
 			);
 	}
 
@@ -88,7 +96,8 @@ fit.model <- function(
 			cores = cores,
 			maxit = maxit, 
 			epsilon = epsilon,
-			trace = trace
+			trace = trace,
+			interim.data.dir = interim.data.dir
 			);
 	}
 

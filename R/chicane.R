@@ -27,6 +27,8 @@
 #'	String specifying how multiple testing correction should be performed, by bait or globally.
 #' @param verbose
 #' 	Logical indicating whether to print progress reports.
+#' @param interim.data.dir
+#'  Path to directory to store intermediate QC data and plots. NULL indicate skip intermediate results.
 #' @inheritParams prepare.data 
 #' @inheritParams combine.replicates
 #' @inheritParams fit.model
@@ -92,7 +94,8 @@ chicane <- function(
 	epsilon = 1e-8,
 	cores = 1,
 	trace = FALSE,
-	verbose = FALSE
+	verbose = FALSE,
+	interim.data.dir = NULL
 	) {
 
 	# TO DO:
@@ -209,7 +212,8 @@ chicane <- function(
 		cores = cores,
 		maxit = maxit,
 		epsilon = epsilon,
-		trace = trace
+		trace = trace,
+		interim.data.dir = interim.data.dir
 		);
 
 	chicane.results <- multiple.testing.correct(
