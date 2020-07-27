@@ -1,4 +1,4 @@
-#' make.modelfit.plot
+#' create.modelfit.plot
 #'
 #' @description
 #' 	create a plot representing model's fit
@@ -9,14 +9,14 @@
 #'
 #' @return TRUE if plot was successfully created
 #'
+#' @author Syed Haider
+#'
 #' @importFrom grDevices dev.off png
 #' @importFrom graphics mtext par plot title
 #'
-#' @author Syed Haider <Syed.Haider@icr.ac.uk>
-#'
-#' @export make.modelfit.plot
+#' @export create.modelfit.plot
 
-make.modelfit.plot <- function(model, file.name = NULL, resolution = 600) {
+create.modelfit.plot <- function(model, file.name = NULL, resolution = 600) {
 
 	# initialise cosmetics
 	margins = c(2.66, 3.5, 0.2, 0.2);

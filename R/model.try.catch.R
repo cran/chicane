@@ -58,7 +58,7 @@ model.try.catch <- function(
 			# if problem was negative binomial, try Poisson
 			if( 'negative-binomial' == distribution && is.glm.nb.theta.error(e) ) {
 
-				if( verbose > 1 ) cat('\nDispersion error - running Poisson\n');
+				if(verbose) cat('\nDispersion error - running Poisson\n');
 				
 				temp.model <- fit.glm( 
 					model.formula, 
@@ -74,7 +74,7 @@ model.try.catch <- function(
 			} else if ( grepl('no valid set of coefficients has been found: please supply starting values', e$message, fixed = TRUE) ) {
 				# enter error as couldn't fit model	
 
-				if( verbose > 1 ) cat('\nNo valid coefficients error - skipping ahead\n');
+				if(verbose) cat('\nNo valid coefficients error - skipping ahead\n');
 
 				model.data <- list(
 					model = NULL,
@@ -86,7 +86,7 @@ model.try.catch <- function(
 
 			} else if( grepl("NA/NaN/Inf in 'x'", e$message, fixed = TRUE ) ) {
 
-				if( verbose > 1 ) cat('\nNA/NaN/Inf in x error - skipping ahead\n');
+				if(verbose) cat('\nNA/NaN/Inf in x error - skipping ahead\n');
 
 				model.data <- list(
 					model = NULL,
@@ -97,7 +97,7 @@ model.try.catch <- function(
 				return( model.data );
 
 			} else {
-				if( verbose ) {
+				if(verbose) {
 					cat('\nUnknown error - skipping ahead\n');
 					cat(e$message, '\n');
 				}
@@ -115,7 +115,7 @@ model.try.catch <- function(
 				
 			if( 'negative-binomial' == distribution && ( is.glm.nb.maxiter.warning(w) || is.glm.nb.theta.warning(w) ) ) {
 				
-				if( verbose > 1 ) cat('Caught a warning - checking for dispersion problems\n');
+				if(verbose) cat('Caught a warning - checking for dispersion problems\n');
 
 				# See if problem is lack of overdispersion
 				# Get estimate of theta after a low number of iterations
@@ -148,7 +148,7 @@ model.try.catch <- function(
 			# if not, raise original warning and fit original distribution
 			if( dispersion.problem ) {
 
-				if(verbose > 1 ) cat('Dispersion problem detected - fitting Poisson\n');
+				if(verbose) cat('Dispersion problem detected - fitting Poisson\n');
 
 				distribution <- 'poisson';
 			} else {
@@ -166,7 +166,7 @@ model.try.catch <- function(
  					); 
 				}, error = function(e) {
 
-					if( verbose > 1 ) cat('\nUnknown error - skipping ahead\n');
+					if(verbose) cat('\nUnknown error - skipping ahead\n');
 					list(
 						model = NULL,
 						expected.values = rep(NA, nrow(data)),

@@ -1,4 +1,4 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -7,7 +7,7 @@ knitr::opts_chunk$set(
   );
 
 
-## ---- warning = FALSE----------------------------------------------------
+## ---- warning = FALSE---------------------------------------------------------
 library(chicane);
 
 # example BAM file, baits, and restriction fragments
@@ -26,7 +26,7 @@ if( bedtools.installed() ) {
 }
 
 
-## ---- warning = FALSE----------------------------------------------------
+## ---- warning = FALSE---------------------------------------------------------
 if( bedtools.installed() ) {
   interaction.data <- prepare.data(
     bam = bam,
@@ -35,10 +35,10 @@ if( bedtools.installed() ) {
     );
 }
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 if( bedtools.installed() ) print(interaction.data);
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 if( bedtools.installed() ) {
   cis.zero.results <- chicane(
     bam = bam,
@@ -50,7 +50,7 @@ if( bedtools.installed() ) {
     print( cis.zero.results[ 1:10 ] );
 }
 
-## ---- warning = FALSE, run = FALSE---------------------------------------
+## ---- warning = FALSE, run = FALSE--------------------------------------------
 if( bedtools.installed() ) {
   file.name <- tempfile('interaction_data');
   write.table(interaction.data, file.name, row.names = FALSE);
@@ -58,7 +58,7 @@ if( bedtools.installed() ) {
   chicane.results <- chicane(interactions = file.name); 
 }
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 data(bre80);
 adjusted.results <- chicane(
   interactions = bre80, 
@@ -67,6 +67,6 @@ adjusted.results <- chicane(
 
 print( adjusted.results[ 1:5 ] );
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 sessionInfo();
 

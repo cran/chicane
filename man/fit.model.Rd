@@ -4,11 +4,20 @@
 \alias{fit.model}
 \title{fit.model}
 \usage{
-fit.model(interaction.data, distance.bins = NULL,
-  distribution = "negative-binomial", bait.filters = c(0, 1),
-  target.filters = c(0, 1), adjustment.terms = NULL, maxit = 100,
-  epsilon = 1e-08, cores = 1, trace = FALSE, verbose = FALSE,
-  interim.data.dir = NULL)
+fit.model(
+  interaction.data,
+  distance.bins = NULL,
+  distribution = "negative-binomial",
+  bait.filters = c(0, 1),
+  target.filters = c(0, 1),
+  adjustment.terms = NULL,
+  maxit = 100,
+  epsilon = 1e-08,
+  cores = 1,
+  trace = FALSE,
+  verbose = FALSE,
+  interim.data.dir = NULL
+)
 }
 \arguments{
 \item{interaction.data}{data.table object containing interaction counts. Must contain columns distance, count, and bait_trans_count.}
@@ -49,8 +58,9 @@ Fit a negative binomial model for obtaining p-value for interactions. The data i
 	are fit separately in each quantile of the distance-sorted data.
 }
 \examples{
+\donttest{
 	data(bre80);
 fit.model(bre80);
-
+}
 
 }

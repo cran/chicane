@@ -55,6 +55,8 @@ The `chicane` function returns a `data.table` object sorted by q-value. Each row
 
 The `chicane` function can operate directly on BAM files. To convert the BAM file into a text file, R calls the shell script `prepare_bam.sh`. This script relies on [bedtools](http://bedtools.readthedocs.io/en/latest/index.html) to select reads overlapping the captured fragments and identify the restriction fragments corresponding to each read. The resulting data is read into a [`data.table`](https://CRAN.R-project.org/package=data.table) object, and the number of reads linking any two fragments is calculated.
 
+For users that have a digested genome output from HiCUP, this needs to be converted to BED format to be compatible with bedtools. CHiCANE includes a helper function, `convert.hicup.digest.bed()`, which can be used to convert a digested genome in HiCUP format to a BED file of the restiction digest fragments. 
+
 This processing can take a while (~45 minutes for a 19GB BAM file on a commodity computer with 13GB RAM), and only needs to be done once for each BAM. To speed up model fitting, it is possible to pre-process the data with the `prepare.data()` function and run `chicane` directly on the resulting data table.
 
 ```{r, warning = FALSE}
@@ -141,7 +143,7 @@ The model is fit using the `glm.nb()` function in the MASS package. The maximum 
 
 Occasionally, the model fitting procedure will result in numerical errors as the result of lack of convergence. This is most often due to lack of overdispersion in the data leading to an unstable estimate of $\theta$. If the variance is approximately equal to the mean, the $\theta$ term goes to infinity and the model fails to converge. 
 
-When the model throws a numerical warning or fails to converge, the `chicane()` function will attempt to diagnose if the problem was due to lack of overdispersion. This is done by fitting a negative binomial regerssion model with 25 iterations, and using the resulting fitted values and dispersion parameter to examine the variance of the negative binomial. If the estimated variance at the point with the largest fitted value is less than 0.1% greater than the corresponding estimate of the Poisson variance (i.e. the fitted value at that point), a Poisson distribution is fit instead.
+When the model throws a numerical warning or fails to converge, the `chicane()` function will attempt to diagnose if the problem was due to lack of overdispersion. This is done by fitting a negative binomial regression model with 25 iterations, and using the resulting fitted values and dispersion parameter to examine the variance of the negative binomial. If the estimated variance at the point with the largest fitted value is less than 0.1% greater than the corresponding estimate of the Poisson variance (i.e. the fitted value at that point), a Poisson distribution is fit instead.
 
 ### Poisson
 
@@ -198,10 +200,6 @@ Any adjustment term must correspond to a column already present in the data. If 
 1) Run `prepare.data()` on your BAM file
 2) Add extra columns to the resulting data frame 
 3) Run `chicane()` with the `interactions` argument
-
-# Helper Functions
-
-The `convert.hicup.digest.bed()` function can be used to convert a digested genome in HiCUP format to a BED file. 
 
 # Session Info
 ```{r}

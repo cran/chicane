@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
     );
 ```
 
-Chicane does not come with any built-in plotting capabilities, but the output can be visualised using [GViz](http://bioconductor.org/packages/Gviz/).
+CHiCANE supports built-in plotting capabilities using [Gviz](http://bioconductor.org/packages/Gviz/). For the built-in functionality, please refer to the documentation of `chiance::create.locus.plot()`. Below, we demonstrate (direct) use of Gviz API to visualise CHiCANE's interaction peaks.
 
 ```{r, cache = TRUE}
 library(chicane);

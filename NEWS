@@ -1,4 +1,11 @@
 
+chicane v0.1.2							2020-06-09
+--------------------------------------------------
+* added create.locus.plot function
+* added create.standard.format function
+* activated verbose statements
+* add replicate comparison
+
 chicane v0.1.1							2019-09-23
 --------------------------------------------------
 * improved memory handling

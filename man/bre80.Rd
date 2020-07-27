@@ -4,7 +4,8 @@
 \name{bre80}
 \alias{bre80}
 \title{Bre80 Cell Line}
-\format{A data table object with 47,766 rows and 13 columns.
+\format{
+A data table object with 47,766 rows and 13 columns.
 
 The variables are as follows:
 \itemize{
@@ -21,7 +22,8 @@ The variables are as follows:
 	\item target.trans.count The number of reads linking the target to fragments in trans (a measure of "interactibility")
 	\item distance Distance between the midpoints of the bait and target fragments (basepairs). NA for trans interactions
 	\item count The number of reads linking the two fragments
-}}
+}
+}
 \usage{
 data(bre80)
 }

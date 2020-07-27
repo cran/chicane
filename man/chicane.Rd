@@ -4,15 +4,29 @@
 \alias{chicane}
 \title{chicane}
 \usage{
-chicane(bam = NULL, baits = NULL, fragments = NULL,
-  interactions = NULL, replicate.merging.method = "sum",
-  distribution = "negative-binomial", include.zeros = "none",
-  bait.filters = c(0, 1), target.filters = c(0, 1),
-  distance.bins = NULL, multiple.testing.correction = c("bait-level",
-  "global"), adjustment.terms = NULL, remove.adjacent = FALSE,
-  temp.directory = NULL, keep.files = FALSE, maxit = 100,
-  epsilon = 1e-08, cores = 1, trace = FALSE, verbose = FALSE,
-  interim.data.dir = NULL)
+chicane(
+  bam = NULL,
+  baits = NULL,
+  fragments = NULL,
+  interactions = NULL,
+  replicate.merging.method = "sum",
+  distribution = "negative-binomial",
+  include.zeros = "none",
+  bait.filters = c(0, 1),
+  target.filters = c(0, 1),
+  distance.bins = NULL,
+  multiple.testing.correction = c("bait-level", "global"),
+  adjustment.terms = NULL,
+  remove.adjacent = FALSE,
+  temp.directory = NULL,
+  keep.files = FALSE,
+  maxit = 100,
+  epsilon = 1e-08,
+  cores = 1,
+  trace = FALSE,
+  verbose = FALSE,
+  interim.data.dir = NULL
+)
 }
 \arguments{
 \item{bam}{Path to a BAM file}
@@ -85,8 +99,8 @@ Run full method for detecting significant interactions in capture Hi-C experimen
  either from a BAM file or preprocessed data from \code{prepare.data}
 }
 \examples{
-# start from BAM file
 \donttest{
+# start from BAM file
 bam <- system.file('extdata', 'Bre80_2q35.bam', package = 'chicane');
 baits <- system.file('extdata', '2q35.bed', package = 'chicane');
 fragments <- system.file('extdata', 'GRCh38_HindIII_chr2.bed.gz', package = 'chicane');
@@ -95,11 +109,11 @@ results <- chicane(
 	baits = baits, 
 	fragments = fragments
 	);
-}
 
 # start from pre-processed data
 data(bre80); 
 results <- chicane(interactions = bre80);
+}
 
 }
 \author{

@@ -4,10 +4,19 @@
 \alias{run.model.fitting}
 \title{run.model.fitting}
 \usage{
-run.model.fitting(interaction.data, distance.bins = NULL,
-  distribution = "negative-binomial", bait.to.bait = FALSE,
-  adjustment.terms = NULL, maxit = 100, epsilon = 1e-08, cores = 1,
-  trace = FALSE, verbose = FALSE, interim.data.dir = NULL)
+run.model.fitting(
+  interaction.data,
+  distance.bins = NULL,
+  distribution = "negative-binomial",
+  bait.to.bait = FALSE,
+  adjustment.terms = NULL,
+  maxit = 100,
+  epsilon = 1e-08,
+  cores = 1,
+  trace = FALSE,
+  verbose = FALSE,
+  interim.data.dir = NULL
+)
 }
 \arguments{
 \item{interaction.data}{data.table object containing interaction counts. Must contain columns distance, count, and bait_trans_count.}

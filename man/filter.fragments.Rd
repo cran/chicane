@@ -4,8 +4,12 @@
 \alias{filter.fragments}
 \title{filter.fragments}
 \usage{
-filter.fragments(interaction.data, bait.filters = c(0, 1),
-  target.filters = c(0, 1), verbose = FALSE)
+filter.fragments(
+  interaction.data,
+  bait.filters = c(0, 1),
+  target.filters = c(0, 1),
+  verbose = FALSE
+)
 }
 \arguments{
 \item{interaction.data}{Data table containing interactions}

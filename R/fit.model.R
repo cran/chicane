@@ -23,9 +23,10 @@
 #' 	are fit separately in each quantile of the distance-sorted data.
 #'
 #' @examples
+#' \donttest{
 #' 	data(bre80);
 #'	fit.model(bre80);
-#'
+#' }
 #'
 #' @export fit.model
 fit.model <- function(

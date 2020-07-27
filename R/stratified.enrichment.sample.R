@@ -8,6 +8,7 @@
 #' @param significant.results
 #' Data table of significant results. Used to determine size of strata in stratified sampling procedure.
 #'
+#' @export stratified.enrichment.sample
 stratified.enrichment.sample <- function(
 	nonsignificant.results,
 	significant.results 

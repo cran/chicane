@@ -137,7 +137,7 @@ run.model.fitting <- function(
 
 		# plot model's fit
 		if (!is.null(interim.data.dir) && !is.null(model$model) && bait.to.bait == FALSE) {
-			make.modelfit.plot(model$model, file.name = file.path(interim.data.dir, paste0("model_fit_distance_adjusted_nonb2b_", iter.i, ".png")));
+			create.modelfit.plot(model$model, file.name = file.path(interim.data.dir, paste0("model_fit_distance_adjusted_nonb2b_", iter.i, ".png")));
 			}
 
 		return(temp.data);

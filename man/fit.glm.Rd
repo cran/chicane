@@ -4,9 +4,17 @@
 \alias{fit.glm}
 \title{fit.glm}
 \usage{
-fit.glm(formula, data, distribution = c("negative-binomial", "poisson",
-  "truncated-poisson", "truncated-negative-binomial"), start = NULL,
-  init.theta = NULL, maxit = 100, epsilon = 1e-08, trace = FALSE)
+fit.glm(
+  formula,
+  data,
+  distribution = c("negative-binomial", "poisson", "truncated-poisson",
+    "truncated-negative-binomial"),
+  start = NULL,
+  init.theta = NULL,
+  maxit = 100,
+  epsilon = 1e-08,
+  trace = FALSE
+)
 }
 \arguments{
 \item{formula}{Formula specifying model of interest}

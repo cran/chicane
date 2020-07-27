@@ -4,9 +4,17 @@
 \alias{model.try.catch}
 \title{model.try.catch}
 \usage{
-model.try.catch(model.formula, data, distribution = "negative-binomial",
-  maxit = 100, epsilon = 1e-08, init.theta = NULL, start = NULL,
-  trace = FALSE, verbose = FALSE)
+model.try.catch(
+  model.formula,
+  data,
+  distribution = "negative-binomial",
+  maxit = 100,
+  epsilon = 1e-08,
+  init.theta = NULL,
+  start = NULL,
+  trace = FALSE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{model.formula}{formula}

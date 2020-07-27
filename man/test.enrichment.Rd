@@ -4,9 +4,14 @@
 \alias{test.enrichment}
 \title{test.enrichment}
 \usage{
-test.enrichment(interaction.data, feature.bed,
-  significance.cutoff = 0.05, span = 0, n = 1000,
-  remove.bait.to.bait = TRUE)
+test.enrichment(
+  interaction.data,
+  feature.bed,
+  significance.cutoff = 0.05,
+  span = 0,
+  n = 1000,
+  remove.bait.to.bait = TRUE
+)
 }
 \arguments{
 \item{interaction.data}{Data table containing details on interactions}

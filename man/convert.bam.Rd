@@ -4,8 +4,7 @@
 \alias{convert.bam}
 \title{convert.bam}
 \usage{
-convert.bam(bam, baits, fragments, temp.directory = NULL,
-  keep.files = FALSE)
+convert.bam(bam, baits, fragments, temp.directory = NULL, keep.files = FALSE)
 }
 \arguments{
 \item{bam}{Path to a BAM file}

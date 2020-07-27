@@ -8,6 +8,7 @@
 #'
 #' @return vector of same length as \code{distance} containing assigned distance bins
 #'
+#' @export distance.bin
 distance.bin <- function(distance) {
 
 	### INPUT TESTS ###########################################################

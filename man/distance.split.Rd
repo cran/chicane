@@ -4,8 +4,12 @@
 \alias{distance.split}
 \title{distance.split}
 \usage{
-distance.split(interaction.data, distance.bins = NULL,
-  min.rows.bin = 50, verbose = FALSE)
+distance.split(
+  interaction.data,
+  distance.bins = NULL,
+  min.rows.bin = 50,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{interaction.data}{Data table of interaction data, typically from \code{prepare.data}}

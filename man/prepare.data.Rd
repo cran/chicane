@@ -4,9 +4,17 @@
 \alias{prepare.data}
 \title{prepare.data}
 \usage{
-prepare.data(bam, baits, fragments, replicate.merging.method = "sum",
-  include.zeros = c("none", "cis", "all"), remove.adjacent = FALSE,
-  temp.directory = NULL, keep.files = FALSE, verbose = FALSE)
+prepare.data(
+  bam,
+  baits,
+  fragments,
+  replicate.merging.method = "sum",
+  include.zeros = c("none", "cis", "all"),
+  remove.adjacent = FALSE,
+  temp.directory = NULL,
+  keep.files = FALSE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{bam}{Path to a BAM file}

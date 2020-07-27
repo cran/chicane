@@ -55,8 +55,8 @@
 #' @import data.table
 #'
 #' @examples
-#' # start from BAM file
 #' \donttest{
+#' # start from BAM file
 #' bam <- system.file('extdata', 'Bre80_2q35.bam', package = 'chicane');
 #' baits <- system.file('extdata', '2q35.bed', package = 'chicane');
 #' fragments <- system.file('extdata', 'GRCh38_HindIII_chr2.bed.gz', package = 'chicane');
@@ -65,11 +65,11 @@
 #'		baits = baits, 
 #'		fragments = fragments
 #'		);
-#' }
 #'
 #' # start from pre-processed data
 #' data(bre80); 
 #' results <- chicane(interactions = bre80);
+#' }
 #'
 #' @author Erle Holgersen <Erle.Holgersen@icr.ac.uk>
 #'

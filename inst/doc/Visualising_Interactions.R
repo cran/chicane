@@ -1,4 +1,4 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -9,7 +9,7 @@ knitr::opts_chunk$set(
   eval = TRUE
     );
 
-## ---- cache = TRUE-------------------------------------------------------
+## ---- cache = TRUE------------------------------------------------------------
 library(chicane);
 data(bre80);
 
@@ -18,7 +18,7 @@ options(ucscChromosomeNames = FALSE);
 bre80.interactions <- chicane(interactions = bre80);
 
 
-## ---- message = FALSE----------------------------------------------------
+## ---- message = FALSE---------------------------------------------------------
 library(GenomicInteractions);
 library(Gviz);
 
@@ -84,7 +84,7 @@ plotTracks(
     to = locus$end + 1e6
     );
 
-## ---- fig.height = 3-----------------------------------------------------
+## ---- fig.height = 3----------------------------------------------------------
 baits <- read.bed( system.file( 'extdata', '2q35.bed', package = 'chicane' ) );
 
 
