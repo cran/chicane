@@ -15,9 +15,11 @@
 #'
 #'
 #' @examples
+#' \dontrun{
 #' 	data(bre80);
-#'	results <- fit.model(bre80);	
-#'	adjusted.results <- multiple.testing.correct(results);
+#'  results <- fit.model(bre80);	
+#'  adjusted.results <- multiple.testing.correct(results);
+#' }
 #'
 #' @export multiple.testing.correct
 multiple.testing.correct <- function(

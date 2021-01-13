@@ -33,7 +33,7 @@ bre80.interactions <- chicane(interactions = bre80);
 
 ```
 
-# Single Restriction Fragment
+# Single restriction fragment
 
 To visualise the relationship between the number of reads and the significant interactions, we can look at a single restriction fragment. The HindIII fragment chr2:217035649-217042355 contains the breast cancer risk SNP rs13387042. By selecting fragment interactions that involve this fragment, we can plot the number of reads linking the fragment to all other fragments. 
 
@@ -78,8 +78,8 @@ interaction.track <- InteractionTrack(
 gene.track <- GeneRegionTrack(
     system.file( 'extdata', 'gencode_2q35.gtf', package = 'chicane' ),
     chr = locus$chr,
-    start = locus$start - 1e6,
-    end = locus$end + 1e6,
+    start = locus$start - 5e5,
+    end = locus$end + 7.5e5,
     stacking = 'squish',
     stackHeight = 0.3,
     name = 'Genes'
@@ -99,15 +99,15 @@ plotTracks(
     transcriptAnnotation = 'symbol',
     collapseTranscripts = 'longest',
     col = NULL,
-    from = locus$start - 1e6,
-    to = locus$end + 1e6
+    from = locus$start - 6e5,
+    to = locus$end + 8e5
     );
 ```
 
 Gene annotations rely on `GeneRegionTrack` objects. These can either be downloaded through Biomart, or loaded from GTF files. 
 
 
-# Longer Bait Regions
+# Longer bait regions
 
 It is also possible to visualise significant interactions for several baits simultaneously.
 
@@ -159,8 +159,8 @@ interaction.track <- InteractionTrack(
 gene.track <- GeneRegionTrack(
     system.file( 'extdata', 'gencode_2q35.gtf', package = 'chicane' ),
     chr = locus$chr,
-    start = 216100000,
-    end = 217900000,
+    start = 216150000,
+    end = 217800000,
     stacking = 'squish',
     stackHeight = 0.3,
     name = 'Genes'
@@ -185,7 +185,7 @@ plotTracks(
     collapseTranscripts = 'longest',
     type = 'hist',
     col = NULL,
-    from = 216100000,
-    to = 217900000
+    from = 216150000,
+    to = 217800000
     );
 ```

@@ -156,6 +156,9 @@ prepare.data <- function(
 	# calculate trans counts and distance between fragments
 	interaction.data <- add.covariates(interaction.data);
 
+	# remove self-ligated fragments (which essentially also have disatance == 0)
+	interaction.data <- interaction.data[ !(bait.id == target.id & distance == 0) ];
+
 	if( remove.adjacent ) {
 		# remove counts between adjacent fragments
 		# if data has been processed with HiCUP, these are typically one end mapped 

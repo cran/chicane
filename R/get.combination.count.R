@@ -10,6 +10,7 @@
 #'
 #' @return total number of possible combinations
 #' 
+#' @export get.combination.count
 get.combination.count <- function(baits, fragments, cis.only = FALSE) {
 
 	### INPUT TESTS ###########################################################

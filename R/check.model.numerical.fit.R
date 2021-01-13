@@ -8,6 +8,7 @@
 #'
 #' @return boolean indicating if model can be fit
 #'
+#' @export check.model.numerical.fit
 check.model.numerical.fit <- function(interaction.data) {
 
 	### INPUT TESTS ###########################################################

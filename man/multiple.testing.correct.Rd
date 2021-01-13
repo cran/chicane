@@ -21,8 +21,10 @@ Perform multiple testing correction on p-values from interaction test.
 	to a global multiple testing correction, set \code{bait.level = FALSE}.
 }
 \examples{
+\dontrun{
 	data(bre80);
-results <- fit.model(bre80);	
-adjusted.results <- multiple.testing.correct(results);
+ results <- fit.model(bre80);	
+ adjusted.results <- multiple.testing.correct(results);
+}
 
 }

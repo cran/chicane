@@ -17,7 +17,8 @@ create.locus.plot(
   file.name = NULL,
   height = 5.5,
   width = 8.5,
-  track.heights = c(0.2, 0.5, 0.8, 0.5, 1.5, 2)
+  track.heights = c(0.2, 0.5, 0.8, 0.5, 1.5, 2),
+  ...
 )
 }
 \arguments{
@@ -46,6 +47,8 @@ create.locus.plot(
 \item{width}{Width in inches of desired plot}
 
 \item{track.heights}{Vector of length 6 indicating desired height of individual tracks}
+
+\item{\dots}{Any additional parameters to \code{Gviz::plotTracks}}
 }
 \value{
 TRUE if plot was successfully created
@@ -76,7 +79,9 @@ create.locus.plot(
    genomic.features = genomic.features,
    feature.name = 'baits',
    interaction.data = interaction.data,
-   file.name = file.name
+   file.name = file.name,
+   collapseTranscripts = TRUE,
+   shape = "arrow"
    );
  }
 

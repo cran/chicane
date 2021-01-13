@@ -13,16 +13,18 @@
 #'
 #' @importFrom grDevices dev.off png
 #' @importFrom graphics mtext par plot title
+#' @importFrom stats logLik
 #'
 #' @export create.modelfit.plot
 
-create.modelfit.plot <- function(model, file.name = NULL, resolution = 600) {
+create.modelfit.plot <- function(model, file.name = NULL, resolution = 300) {
+
+	cat("\nstarting model fit plot for: ", file.name);
 
 	# initialise cosmetics
-	margins = c(2.66, 3.5, 0.2, 0.2);
-	height = 3; 
+	margins = c(2.66, 3.5, 0.72, 0.2);
+	height = 3.2; 
 	width = 5;
-
 	mar.bottom <- margins[1];
 	mar.left <- margins[2];
 	mar.top <- margins[3];
@@ -30,7 +32,7 @@ create.modelfit.plot <- function(model, file.name = NULL, resolution = 600) {
 	mgp.lab <- 1.66;
 
 	current.type <- getOption("bitmapType");
-	options(bitmapType = "cairo");
+	if (capabilities("cairo")) { options(bitmapType = "cairo"); } 
 
 	png(
 		filename = file.name,
@@ -71,10 +73,12 @@ create.modelfit.plot <- function(model, file.name = NULL, resolution = 600) {
 		font.axis = 2
 		);
 
-	title("", font.main = 2);
+	title(paste("log-likelihood:", round(logLik(model), 3)), font.main = 2);
 
 	dev.off();
 	options(bitmapType = current.type);
+
+	cat("\nfinished creating model fit plot");
 
 	return( TRUE );
 

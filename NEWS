@@ -1,4 +1,10 @@
 
+chicane v0.1.3							2020-09-19
+--------------------------------------------------
+* fixed a bug with first distance bin when it contained self-ligated interactions
+ with distance=0
+* added log-likelihood statistics to rootograms and saved model fit statistics
+
 chicane v0.1.2							2020-06-09
 --------------------------------------------------
 * added create.locus.plot function
@@ -130,58 +136,58 @@ chicane v0.0.1.3						2018-01-30
 * Added tests for get.trans.count
 
 
-Dudbridge v0.0.1.2						2018-01-24
+chicane v0.0.1.2						2018-01-24
 --------------------------------------------------
 * Error/ warning catching for lack of overdispersion in data
 * Added epsilon parameter to be passed to GLM control objects
 
 
-Dudbridge v0.0.1.1						2018-01-23
+chicane v0.0.1.1						2018-01-23
 --------------------------------------------------
 * Switched from VGAM to GAMLSS for truncated distributions
 * Added truncated negative binomial
 * Added trace and maxit parameters to be passed to GLM/ GAMLSS control objects
 
 
-Dudbridge v0.0.1.0						2018-01-19
+chicane v0.0.1.0						2018-01-19
 --------------------------------------------------
 * Refactored to include run.model.fitting function
 * Removed more excess printing
 
 
-Dudbridge v0.0.0.8						2018-01-19
+chicane v0.0.0.8						2018-01-19
 --------------------------------------------------
 * Prettified verbose reports, removed excess printing
 * Added smart.split function and incorporated it into split.by.distance
 
-Dudbridge v0.0.0.7						2018-01-18
+chicane v0.0.0.7						2018-01-18
 --------------------------------------------------
 * Fixed bug in handling of distance.bins = 1
 * Switch to Poisson distribution when negative
   binomial fails to fit
 
 
-Dudbridge v0.0.0.6						2018-01-17
+chicane v0.0.0.6						2018-01-17
 --------------------------------------------------
 * Added truncated negative binomial distribution
 
 
-Dudbridge v0.0.0.5						2018-01-15
+chicane v0.0.0.5						2018-01-15
 --------------------------------------------------
 * Implemented filtering
 
 
-Dudbridge v0.0.0.4						2018-01-12
+chicane v0.0.0.4						2018-01-12
 --------------------------------------------------
 * Option to include zero counts in data (all or cis-only)
 * Minor bug fixes and sanity checks
 
 
-Dudbridge v0.0.0.3						2018-01-09
+chicane v0.0.0.3						2018-01-09
 --------------------------------------------------
 * Fixed trans count calculation
 
 
-Dudbridge v0.0.0.2						2018-01-03
+chicane v0.0.0.2						2018-01-03
 --------------------------------------------------
 * Removed other end adjustment from non bait-to-bait model

@@ -1,0 +1,389 @@
+---
+title: "Getting Started with **C**apture **Hi-C** **An**alysis **E**ngine"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: yes
+  pdf_document:
+    toc: yes
+bibliography: bibliography.bib
+vignette: >
+  %\VignetteIndexEntry{Getting Started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+  %\SweaveUTF8
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  cache = TRUE,
+  eval = TRUE
+  );
+
+```
+
+# Background
+
+CHiCANE is a toolkit for identifying chromatin regions that interact more often than expected by chance given the specific interaction dynamics of a capture Hi-C (CHi-C) experiment. It offers extensive flexibility in implementing interaction calling via numerous optional parameters so that it can be tailored to a wide range of CHi-C experiments. Additionally, CHiCANE includes multiple helper functions for use in both pre- and post-processing/analysis of the interaction calls.
+
+For details of statistical concepts implemented by CHiCANE and their application to both the region CHi-C and promoter CHi-C datasets, please see our manuscript: Holgerson, Erle, Gillespie, Andrea, et al. "Identifying High Confidence Capture Hi-C Interactions Using CHiCANE" (in revision 2020).
+
+# Quickstart
+
+The main function for running the CHiCANE method is `chicane()`. This takes a bam file and bed files with all restriction fragments and targeted restriction fragments as input, and produces a table with fragment interactions and associated p-values.
+
+The package comes with a subset of reads from a capture Hi-C experiment on the Bre80 normal epithelial breast tissue cell line [@baxter2018]. The experiment targeted several breast cancer risk loci in non-coding regions of the genome, and aimed to associate these risk variants with genes. Two of the risk SNPs are rs13387042 and rs16857609, and reads that map to them have been included in the file Bre80_2q35.bam.
+
+```{r, warning = FALSE}
+library(chicane);
+
+# example BAM file, baits, and restriction fragments
+bam <- system.file('extdata', 'Bre80_2q35.bam', package = 'chicane');
+baits <- system.file('extdata', '2q35.bed', package = 'chicane');
+fragments <- system.file('extdata', 'GRCh38_HindIII_chr2.bed.gz', package = 'chicane'); # HindIII fragments on chromosome 2
+
+if( bedtools.installed() ) {
+  chicane.results <- chicane(
+    bam = bam,
+    baits = baits,
+    fragments = fragments
+    );
+
+    print( chicane.results[ 1:10 ] );
+}
+
+```
+
+The `chicane` function returns a `data.table` object sorted by q-value. Each row contains information about the target and bait fragments, and the observed and expected number of reads linking the two fragments.
+
+# Pre-processing data {#preprocessing}
+
+The `chicane` function can operate directly on BAM files. To convert the BAM file into a text file, R calls the shell script `prepare_bam.sh`. This script relies on [bedtools](http://bedtools.readthedocs.io/en/latest/index.html) to select reads overlapping the captured fragments and identify the restriction fragments corresponding to each read. The reads are also filtered to remove those in which both reads map to the same fragment. The resulting data is read into a [`data.table`](https://CRAN.R-project.org/package=data.table) object, and the number of reads linking any two fragments is calculated.
+
+For users that have a digested genome output from HiCUP, this needs to be converted to BED format to be compatible with bedtools. CHiCANE includes a helper function, `convert.hicup.digest.bed()`, which can be used to convert a digested genome in HiCUP format to a BED file of the restiction digest fragments. Any BED file containing the coordinates of restriction enzyme digested fragments of the genome build used according to the experiment are appropriate to be used with CHiCANE.
+
+The third and final input required is a baitmap as a BED file containing the coordinates of the fragments which contain a bait in the capture step of the experiment. This can be obtained by conducting a `bedtools intersect` command on the fragment digest above and a BED file with the coordinates of the probes included on the array used in the capture step.
+
+These three files can be supplied to the `chicane()` function directly as it will work as a wrapper function for preparing the data and interaction calling together. However, to speed up model fitting, it is possible to pre-process the data with the `prepare.data()` function and run `chicane` directly on the resulting data table. Furthermore, running in this step-wise manner is useful for those wanting to add custom covariates not already included in the data table or test variations of parameters and/or distibutions in the interaction calling. To first compare biological replicates using the `compare.replicates()` function, `prepare.data()` should be run on each replicate separately to assess concordance before deciding to merge them. This processing can take a while (~45 minutes for a 19GB BAM file on a commodity computer with 13GB RAM), and only needs to be done once for each BAM. 
+
+```{r, warning = FALSE}
+if( bedtools.installed() ) {
+  interaction.data <- prepare.data(
+    bam = bam,
+    baits = baits,
+    fragments = fragments
+    );
+}
+```
+The interaction data object contains details of the fragments, and the number of reads linking the two fragments.
+
+```{r}
+if( bedtools.installed() ) print(interaction.data);
+```
+
+The `interactions` parameter of the `chicane()` function can take either a `data.table` object from `prepare.data` or the path to such a table.
+
+```{r, warning = FALSE, run = FALSE}
+if( bedtools.installed() ) {
+  file.name <- tempfile('interaction_data');
+  write.table(interaction.data, file.name, row.names = FALSE);
+  chicane.results <- chicane(interactions = file.name); 
+}
+```
+
+# Statistical model
+
+CHiCANE models the expected number of paired reads containing two restriction fragments as a function of distance between them and how frequently the bait interacts with other fragments.
+
+In the CHiCANE model, $Y_{ij}$ represents the number of reads linking bait $i$ and target fragment $j$, such that it is assumed to follow a distribution with a mean $\mu_{ij}$ as: 
+
+\begin{equation}
+    \mu_{ij} = \beta_0 + \beta_1\log(d_{ij}) + \beta_2\log(t_i + 1)
+\end{equation}
+
+where $d_{ij}$ represents the distance between the two fragments, and $t_i$ represents the number of reads linking the bait with a $trans$ fragment.
+
+For bait to bait interactions, terms are added to the model to adjust for $trans$ counts of the other end, fragment $j$, and the product of $trans$ counts of both fragments as:
+
+\begin{equation}
+    \mu_{ij} = \beta_0 + \beta_1\log(d_{ij}) + \beta_2\log(t_i + 1) + \beta_3\log(t_j + 1) + \beta_4\log(t_i + 1)\log(t_j + 1)
+\end{equation}
+
+Each possible interaction is assaigned an expected $\mu_{ij}$ and a $p$-value for the observed counts $y_{ij}$ versus what is expected by chance is calculated as:
+
+\begin{equation}
+p = P(Y_{ij} \geq y_{ij})
+\end{equation}
+
+This probability is dependent on how the distribution is modelled.
+
+## Distribution of the counts
+
+The CHiCANE method supports several different distributions of the counts $Y_{ij}$ conditional on the mean $\mu_{ij}$. By default the counts are assumed to follow a negative binomial distribution with $E(Y_{ij}) = exp (\mu_{ij})$. After fitting the model by a maximum likelihood over all possible interactions, the fitted model is used to estimate a $p$-value for each pair. Poisson, truncated Poisson, or truncated negative binomial distributions are also supported and can override the default negative binomial by being passed as the `distribution` parameter.
+
+### Negative binomial
+
+Negative binomial is the default distribution in CHiCANE as it is deemed more appropriate for modelling datasets with high variance in comparison to Poisson due to its inclusion of a term for overdispersion.
+
+Using this default distribution, the counts are modelled as $Y \sim NB(\mu, \theta)$, with mean $\mu$ and dispersion term $\theta$. The variance of the counts conditional on the mean is then
+
+\begin{equation}
+Var(Y) = \mu + \frac{\mu^2}{\theta}
+\end{equation}
+
+This model implements the `glm.nb()` function in the MASS package. 
+
+If the model fails to converge due to a lack of overdispersion in the data `chicane()` will attempt to diagnose the error and if this is found to be the case a Poisson distribution will be implemented instead.
+
+### Poisson
+
+The Poisson distribution assumes that $Y \sim \text{Poisson}(\mu)$, such that $Var(Y) = \mu$. As the Poisson model does not allow variance of counts to exceed the mean, capture Hi-C counts usually possesses more variability than can be explained using this distribution, the result of which is false positives.
+
+### Truncated negative binomial
+
+By default CHiCANE only includes observed interactions, rather than all possible interactions, $i.e.$ leaving out zero counts (see [Inclusion of Zeros](#include-zeros)). One way to account for this is in the statistical model, by fitting a truncated negative binomial distribution in the `chicane()` call which implements the [GAMLSS R package](https://cran.r-project.org/package=gamlss.tr) [@stasinopoulos2016]. It assigns $P(Y = 0) = 0$, and assumes proportional probabilities to the negative binomial model for values $y > 0$.
+
+### Truncated poisson
+
+The truncated Poisson distribution is also supported, which behaves much like the truncated negative binomial model, but rather assumes the probabilities are proportional to Poisson probabilities for values $y>0$. 
+
+It is worth noting that specifying either of the truncated distributions will significantly slow down the model fitting.
+
+
+## Adjusting for covariates
+
+CHiCANE allows users to specify additional covariates that can be added to the model with the `adjustment.terms` parameter. For example, we can add a term to adjust for the chromosome of the target fragment as shown below.
+
+```{r}
+data(bre80);
+adjusted.results <- chicane(
+  interactions = bre80, 
+  adjustment.terms = 'target.chr'
+  );
+
+print( adjusted.results[ 1:5 ] );
+```
+
+The `adjustment.terms` parameter also supports expressions such as log transformations. Multiple adjustment terms can be added by passing as a vector.
+
+### Custom covariates
+
+Any adjustment term must correspond to a column already present in the data. If a user would like to adjust for anything that is not already present in the CHiCANE output ($e.g.$ GC content), there's a three step approach:
+
+1) Run `prepare.data()` on your BAM file(s)
+2) Add extra columns containing the desired covariate to the resulting data frame 
+3) Run `chicane()` by setting the `interactions` parameter to the output from step 2
+
+## Filtering baits and targets
+
+By default, all baits and targets are included when fitting the CHiCANE model. An alternative approach is to filter out baits and fragments with low [@dryden2014] or high [@cairns2016] degree of "interactibility", which is inferred via $trans$ counts for each bait. CHiCANE also supports this filtering through the `bait.filters` and `target.filters` parameters.
+
+Each of these take a vector of length two, where each element corresponds to the proportion of fragments that should be considered to fall below the "lower limit" and "upper limit." For example, passing in `bait.filters = c(0.3, 0.9)` means that the baits with the lowest 30% or highest 10% of $trans$ counts will be removed before fitting the model. 
+
+Filtering fragments may affect multiple testing correction by changing the number of tests performed. 
+
+## Merging biological replicates
+
+The helper function `compare.replicates()` can be used to assess concordance between biological replicates before deciding whether to merge them to improve signal to noise ratio. This is done by conducting the `prepare.data()` step on each BAM separately before passing to the `compare.replicates()` function. 
+
+CHiCANE can merge replicates at the data processing step. If more than one BAM file is available, these can be passed as a vector to the `bam` parameter of the `chicane()` and `prepare.data()` functions. The `replicate.merging.method` parameter determines how replicates are merged. Available options are 'sum' and 'weighted-sum', with the former being the default.
+
+## Assessing model fits
+
+In order to assess goodness of fit for the model implemented, CHiCANE outputs rootogram model fit plots and statistics to the directory provided through the `interim.data.directory` parameter in the `chicane()` function. The default `NULL` will skip these so it is important for a user to set this directory in order assess the model fit.
+
+## Setting distance bins
+
+Adjusting for distance is done in a piecewise linear fashion. $cis$ data is ordered by distance, and split into equally sized bins. The count model is then fit separately within each bin, and results are merged at the end by concatenating the results from the individual model fits. 
+
+By default, CHiCANE will split the data into distance quantiles, $i.e.$ 100 equally sized groups. However, if the resulting datasets are too small, the number of distance bins is halved until all resulting datasets are large enough for the model to be fit. To override this default, pass the desired number of distance bins to `distance.bins`. For example, setting `distance.bins = 4` results in the count model being fit separately in each quartile. $trans$ and $cis$ interactions are fit separately.
+
+## Multiple testing correction
+
+Finally, CHiCANE applies the Benjamini-Hochberg method of multiple testing correction separately for each bait. To change this to a global multiple testing correction, set `multiple.testing.correction = 'global'` in the main `chicane()` function.
+
+The `chicane()` function's final output is a q-value sorted data table of all interactions included in the model fitting. This full interactions table is useful in some instances such as the [locus plot](#locus-plot) and [background interactions](#background-interactions) functionality discussed below. However, its large size is rather unwieldy for most downstream analysis, so it is useful to also filter for only interactions below a desired q-value threshold and save this more workable table as well.
+
+# Interpretation of interaction peaks
+
+In order to assist users with interpretation of interaction calls, CHiCANE also includes several helper functions for this purpose designed to be applicable to a myriad of experimental designs as delineated below and in more detail in our aforementioned manuscript.
+
+## Annotation with bedtools
+
+The first step in interpretation of the interaction calls is likely to be annotation of the target fragments. Selecting just columns 3-5 from the CHiCANE interactions data table and saving the resulting coordinates as a BED file will then allow a `bedtools intersect` to be done between the target fragments and a genome annotation file also in BED format. The resulting output will indicate the genes that any target fragments overlap with.
+
+Similarly, an intersect could be performed with VCF files containing variant calls or BED files containing ChIP-Seq peak calls for histone marks or CTCF binding sites. There are many disparate datasets which use a file type compatible with `bedtools intersect` and numerous options for the command to customise the output.
+
+## Visualising interaction peaks in WashU Epigenome Browser
+
+CHiCANE also contains a function to convert its results into a format compatible with the WashU Epigenome Browser [@10.1093/nar/gkz348], `create.standard.format()`. The path to significant interaction calling results is provided to the `chicane.results` parameter and the desired name for the output file is passed to `file.name`. Once standard format is obtained it can be uploaded to the browser from the 'Tracks' dropdown, selecting 'Local Text tracks'. In the upload window select 'long-range format by CHiCANE' as the text file type and then your standard format file in 'Browse'. Once the track is loaded in the browser, you can right click on the track and set the Display Mode to 'ARC'.
+
+## Locus plots {#locus-plot}
+
+CHiCANE results are also usable with the Gviz [@gviz] package to visualise along with highly customisable genome anootation tracks. Additionally, the `create.locus.plot()` function in the CHiCANE package will make a basic implementation of such a plot with 6 tracks:
+
+1) Ideogram of selected chromosome
+2) Genome axis of the chromosome
+3) Genome annotation provided by the user
+4) A feature annotation displaying coordinates of any feature as provided by user in BED format ($e.g.$ baitmap, TADs, CTCF)
+5) Raw counts of fragments from full interaction data table
+6) Interactions below user-specified FDR threshold
+
+The user needs to provide the genome build to the `genome` parameter and coordinates of the locus desired to be plotted to the `chr`, `start`, and `end` parameters. A genome annotation file in GTF format needs to be provided to `gene.data`. The genomic feature chosen to be included will be passed as a BED format file to `genomic.features` and the desired name for this track is passed as `feature.name`. Finally, the path to the FULL interaction calls table is passed to `interaction.data` and the name for the output plot is set by `file.name`. By default only interactions below an FDR threshold of 0.05 will be included in the interactions track; a user can override this default by setting the `fdr.filter' parameter. A brief example keeping all other parameters at default is shown below:
+
+```{r, warning = FALSE, run = FALSE, eval = FALSE}
+if( bedtools.installed() ) {
+  create.locus.plot(
+    genome = 'hg38',
+    chr = 'chr2', start = 111100000, end = 112200000,
+    gene.data = '/path/to/gene_data.gtf',
+    genomic.features = '/path/to/baitmap.bed',
+    feature.name = 'baits',
+    interaction.data = '/path/to/interaction_calls.txt',
+    file.name = '/path/to/locus_plot.pdf'
+    ); 
+}
+```
+
+## Background Interactions {#background-interactions}
+
+In order to accurately estimate histone marker enrichment, the helper function `stratified.enrichment.sample()` will randomise interactions which match the number and proportion of observed interactions which serve as background for comparison, stratified by distance bins: 0-100kbp, 100kbp-1Mbp, 1Mbp-10Mbp, 10Mbp+, and $trans$. Full paths to data tables containing significant and insignificant calls are passed to `significant.results` and `nonsignificant.results`, respectively. 
+
+
+# Example Workflow (T-47D breast cancer cell line)
+
+The code in this workflow is intended to be run on Baxter T-47D from the Zenodo directory of Supplementary Data for our manuscript at: https://zenodo.org/record/4073433
+
+First pre-processing of input files needs to be completed as discussed above (see [Pre-Processing Data](#preprocessing)). The BAM files referred to in this vignette have been created using HiCUP, the digested fragments were processed with the `convert.hicup.digest.bed()` function, and the baitmap was created via `bedtools intersect` between the aforementioned fragments and array bait probes used in the capture step. The fragments used here (hg38, HindIII digested) are found in Zenodo directory under `data/` and the baitmap is found in `data/captured_fragments/T47D/` as used in the `prepare.data()` call below.
+
+The interactions data table can then be prepared with these processed inputs (aligned BAMs, fragments BED, and baitmap BED). The resulting output can then be saved before being passed to the main `chicane()` function for interaction calling. Once completed save both the full interaction calls results as well as calls filtered for significance to be used for different purposes.
+
+```{r, warning = FALSE, run = FALSE, eval = FALSE}
+if( bedtools.installed() ) {
+
+  # initial prep of interactions data table
+  interaction.data <- prepare.data(
+    bam = list.files('data/bams/T47D', pattern = '.bam', full.names = TRUE),
+    baits = 'data/captured_fragments/T47D/Baxter_captured_fragments.bed',
+    fragments = 'data/GRCh38_HindIII_fragments.bed'
+    );
+
+  # save interactions data table
+  file.name <- tempfile('interaction_data');
+  write.table(interaction.data, file.name, row.names = FALSE);
+
+  # run interaction calling and save model fit plots and statistics
+  chicane.results <- chicane(
+    interactions = file.name, 
+    interim.data.dir = 'graphs/T47D/model_fits'
+    ); 
+
+  # save full interaction calls table
+  write.table(
+    chicane.results, 
+    file = 'data/chicane/T47D/interaction_calls.txt', 
+    row.names = FALSE, 
+    quote = FALSE, 
+    sep = '\t'
+    );
+
+  # filter for significant only and save these results separately
+  significant.results <- chicane.results[q.value < 0.05]
+
+  write.table(
+    significant.results, 
+    file = 'data/chicane/T47D/interaction_calls_significant.txt', 
+    row.names = FALSE, 
+    quote = FALSE, 
+    sep = '\t'
+    );
+
+}
+```
+
+After completion of interaction calling, the model fit plots and statistics in the `interim.data.dir` should be examined to ensure goodness of fit (detailed discussion of this in manuscript). Additionally, it is useful to examine the proportion of bait-to-bait, $cis$ and $trans$ interactions in the significant calls and the number of interaction calls by distance bins, which can be done with the following code:
+
+```{r, warning = FALSE, run = FALSE, eval = FALSE}
+if( bedtools.installed() ) {
+
+  # calculate proportions by interaction type
+  total <- nrow(significant.results);
+  trans.prop <- sum(is.na(significant.results$distance))/total;
+  cis.prop <- sum(!is.na(significant.results$distance))/total;
+  b2b.prop <- sum(significant.results$bait.to.bait)/total;
+  int.data <- c('trans' = trans.prop, 'cis' = cis.prop, 'bait.to.bait' = b2b.prop);
+  print(int.data);
+
+  # get number of interactions by distance bins
+  binned.data <- NULL;
+
+  distance.bins <- list(
+    "0-10kbp" = c(0, 1e4),
+    "10-100kbp" = c(1e4, 1e5),
+    "100kbp-1Mbp" = c(1e5, 1e6),
+    "1-10Mbp" = c(1e6, 1e7),
+    "10-100Mbp" = c(1e7, 1e8),
+    "100-1000Mbp" = c(1e8, 1e9)
+    );
+
+  for(dist.i in names(distance.bins)){
+    bin.sum <- length(which(significant.results$distance >= distance.bins[[dist.i]][1] & significant.results$distance < distance.bins[[dist.i]][2]));
+    binned.data <- cbind(binned.data, bin.sum);
+    }
+
+  colnames(binned.data) <- names(distance.bins);
+  print(binned.data);
+
+}
+```
+
+Once the interaction calls are determined to be reasonable, it is useful to examine the significant interactions in context. Uploading the files to the WashU Epigenome Browser is a quick and user-friendly way to do so. Use the CHiCANE helper function to easily convert to the correct format for the browser.
+
+```{r, warning = FALSE, run = FALSE, eval = FALSE}
+if( bedtools.installed() ) {
+
+  # make a browser compatible file from significant interactions
+  browser.file <- tempfile('significant_calls_standard.txt')
+  create.standard.format(
+    chicane.results = 'data/chicane/T47D/interaction_calls_significant.txt',
+    file.name = browser.file
+    );
+
+}
+```
+
+Viewing in the browser will help to elucidate interaction peaks for loci of interest, then a user can make a plot of interactions at a particular locus using another of CHiCANE's helper functions. In the following example we plot interactions at the 2q35 locus.
+
+```{r, warning = FALSE, run = FALSE, eval = FALSE}
+if( bedtools.installed() ) {
+
+  # set genome annotation file 
+  gene.ann <- system.file('extdata', 'gencode_2q35.gtf', package = 'chicane');
+
+  # generate 2q35 locus plot
+  create.locus.plot(
+    genome = 'hg38',
+    chr = 'chr2',
+    start = 216600000,
+    end = 217140000,
+    gene.data = gene.ann,
+    genomic.features = 'data/captured_fragments/T47D/Baxter_captured_fragments.bed',
+    feature.name = 'baits',
+    interaction.data = 'data/chicane/T47D/interaction_calls.txt',
+    file.name = 'graphs/T47D/2q35.pdf'
+    );
+
+}
+```
+
+# Session Info
+```{r}
+sessionInfo();
+```
+
+# Acknowledgements
+Development of CHiCANE was supported by [Breast Cancer Now](https://breastcancernow.org:443/).
+
+# References

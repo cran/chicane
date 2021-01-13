@@ -59,8 +59,8 @@ interaction.track <- InteractionTrack(
 gene.track <- GeneRegionTrack(
     system.file( 'extdata', 'gencode_2q35.gtf', package = 'chicane' ),
     chr = locus$chr,
-    start = locus$start - 1e6,
-    end = locus$end + 1e6,
+    start = locus$start - 5e5,
+    end = locus$end + 7.5e5,
     stacking = 'squish',
     stackHeight = 0.3,
     name = 'Genes'
@@ -80,8 +80,8 @@ plotTracks(
     transcriptAnnotation = 'symbol',
     collapseTranscripts = 'longest',
     col = NULL,
-    from = locus$start - 1e6,
-    to = locus$end + 1e6
+    from = locus$start - 6e5,
+    to = locus$end + 8e5
     );
 
 ## ---- fig.height = 3----------------------------------------------------------
@@ -132,8 +132,8 @@ interaction.track <- InteractionTrack(
 gene.track <- GeneRegionTrack(
     system.file( 'extdata', 'gencode_2q35.gtf', package = 'chicane' ),
     chr = locus$chr,
-    start = 216100000,
-    end = 217900000,
+    start = 216150000,
+    end = 217800000,
     stacking = 'squish',
     stackHeight = 0.3,
     name = 'Genes'
@@ -158,7 +158,7 @@ plotTracks(
     collapseTranscripts = 'longest',
     type = 'hist',
     col = NULL,
-    from = 216100000,
-    to = 217900000
+    from = 216150000,
+    to = 217800000
     );
 

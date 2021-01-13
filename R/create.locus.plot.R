@@ -16,6 +16,7 @@
 #' @param height Height in inches for desired plot
 #' @param width Width in inches of desired plot
 #' @param track.heights Vector of length 6 indicating desired height of individual tracks
+#' @param \dots Any additional parameters to \code{Gviz::plotTracks}
 #'
 #' @return TRUE if plot was successfully created
 #'
@@ -46,7 +47,9 @@
 #'    genomic.features = genomic.features,
 #'    feature.name = 'baits',
 #'    interaction.data = interaction.data,
-#'    file.name = file.name
+#'    file.name = file.name,
+#'    collapseTranscripts = TRUE,
+#'    shape = "arrow"
 #'    );
 #'  }
 #'
@@ -64,7 +67,8 @@ create.locus.plot <- function(
 	file.name = NULL,
 	height = 5.5,
 	width = 8.5,
-	track.heights = c(0.2, 0.5, 0.8, 0.5, 1.5, 2)
+	track.heights = c(0.2, 0.5, 0.8, 0.5, 1.5, 2),
+	...
 	) {
 
 	options(ucscChromosomeNames=FALSE);
@@ -107,14 +111,8 @@ create.locus.plot <- function(
 	Gviz::displayPars(annotation.track)$lwd <- 0;	
 
 	# limit reads to desired chromosome
-	# this  16, 18 column below needs to be revised as it does not scale beyond one (16) or two (18) replicates
-	# solution to implement: pass interactions as object with head in place instead of file without a header
 	interactions <- fread( paste( 'grep', paste0(chr, ':'), interaction.data ) );
-	if(ncol(interactions) == 18){
-		names(interactions) <- c('target.id', 'bait.id', 'target.chr', 'target.start', 'target.end', 'bait.chr', 'bait.start', 'bait.end', 'bait.to.bait', 'count.1', 'count.2', 'bait.trans.count', 'target.trans.count', 'distance', 'count', 'expected', 'p.value', 'q.value');
-	} else if(ncol(interactions) == 16){
-		names(interactions) <- c('target.id', 'bait.id', 'target.chr', 'target.start', 'target.end', 'bait.chr', 'bait.start', 'bait.end', 'bait.to.bait', 'bait.trans.count', 'target.trans.count', 'distance', 'count', 'expected', 'p.value', 'q.value');
-	}
+	names(interactions) <- colnames(fread(interaction.data, nrows = 1));
 
 	fragments <- c(interactions$bait.id, interactions$target.id);
 	counts.track <- Gviz::DataTrack(
@@ -167,7 +165,7 @@ create.locus.plot <- function(
 		track.list,
 		sizes = track.heights,
 		transcriptAnnotation = 'symbol',
-		collapseTranscripts = 'longest',
+		# shape = "arrow",
 		features = 'tomato',
 		groupAnnotation = 'group',
 		just.group = 'above',
@@ -177,7 +175,8 @@ create.locus.plot <- function(
 		from = start,
 		to = end,
 		chromsome = chr,
-		type = 'histogram'
+		type = 'histogram',
+		...
 		);
 
 	dev.off();

@@ -14,7 +14,7 @@ ctcf.bed <- system.file('extdata', 'T47D_chr2_CTCF.bed.gz', package = 'chicane')
 
 # use bre80 data so we won't need bedtools
 data(bre80);
-chicane.results <- chicane(interactions = bre80 );
+chicane.results <- chicane(interactions = bre80[1:(nrow(bre80)/3)] );
 
 ## RUN TESTS
 

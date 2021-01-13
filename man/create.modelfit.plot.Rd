@@ -4,7 +4,7 @@
 \alias{create.modelfit.plot}
 \title{create.modelfit.plot}
 \usage{
-create.modelfit.plot(model, file.name = NULL, resolution = 600)
+create.modelfit.plot(model, file.name = NULL, resolution = 300)
 }
 \arguments{
 \item{model}{An object of fitted model}

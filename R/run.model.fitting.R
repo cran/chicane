@@ -14,6 +14,7 @@
 #'
 #' @importFrom foreach %dopar%
 #' @importFrom iterators icount
+#' @importFrom stats logLik
 run.model.fitting <- function(
 	interaction.data,
 	distance.bins = NULL, 
@@ -135,10 +136,30 @@ run.model.fitting <- function(
 		temp.data[, expected := model$expected.values ];
 		temp.data[, p.value := model$p.values ];
 
+		# clear memory
+		for (gc.i in 1:5) { gc(); }
+
 		# plot model's fit
 		if (!is.null(interim.data.dir) && !is.null(model$model) && bait.to.bait == FALSE) {
-			create.modelfit.plot(model$model, file.name = file.path(interim.data.dir, paste0("model_fit_distance_adjusted_nonb2b_", iter.i, ".png")));
+
+			# store model fits to a file:
+			sink(file = file.path(interim.data.dir, paste0('model_fit_distance_adjusted_nonb2b_', iter.i, '.txt')), type = c('output', 'message'));
+			print(summary(model$model));
+			print(logLik(model$model));
+			sink(NULL)
+			if (distribution %in% c('negative-binomial', 'poisson')) {
+				create.modelfit.plot(
+					model$model, 
+					file.name = file.path(interim.data.dir, paste0('model_fit_distance_adjusted_nonb2b_', iter.i, '.png'))
+					);
+				}
+			else {
+				if (verbose) cat('\nskipping model fit rootogram as countreg::rootogram does not support: ', distribution);
+				}
 			}
+
+		# clear memory
+		for (gc.i in 1:5) { gc(); }
 
 		return(temp.data);
 	}
