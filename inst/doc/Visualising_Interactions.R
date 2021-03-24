@@ -19,6 +19,11 @@ bre80.interactions <- chicane(interactions = bre80);
 
 
 ## ---- message = FALSE---------------------------------------------------------
+
+# check dependency packages which must be installed
+if ("GenomicInteractions" %in% installed.packages()[, "Package"] 
+	&& "Gviz" %in% installed.packages()[, "Package"]) {
+
 library(GenomicInteractions);
 library(Gviz);
 
@@ -83,8 +88,14 @@ plotTracks(
     from = locus$start - 6e5,
     to = locus$end + 8e5
     );
+}
 
 ## ---- fig.height = 3----------------------------------------------------------
+
+# check dependency packages which must be installed
+if ("GenomicInteractions" %in% installed.packages()[, "Package"] 
+	&& "Gviz" %in% installed.packages()[, "Package"]) {
+
 baits <- read.bed( system.file( 'extdata', '2q35.bed', package = 'chicane' ) );
 
 
@@ -161,4 +172,5 @@ plotTracks(
     from = 216150000,
     to = 217800000
     );
+}
 

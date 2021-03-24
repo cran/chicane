@@ -20,7 +20,7 @@ convert.to.one.based <- function(id) {
 	components$start <- components$start + 1;
 
 	# re-assemble ID
-	one.based.id <- paste0(components$chr, ':', components$start, '-', components$end);
+	one.based.id <- paste0(components$chr, ':', format(components$start, scientific = FALSE), '-', format(components$end, scientific = FALSE));
 
 	return(one.based.id);
 }

@@ -1,3 +1,7 @@
+chicane v0.1.4							2021-03-17
+--------------------------------------------------
+* fixed rare cases where scientific notations were introduced in convert2bed leading to 
+ failure in bedr which treats it as a string (e.g 1e10)
 
 chicane v0.1.3							2020-09-19
 --------------------------------------------------
