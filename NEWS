@@ -1,3 +1,7 @@
+chicane v0.1.5							2021-06-08
+--------------------------------------------------
+* fixed prepare_bam.sh to make it work with all POSIX-compliant shells
+
 chicane v0.1.4							2021-03-17
 --------------------------------------------------
 * fixed rare cases where scientific notations were introduced in convert2bed leading to 

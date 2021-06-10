@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2021-03-17" />
+<meta name="date" content="2021-06-09" />
 
 <title>Getting Started with Capture Hi-C Analysis Engine</title>
 
@@ -301,7 +301,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 <h1 class="title toc-ignore">Getting Started with <strong>C</strong>apture <strong>Hi-C</strong> <strong>An</strong>alysis <strong>E</strong>ngine</h1>
-<h4 class="date">2021-03-17</h4>
+<h4 class="date">2021-06-09</h4>
 
 
 <div id="TOC">
@@ -379,7 +379,41 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb1-30"><a href="#cb1-30"></a>    );</span>
 <span id="cb1-31"><a href="#cb1-31"></a></span>
 <span id="cb1-32"><a href="#cb1-32"></a>    <span class="kw">print</span>( chicane.results[ <span class="dv">1</span><span class="op">:</span><span class="dv">10</span> ] );</span>
-<span id="cb1-33"><a href="#cb1-33"></a>}</span></code></pre></div>
+<span id="cb1-33"><a href="#cb1-33"></a>}</span>
+<span id="cb1-34"><a href="#cb1-34"></a><span class="co">#&gt; Taking input= as a system command (&#39;sh /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rinst1291a42eb2ffb/chicane/bin/prepare_bam.sh -b /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rinst1291a42eb2ffb/chicane/extdata/Bre80_2q35.bam -c /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rinst1291a42eb2ffb/chicane/extdata/2q35.bed -f /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rinst1291a42eb2ffb/chicane/extdata/GRCh38_HindIII_chr2.bed.gz -d /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rbuild1291a65ddc5e4/chicane/vignettes &#39;) and a variable has been used in the expression passed to `input=`. Please use fread(cmd=...). There is a security concern if you are creating an app, and the app could have a malicious user, and the app is not running in a secure environment; e.g. the app is running as root. Please read item 5 in the NEWS file for v1.11.6 for more information and for the option to suppress this message.</span></span>
+<span id="cb1-35"><a href="#cb1-35"></a><span class="co">#&gt;                    target.id                  bait.id target.chr target.start</span></span>
+<span id="cb1-36"><a href="#cb1-36"></a><span class="co">#&gt;  1: chr2:217491009-217492415 chr2:217035649-217042355       chr2    217491009</span></span>
+<span id="cb1-37"><a href="#cb1-37"></a><span class="co">#&gt;  2: chr2:216650000-216651600 chr2:217430817-217437011       chr2    216650000</span></span>
+<span id="cb1-38"><a href="#cb1-38"></a><span class="co">#&gt;  3: chr2:217290048-217292530 chr2:217430817-217437011       chr2    217290048</span></span>
+<span id="cb1-39"><a href="#cb1-39"></a><span class="co">#&gt;  4: chr2:216269087-216273140 chr2:217430817-217437011       chr2    216269087</span></span>
+<span id="cb1-40"><a href="#cb1-40"></a><span class="co">#&gt;  5: chr2:216551051-216551968 chr2:217430817-217437011       chr2    216551051</span></span>
+<span id="cb1-41"><a href="#cb1-41"></a><span class="co">#&gt;  6: chr2:216879929-216883553 chr2:217430817-217437011       chr2    216879929</span></span>
+<span id="cb1-42"><a href="#cb1-42"></a><span class="co">#&gt;  7: chr2:216696003-216698549 chr2:217430817-217437011       chr2    216696003</span></span>
+<span id="cb1-43"><a href="#cb1-43"></a><span class="co">#&gt;  8: chr2:216687613-216696003 chr2:217430817-217437011       chr2    216687613</span></span>
+<span id="cb1-44"><a href="#cb1-44"></a><span class="co">#&gt;  9: chr2:216906471-216908390 chr2:217430817-217437011       chr2    216906471</span></span>
+<span id="cb1-45"><a href="#cb1-45"></a><span class="co">#&gt; 10: chr2:217162758-217166250 chr2:217430817-217437011       chr2    217162758</span></span>
+<span id="cb1-46"><a href="#cb1-46"></a><span class="co">#&gt;     target.end bait.chr bait.start  bait.end bait.to.bait bait.trans.count</span></span>
+<span id="cb1-47"><a href="#cb1-47"></a><span class="co">#&gt;  1:  217492415     chr2  217035649 217042355        FALSE                0</span></span>
+<span id="cb1-48"><a href="#cb1-48"></a><span class="co">#&gt;  2:  216651600     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-49"><a href="#cb1-49"></a><span class="co">#&gt;  3:  217292530     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-50"><a href="#cb1-50"></a><span class="co">#&gt;  4:  216273140     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-51"><a href="#cb1-51"></a><span class="co">#&gt;  5:  216551968     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-52"><a href="#cb1-52"></a><span class="co">#&gt;  6:  216883553     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-53"><a href="#cb1-53"></a><span class="co">#&gt;  7:  216698549     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-54"><a href="#cb1-54"></a><span class="co">#&gt;  8:  216696003     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-55"><a href="#cb1-55"></a><span class="co">#&gt;  9:  216908390     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-56"><a href="#cb1-56"></a><span class="co">#&gt; 10:  217166250     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-57"><a href="#cb1-57"></a><span class="co">#&gt;     target.trans.count  distance count expected      p.value   q.value</span></span>
+<span id="cb1-58"><a href="#cb1-58"></a><span class="co">#&gt;  1:                  0  452710.0    28 6.222070 0.0001352420 0.2346449</span></span>
+<span id="cb1-59"><a href="#cb1-59"></a><span class="co">#&gt;  2:                  0  783114.0    16 2.992273 0.0004798454 0.8172368</span></span>
+<span id="cb1-60"><a href="#cb1-60"></a><span class="co">#&gt;  3:                  0  142625.0    33 8.889424 0.0010581410 0.8172368</span></span>
+<span id="cb1-61"><a href="#cb1-61"></a><span class="co">#&gt;  4:                  0 1162800.5     8 2.101973 0.0019527803 0.8172368</span></span>
+<span id="cb1-62"><a href="#cb1-62"></a><span class="co">#&gt;  5:                  0  882404.5    11 2.722403 0.0021130042 0.8172368</span></span>
+<span id="cb1-63"><a href="#cb1-63"></a><span class="co">#&gt;  6:                  0  552173.0    11 3.822236 0.0036069810 0.8172368</span></span>
+<span id="cb1-64"><a href="#cb1-64"></a><span class="co">#&gt;  7:                  0  736638.0    16 4.162590 0.0043689364 0.8172368</span></span>
+<span id="cb1-65"><a href="#cb1-65"></a><span class="co">#&gt;  8:                  0  742106.0    15 3.999764 0.0055330101 0.8172368</span></span>
+<span id="cb1-66"><a href="#cb1-66"></a><span class="co">#&gt;  9:                  0  526483.5    11 4.150239 0.0063231596 0.8172368</span></span>
+<span id="cb1-67"><a href="#cb1-67"></a><span class="co">#&gt; 10:                  0  269410.0    24 8.030272 0.0063767687 0.8172368</span></span></code></pre></div>
 <p>The <code>chicane</code> function returns a <code>data.table</code> object sorted by q-value. Each row contains information about the target and bait fragments, and the observed and expected number of reads linking the two fragments.</p>
 </div>
 <div id="preprocessing" class="section level1">
@@ -394,9 +428,46 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb2-4"><a href="#cb2-4"></a>    <span class="dt">baits =</span> baits,</span>
 <span id="cb2-5"><a href="#cb2-5"></a>    <span class="dt">fragments =</span> fragments</span>
 <span id="cb2-6"><a href="#cb2-6"></a>    );</span>
-<span id="cb2-7"><a href="#cb2-7"></a>}</span></code></pre></div>
+<span id="cb2-7"><a href="#cb2-7"></a>}</span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt; Taking input= as a system command (&#39;sh /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rinst1291a42eb2ffb/chicane/bin/prepare_bam.sh -b /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rinst1291a42eb2ffb/chicane/extdata/Bre80_2q35.bam -c /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rinst1291a42eb2ffb/chicane/extdata/2q35.bed -f /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rinst1291a42eb2ffb/chicane/extdata/GRCh38_HindIII_chr2.bed.gz -d /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rbuild1291a65ddc5e4/chicane/vignettes &#39;) and a variable has been used in the expression passed to `input=`. Please use fread(cmd=...). There is a security concern if you are creating an app, and the app could have a malicious user, and the app is not running in a secure environment; e.g. the app is running as root. Please read item 5 in the NEWS file for v1.11.6 for more information and for the option to suppress this message.</span></span></code></pre></div>
 <p>The interaction data object contains details of the fragments, and the number of reads linking the two fragments.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="cf">if</span>( <span class="kw">bedtools.installed</span>() ) <span class="kw">print</span>(interaction.data);</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="cf">if</span>( <span class="kw">bedtools.installed</span>() ) <span class="kw">print</span>(interaction.data);</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt;                      target.id                  bait.id target.chr target.start</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt;    1: chr2:200013520-200014510 chr2:217035649-217042355       chr2    200013520</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt;    2: chr2:200018581-200020582 chr2:217035649-217042355       chr2    200018581</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt;    3: chr2:200020582-200023537 chr2:217430817-217437011       chr2    200020582</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt;    4: chr2:200033118-200034885 chr2:217430817-217437011       chr2    200033118</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt;    5: chr2:200040560-200041826 chr2:217430817-217437011       chr2    200040560</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt;   ---                                                                          </span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt; 4477: chr2:229867689-229872871 chr2:217035649-217042355       chr2    229867689</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt; 4478: chr2:229872871-229875614 chr2:217035649-217042355       chr2    229872871</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt; 4479: chr2:229882404-229887121 chr2:217430817-217437011       chr2    229882404</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt; 4480: chr2:229894321-229904945 chr2:217035649-217042355       chr2    229894321</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt; 4481: chr2:229917543-229919836 chr2:217430817-217437011       chr2    229917543</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt;       target.end bait.chr bait.start  bait.end bait.to.bait bait.trans.count</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#&gt;    1:  200014510     chr2  217035649 217042355        FALSE                0</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="co">#&gt;    2:  200020582     chr2  217035649 217042355        FALSE                0</span></span>
+<span id="cb3-17"><a href="#cb3-17"></a><span class="co">#&gt;    3:  200023537     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="co">#&gt;    4:  200034885     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a><span class="co">#&gt;    5:  200041826     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb3-20"><a href="#cb3-20"></a><span class="co">#&gt;   ---                                                                       </span></span>
+<span id="cb3-21"><a href="#cb3-21"></a><span class="co">#&gt; 4477:  229872871     chr2  217035649 217042355        FALSE                0</span></span>
+<span id="cb3-22"><a href="#cb3-22"></a><span class="co">#&gt; 4478:  229875614     chr2  217035649 217042355        FALSE                0</span></span>
+<span id="cb3-23"><a href="#cb3-23"></a><span class="co">#&gt; 4479:  229887121     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb3-24"><a href="#cb3-24"></a><span class="co">#&gt; 4480:  229904945     chr2  217035649 217042355        FALSE                0</span></span>
+<span id="cb3-25"><a href="#cb3-25"></a><span class="co">#&gt; 4481:  229919836     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb3-26"><a href="#cb3-26"></a><span class="co">#&gt;       target.trans.count distance count</span></span>
+<span id="cb3-27"><a href="#cb3-27"></a><span class="co">#&gt;    1:                  0 17024987     1</span></span>
+<span id="cb3-28"><a href="#cb3-28"></a><span class="co">#&gt;    2:                  0 17019420     1</span></span>
+<span id="cb3-29"><a href="#cb3-29"></a><span class="co">#&gt;    3:                  0 17411854     2</span></span>
+<span id="cb3-30"><a href="#cb3-30"></a><span class="co">#&gt;    4:                  0 17399912     1</span></span>
+<span id="cb3-31"><a href="#cb3-31"></a><span class="co">#&gt;    5:                  0 17392721     1</span></span>
+<span id="cb3-32"><a href="#cb3-32"></a><span class="co">#&gt;   ---                                  </span></span>
+<span id="cb3-33"><a href="#cb3-33"></a><span class="co">#&gt; 4477:                  0 12831278     1</span></span>
+<span id="cb3-34"><a href="#cb3-34"></a><span class="co">#&gt; 4478:                  0 12835240     1</span></span>
+<span id="cb3-35"><a href="#cb3-35"></a><span class="co">#&gt; 4479:                  0 12450848     1</span></span>
+<span id="cb3-36"><a href="#cb3-36"></a><span class="co">#&gt; 4480:                  0 12860631     1</span></span>
+<span id="cb3-37"><a href="#cb3-37"></a><span class="co">#&gt; 4481:                  0 12484776     1</span></span></code></pre></div>
 <p>The <code>interactions</code> parameter of the <code>chicane()</code> function can take either a <code>data.table</code> object from <code>prepare.data</code> or the path to such a table.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="cf">if</span>( <span class="kw">bedtools.installed</span>() ) {</span>
 <span id="cb4-2"><a href="#cb4-2"></a>  file.name &lt;-<span class="st"> </span><span class="kw">tempfile</span>(<span class="st">&#39;interaction_data&#39;</span>);</span>
@@ -682,7 +753,7 @@ Var(Y) = \mu + \frac{\mu^2}{\theta}
 <span id="cb11-15"><a href="#cb11-15"></a><span class="co">#&gt; [8] methods   base     </span></span>
 <span id="cb11-16"><a href="#cb11-16"></a><span class="co">#&gt; </span></span>
 <span id="cb11-17"><a href="#cb11-17"></a><span class="co">#&gt; other attached packages:</span></span>
-<span id="cb11-18"><a href="#cb11-18"></a><span class="co">#&gt; [1] chicane_0.1.4     data.table_1.12.8 gamlss.tr_5.1-0   gamlss_5.1-6     </span></span>
+<span id="cb11-18"><a href="#cb11-18"></a><span class="co">#&gt; [1] chicane_0.1.5     data.table_1.12.8 gamlss.tr_5.1-0   gamlss_5.1-6     </span></span>
 <span id="cb11-19"><a href="#cb11-19"></a><span class="co">#&gt; [5] nlme_3.1-148      gamlss.data_5.1-4 gamlss.dist_5.1-6 MASS_7.3-51.6    </span></span>
 <span id="cb11-20"><a href="#cb11-20"></a><span class="co">#&gt; </span></span>
 <span id="cb11-21"><a href="#cb11-21"></a><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>

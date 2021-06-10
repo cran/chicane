@@ -5,7 +5,7 @@
 
 ### FUNCTIONS #################################################################
 
-function usage {
+usage() {
 	echo "Preprocess BAM for running chicane";
 	echo "Usage: $(basename $0) -b bam -c baits -f fragments [-d temp_directory] [-k]";
 	echo " -b: Path to BAM file to be processed";
