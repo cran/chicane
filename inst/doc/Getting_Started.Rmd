@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 
 CHiCANE is a toolkit for identifying chromatin regions that interact more often than expected by chance given the specific interaction dynamics of a capture Hi-C (CHi-C) experiment. It offers extensive flexibility in implementing interaction calling via numerous optional parameters so that it can be tailored to a wide range of CHi-C experiments. Additionally, CHiCANE includes multiple helper functions for use in both pre- and post-processing/analysis of the interaction calls.
 
-For details of statistical concepts implemented by CHiCANE and their application to both the region CHi-C and promoter CHi-C datasets, please see our manuscript: Holgerson, Erle, Gillespie, Andrea, et al. "Identifying High Confidence Capture Hi-C Interactions Using CHiCANE" (in revision 2020).
+For details of statistical concepts implemented by CHiCANE and their application to both the region CHi-C and promoter CHi-C datasets, please see our manuscript: Holgerson, Erle, Gillespie, Andrea, et al. "Identifying High Confidence Capture Hi-C Interactions Using CHiCANE" (Nature Protocols 2021).
 
 # Quickstart
 
@@ -60,13 +60,37 @@ The `chicane` function returns a `data.table` object sorted by q-value. Each row
 
 # Pre-processing data {#preprocessing}
 
-The `chicane` function can operate directly on BAM files. To convert the BAM file into a text file, R calls the shell script `prepare_bam.sh`. This script relies on [bedtools](http://bedtools.readthedocs.io/en/latest/index.html) to select reads overlapping the captured fragments and identify the restriction fragments corresponding to each read. The reads are also filtered to remove those in which both reads map to the same fragment. The resulting data is read into a [`data.table`](https://CRAN.R-project.org/package=data.table) object, and the number of reads linking any two fragments is calculated.
+Before running the main `chicane()` function, a minumum of **three** input files must be obtained. The `chicane()` function, which is the main interaction calling step, can be run on these three input files directly as it will work as a wrapper function to prepare the data and the run interaction calling in a single step. Alternatively, there is  a `prepare.data()` function which allows a user to run data preparation on these same three input files to make an interactions data table, which can subsequently be used as input for interaction calling separately in a step-wise fashion (as well as a number of other useful functions as discussed below). This section dicusses how to obtain each of the **three** **required** inputs, followed by a discussion of the **optional** preparation of an interactions data table.
 
-For users that have a digested genome output from HiCUP, this needs to be converted to BED format to be compatible with bedtools. CHiCANE includes a helper function, `convert.hicup.digest.bed()`, which can be used to convert a digested genome in HiCUP format to a BED file of the restiction digest fragments. Any BED file containing the coordinates of restriction enzyme digested fragments of the genome build used according to the experiment are appropriate to be used with CHiCANE.
+The **first** required input is at least one BAM file containing mapped interaction reads. To convert the BAM file into a text file, R calls the shell script `prepare_bam.sh`. This script relies on [bedtools](http://bedtools.readthedocs.io/en/latest/index.html) to identify the restriction fragments corresponding to each read (based on the second required input, the $in$ $silico$ genome digest) and select reads with at least one end overlapping the baitmap file (the third required input). The reads are also filtered to remove those in which both reads map to the same fragment. The resulting data is read into a [`data.table`](https://CRAN.R-project.org/package=data.table) object, and the number of reads linking any two fragments is calculated.
 
-The third and final input required is a baitmap as a BED file containing the coordinates of the fragments which contain a bait in the capture step of the experiment. This can be obtained by conducting a `bedtools intersect` command on the fragment digest above and a BED file with the coordinates of the probes included on the array used in the capture step.
+The **second** required input is the $in$ $silico$ digest file, which contains the coordinates of the fragments created by the restriction enzyme ($e.g.$ HindIII) used in the experiment, in BED format. For users that have a digested genome output from HiCUP, this needs to be converted to a strict 3 column, header-free BED format to be compatible with bedtools. CHiCANE includes a helper function, `convert.hicup.digest.bed()`, which can be used to convert a digested genome in HiCUP format to a BED file of the restiction digest fragments. Any BED file containing the coordinates of restriction enzyme digested fragments of the genome build used according to the experiment are appropriate to be used with CHiCANE. For the purposes of this vignette, the `fragments` variable is assigned to the HindIII fragments of GRCh38 chromosome 2 (sample data included in the package) at the top of this document. Here is an example of what this should look like showing the top six entries in the example fragments file included in the package:
 
-These three files can be supplied to the `chicane()` function directly as it will work as a wrapper function for preparing the data and interaction calling together. However, to speed up model fitting, it is possible to pre-process the data with the `prepare.data()` function and run `chicane` directly on the resulting data table. Furthermore, running in this step-wise manner is useful for those wanting to add custom covariates not already included in the data table or test variations of parameters and/or distibutions in the interaction calling. To first compare biological replicates using the `compare.replicates()` function, `prepare.data()` should be run on each replicate separately to assess concordance before deciding to merge them. This processing can take a while (~45 minutes for a 19GB BAM file on a commodity computer with 13GB RAM), and only needs to be done once for each BAM. 
+	chr2     0 15298
+	chr2 15298 16049
+	chr2 16049 18132
+	chr2 18132 24992
+	chr2 24992 28070
+	chr2 28070 28179
+
+The **third** and final input required is a baitmap in BED format containing the coordinates of only the restriction digested fragments which contain a bait from the capture step of the experiment. This can be obtained by conducting a `bedtools intersect` command on the fragment digest above and a BED file with the coordinates of the individual probes included on the array used in the capture step. The following is an example command to create the baitmap, then limit it to only unique fragments with an overlap of at least 20bp:
+
+```
+# intersect restriction fragments file with coordinates for probes included on the array
+bedtools intersect -wo -a /path/to/fragments.bed -b /path/to/capture_regions.bed \
+> /path/to/fragments_overlap_full.bed
+# limit to overlap of at least 20bp and unique fragments only
+awk '$7>=20 {print $1 "\t" $2 "\t" $3}' /path/to/fragments_overlap_full.bed | uniq > /path/to/baitmap.bed
+```
+
+The final output of the above command `(baitmap.bed)` is then used as the `baits` parameter in either the `chicane` or `prepare.data` function calls. At the top of this vignette we have set `baits` to the sample baitmap at the 2q35 locus which is included in the package. As an example of how this file should look, this is how the BED file for the sample baits at 2q35 would appear:
+
+	chr2 217035649 217042355
+	chr2 217430817 217437011
+
+**NOTE:** The BED format used for the fragments and baits parameters is a header-free, tab-separated, 3 column (chr, start, end) format. Containing **strictly** 3 columns is necessary both as input to the CHiCANE function calls and for the snippet of code above which creates the baitmap to function properly.
+
+To speed up model fitting, it is possible to pre-process the data with the `prepare.data()` function and run `chicane` directly on the resulting data table. Furthermore, running in this step-wise manner is useful for those wanting to add custom covariates not already included in the data table or test variations of parameters and/or distibutions in the interaction calling. To first compare biological replicates using the `compare.replicates()` function, `prepare.data()` should be run on each replicate separately to assess concordance before deciding to merge them. This processing can take a while (~45 minutes for a 19GB BAM file on a commodity computer with 16GB RAM), and only needs to be done once for each BAM. 
 
 ```{r, warning = FALSE}
 if( bedtools.installed() ) {
@@ -92,6 +116,7 @@ if( bedtools.installed() ) {
   chicane.results <- chicane(interactions = file.name); 
 }
 ```
+
 
 # Statistical model
 
@@ -218,7 +243,7 @@ Similarly, an intersect could be performed with VCF files containing variant cal
 
 ## Visualising interaction peaks in WashU Epigenome Browser
 
-CHiCANE also contains a function to convert its results into a format compatible with the WashU Epigenome Browser [@10.1093/nar/gkz348], `create.standard.format()`. The path to significant interaction calling results is provided to the `chicane.results` parameter and the desired name for the output file is passed to `file.name`. Once standard format is obtained it can be uploaded to the browser from the 'Tracks' dropdown, selecting 'Local Text tracks'. In the upload window select 'long-range format by CHiCANE' as the text file type and then your standard format file in 'Browse'. Once the track is loaded in the browser, you can right click on the track and set the Display Mode to 'ARC'.
+CHiCANE also contains a function to convert its results into a format compatible with the WashU Epigenome Browser [@10.1093/nar/gkz348], `convert.standard.format()`. The path to significant interaction calling results is provided to the `chicane.results` parameter and the desired name for the output file is passed to `file.name`. Once standard format is obtained it can be uploaded to the browser from the 'Tracks' dropdown, selecting 'Local Text tracks'. In the upload window select 'long-range format by CHiCANE' as the text file type and then your standard format file in 'Browse'. Once the track is loaded in the browser, you can right click on the track and set the Display Mode to 'ARC'.
 
 ## Locus plots {#locus-plot}
 
@@ -346,7 +371,7 @@ if( bedtools.installed() ) {
 
   # make a browser compatible file from significant interactions
   browser.file <- tempfile('significant_calls_standard.txt')
-  create.standard.format(
+  convert.standard.format(
     chicane.results = 'data/chicane/T47D/interaction_calls_significant.txt',
     file.name = browser.file
     );

@@ -32,13 +32,13 @@ read.bed <- function(bed.path, zero.based = TRUE) {
 	# could use zcat for this - not sure which is better
 	is.gzipped <- grepl( '\\.gz$', bed.path );
 
+	options(scipen = 999)
 	if( is.gzipped ) {
 		temp <- utils::read.table( bed.path, sep = '\t' );
 		bed.contents <- as.data.table(temp);
 
 	} else {
 		bed.contents <- data.table::fread(bed.path);
-
 	}
 
 	if( zero.based ) {
@@ -46,6 +46,7 @@ read.bed <- function(bed.path, zero.based = TRUE) {
 	} else {
 		bed.ids <- paste0(bed.contents$V1, ':', bed.contents$V2 + 1, '-', bed.contents$V3);
 	}
-	
+	options(scipen = 0)
+
 	return(bed.ids);
 }

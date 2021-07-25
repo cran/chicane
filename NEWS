@@ -1,3 +1,10 @@
+chicane v0.1.6                                                  2021-07-20
+--------------------------------------------------
+* updated vignettes' section: Pre-processing data to detail creation of baitmap and fragments
+  files and brought the naming of files in sync with Nature Protocols' paper
+* fixed rare cases where scientific notations (e.g 1e10) were introduced in read.bed()
+* fixed a typo in vignettes: create.standard.format to convert.standard.format
+
 chicane v0.1.5							2021-06-08
 --------------------------------------------------
 * fixed prepare_bam.sh to make it work with all POSIX-compliant shells

@@ -11,27 +11,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2021-06-09" />
+<meta name="date" content="2021-07-24" />
 
 <title>Getting Started with Capture Hi-C Analysis Engine</title>
 
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -51,7 +68,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -108,187 +125,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<style type="text/css">body {
-background-color: #fff;
-margin: 1em auto;
-max-width: 700px;
-overflow: visible;
-padding-left: 2em;
-padding-right: 2em;
-font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-font-size: 14px;
-line-height: 1.35;
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
 }
-#TOC {
-clear: both;
-margin: 0 0 10px 10px;
-padding: 4px;
-width: 400px;
-border: 1px solid #CCCCCC;
-border-radius: 5px;
-background-color: #f6f6f6;
-font-size: 13px;
-line-height: 1.3;
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
 }
-#TOC .toctitle {
-font-weight: bold;
-font-size: 15px;
-margin-left: 5px;
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
 }
-#TOC ul {
-padding-left: 40px;
-margin-left: -1.5em;
-margin-top: 5px;
-margin-bottom: 5px;
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
 }
-#TOC ul ul {
-margin-left: -2em;
+div.csl-indent {
+  margin-left: 2em;
 }
-#TOC li {
-line-height: 16px;
-}
-table {
-margin: 1em auto;
-border-width: 1px;
-border-color: #DDDDDD;
-border-style: outset;
-border-collapse: collapse;
-}
-table th {
-border-width: 2px;
-padding: 5px;
-border-style: inset;
-}
-table td {
-border-width: 1px;
-border-style: inset;
-line-height: 18px;
-padding: 5px 5px;
-}
-table, table th, table td {
-border-left-style: none;
-border-right-style: none;
-}
-table thead, table tr.even {
-background-color: #f7f7f7;
-}
-p {
-margin: 0.5em 0;
-}
-blockquote {
-background-color: #f6f6f6;
-padding: 0.25em 0.75em;
-}
-hr {
-border-style: solid;
-border: none;
-border-top: 1px solid #777;
-margin: 28px 0;
-}
-dl {
-margin-left: 0;
-}
-dl dd {
-margin-bottom: 13px;
-margin-left: 13px;
-}
-dl dt {
-font-weight: bold;
-}
-ul {
-margin-top: 0;
-}
-ul li {
-list-style: circle outside;
-}
-ul ul {
-margin-bottom: 0;
-}
-pre, code {
-background-color: #f7f7f7;
-border-radius: 3px;
-color: #333;
-white-space: pre-wrap; 
-}
-pre {
-border-radius: 3px;
-margin: 5px 0px 10px 0px;
-padding: 10px;
-}
-pre:not([class]) {
-background-color: #f7f7f7;
-}
-code {
-font-family: Consolas, Monaco, 'Courier New', monospace;
-font-size: 85%;
-}
-p > code, li > code {
-padding: 2px 0px;
-}
-div.figure {
-text-align: center;
-}
-img {
-background-color: #FFFFFF;
-padding: 2px;
-border: 1px solid #DDDDDD;
-border-radius: 3px;
-border: 1px solid #CCCCCC;
-margin: 0 5px;
-}
-h1 {
-margin-top: 0;
-font-size: 35px;
-line-height: 40px;
-}
-h2 {
-border-bottom: 4px solid #f7f7f7;
-padding-top: 10px;
-padding-bottom: 2px;
-font-size: 145%;
-}
-h3 {
-border-bottom: 2px solid #f7f7f7;
-padding-top: 10px;
-font-size: 120%;
-}
-h4 {
-border-bottom: 1px solid #f7f7f7;
-margin-left: 8px;
-font-size: 105%;
-}
-h5, h6 {
-border-bottom: 1px solid #ccc;
-font-size: 105%;
-}
-a {
-color: #0033dd;
-text-decoration: none;
-}
-a:hover {
-color: #6666ff; }
-a:visited {
-color: #800080; }
-a:visited:hover {
-color: #BB00BB; }
-a[href^="http:"] {
-text-decoration: underline; }
-a[href^="https:"] {
-text-decoration: underline; }
-
-code > span.kw { color: #555; font-weight: bold; } 
-code > span.dt { color: #902000; } 
-code > span.dv { color: #40a070; } 
-code > span.bn { color: #d14; } 
-code > span.fl { color: #d14; } 
-code > span.ch { color: #d14; } 
-code > span.st { color: #d14; } 
-code > span.co { color: #888888; font-style: italic; } 
-code > span.ot { color: #007020; } 
-code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; } 
-code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
 
 
 
@@ -301,7 +161,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 <h1 class="title toc-ignore">Getting Started with <strong>C</strong>apture <strong>Hi-C</strong> <strong>An</strong>alysis <strong>E</strong>ngine</h1>
-<h4 class="date">2021-06-09</h4>
+<h4 class="date">2021-07-24</h4>
 
 
 <div id="TOC">
@@ -309,14 +169,17 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <li><a href="#background">Background</a></li>
 <li><a href="#quickstart">Quickstart</a></li>
 <li><a href="#preprocessing">Pre-processing data</a></li>
-<li><a href="#statistical-model">Statistical model</a><ul>
-<li><a href="#distribution-of-the-counts">Distribution of the counts</a><ul>
+<li><a href="#statistical-model">Statistical model</a>
+<ul>
+<li><a href="#distribution-of-the-counts">Distribution of the counts</a>
+<ul>
 <li><a href="#negative-binomial">Negative binomial</a></li>
 <li><a href="#poisson">Poisson</a></li>
 <li><a href="#truncated-negative-binomial">Truncated negative binomial</a></li>
 <li><a href="#truncated-poisson">Truncated poisson</a></li>
 </ul></li>
-<li><a href="#adjusting-for-covariates">Adjusting for covariates</a><ul>
+<li><a href="#adjusting-for-covariates">Adjusting for covariates</a>
+<ul>
 <li><a href="#custom-covariates">Custom covariates</a></li>
 </ul></li>
 <li><a href="#filtering-baits-and-targets">Filtering baits and targets</a></li>
@@ -325,7 +188,8 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <li><a href="#setting-distance-bins">Setting distance bins</a></li>
 <li><a href="#multiple-testing-correction">Multiple testing correction</a></li>
 </ul></li>
-<li><a href="#interpretation-of-interaction-peaks">Interpretation of interaction peaks</a><ul>
+<li><a href="#interpretation-of-interaction-peaks">Interpretation of interaction peaks</a>
+<ul>
 <li><a href="#annotation-with-bedtools">Annotation with bedtools</a></li>
 <li><a href="#visualising-interaction-peaks-in-washu-epigenome-browser">Visualising interaction peaks in WashU Epigenome Browser</a></li>
 <li><a href="#locus-plot">Locus plots</a></li>
@@ -341,139 +205,84 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="background" class="section level1">
 <h1>Background</h1>
 <p>CHiCANE is a toolkit for identifying chromatin regions that interact more often than expected by chance given the specific interaction dynamics of a capture Hi-C (CHi-C) experiment. It offers extensive flexibility in implementing interaction calling via numerous optional parameters so that it can be tailored to a wide range of CHi-C experiments. Additionally, CHiCANE includes multiple helper functions for use in both pre- and post-processing/analysis of the interaction calls.</p>
-<p>For details of statistical concepts implemented by CHiCANE and their application to both the region CHi-C and promoter CHi-C datasets, please see our manuscript: Holgerson, Erle, Gillespie, Andrea, et al. “Identifying High Confidence Capture Hi-C Interactions Using CHiCANE” (in revision 2020).</p>
+<p>For details of statistical concepts implemented by CHiCANE and their application to both the region CHi-C and promoter CHi-C datasets, please see our manuscript: Holgerson, Erle, Gillespie, Andrea, et al. “Identifying High Confidence Capture Hi-C Interactions Using CHiCANE” (Nature Protocols 2021).</p>
 </div>
 <div id="quickstart" class="section level1">
 <h1>Quickstart</h1>
 <p>The main function for running the CHiCANE method is <code>chicane()</code>. This takes a bam file and bed files with all restriction fragments and targeted restriction fragments as input, and produces a table with fragment interactions and associated p-values.</p>
 <p>The package comes with a subset of reads from a capture Hi-C experiment on the Bre80 normal epithelial breast tissue cell line <span class="citation">(Baxter et al. 2018)</span>. The experiment targeted several breast cancer risk loci in non-coding regions of the genome, and aimed to associate these risk variants with genes. Two of the risk SNPs are rs13387042 and rs16857609, and reads that map to them have been included in the file Bre80_2q35.bam.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(chicane);</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="co">#&gt; Loading required package: gamlss.tr</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#&gt; Loading required package: gamlss.dist</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; Loading required package: MASS</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt; Loading required package: gamlss</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt; Loading required package: splines</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt; Loading required package: gamlss.data</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt; </span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt; Attaching package: &#39;gamlss.data&#39;</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt; The following object is masked from &#39;package:datasets&#39;:</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt; </span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt;     sleep</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#&gt; Loading required package: nlme</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt; Loading required package: parallel</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#&gt;  **********   GAMLSS Version 5.1-6  **********</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#&gt; For more on GAMLSS look at http://www.gamlss.org/</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a><span class="co">#&gt; Type gamlssNews() to see new features/changes/bug fixes.</span></span>
-<span id="cb1-18"><a href="#cb1-18"></a><span class="co">#&gt; Loading required package: data.table</span></span>
-<span id="cb1-19"><a href="#cb1-19"></a></span>
-<span id="cb1-20"><a href="#cb1-20"></a><span class="co"># example BAM file, baits, and restriction fragments</span></span>
-<span id="cb1-21"><a href="#cb1-21"></a>bam &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&#39;extdata&#39;</span>, <span class="st">&#39;Bre80_2q35.bam&#39;</span>, <span class="dt">package =</span> <span class="st">&#39;chicane&#39;</span>);</span>
-<span id="cb1-22"><a href="#cb1-22"></a>baits &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&#39;extdata&#39;</span>, <span class="st">&#39;2q35.bed&#39;</span>, <span class="dt">package =</span> <span class="st">&#39;chicane&#39;</span>);</span>
-<span id="cb1-23"><a href="#cb1-23"></a>fragments &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&#39;extdata&#39;</span>, <span class="st">&#39;GRCh38_HindIII_chr2.bed.gz&#39;</span>, <span class="dt">package =</span> <span class="st">&#39;chicane&#39;</span>); <span class="co"># HindIII fragments on chromosome 2</span></span>
-<span id="cb1-24"><a href="#cb1-24"></a></span>
-<span id="cb1-25"><a href="#cb1-25"></a><span class="cf">if</span>( <span class="kw">bedtools.installed</span>() ) {</span>
-<span id="cb1-26"><a href="#cb1-26"></a>  chicane.results &lt;-<span class="st"> </span><span class="kw">chicane</span>(</span>
-<span id="cb1-27"><a href="#cb1-27"></a>    <span class="dt">bam =</span> bam,</span>
-<span id="cb1-28"><a href="#cb1-28"></a>    <span class="dt">baits =</span> baits,</span>
-<span id="cb1-29"><a href="#cb1-29"></a>    <span class="dt">fragments =</span> fragments</span>
-<span id="cb1-30"><a href="#cb1-30"></a>    );</span>
-<span id="cb1-31"><a href="#cb1-31"></a></span>
-<span id="cb1-32"><a href="#cb1-32"></a>    <span class="kw">print</span>( chicane.results[ <span class="dv">1</span><span class="op">:</span><span class="dv">10</span> ] );</span>
-<span id="cb1-33"><a href="#cb1-33"></a>}</span>
-<span id="cb1-34"><a href="#cb1-34"></a><span class="co">#&gt; Taking input= as a system command (&#39;sh /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rinst1291a42eb2ffb/chicane/bin/prepare_bam.sh -b /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rinst1291a42eb2ffb/chicane/extdata/Bre80_2q35.bam -c /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rinst1291a42eb2ffb/chicane/extdata/2q35.bed -f /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rinst1291a42eb2ffb/chicane/extdata/GRCh38_HindIII_chr2.bed.gz -d /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rbuild1291a65ddc5e4/chicane/vignettes &#39;) and a variable has been used in the expression passed to `input=`. Please use fread(cmd=...). There is a security concern if you are creating an app, and the app could have a malicious user, and the app is not running in a secure environment; e.g. the app is running as root. Please read item 5 in the NEWS file for v1.11.6 for more information and for the option to suppress this message.</span></span>
-<span id="cb1-35"><a href="#cb1-35"></a><span class="co">#&gt;                    target.id                  bait.id target.chr target.start</span></span>
-<span id="cb1-36"><a href="#cb1-36"></a><span class="co">#&gt;  1: chr2:217491009-217492415 chr2:217035649-217042355       chr2    217491009</span></span>
-<span id="cb1-37"><a href="#cb1-37"></a><span class="co">#&gt;  2: chr2:216650000-216651600 chr2:217430817-217437011       chr2    216650000</span></span>
-<span id="cb1-38"><a href="#cb1-38"></a><span class="co">#&gt;  3: chr2:217290048-217292530 chr2:217430817-217437011       chr2    217290048</span></span>
-<span id="cb1-39"><a href="#cb1-39"></a><span class="co">#&gt;  4: chr2:216269087-216273140 chr2:217430817-217437011       chr2    216269087</span></span>
-<span id="cb1-40"><a href="#cb1-40"></a><span class="co">#&gt;  5: chr2:216551051-216551968 chr2:217430817-217437011       chr2    216551051</span></span>
-<span id="cb1-41"><a href="#cb1-41"></a><span class="co">#&gt;  6: chr2:216879929-216883553 chr2:217430817-217437011       chr2    216879929</span></span>
-<span id="cb1-42"><a href="#cb1-42"></a><span class="co">#&gt;  7: chr2:216696003-216698549 chr2:217430817-217437011       chr2    216696003</span></span>
-<span id="cb1-43"><a href="#cb1-43"></a><span class="co">#&gt;  8: chr2:216687613-216696003 chr2:217430817-217437011       chr2    216687613</span></span>
-<span id="cb1-44"><a href="#cb1-44"></a><span class="co">#&gt;  9: chr2:216906471-216908390 chr2:217430817-217437011       chr2    216906471</span></span>
-<span id="cb1-45"><a href="#cb1-45"></a><span class="co">#&gt; 10: chr2:217162758-217166250 chr2:217430817-217437011       chr2    217162758</span></span>
-<span id="cb1-46"><a href="#cb1-46"></a><span class="co">#&gt;     target.end bait.chr bait.start  bait.end bait.to.bait bait.trans.count</span></span>
-<span id="cb1-47"><a href="#cb1-47"></a><span class="co">#&gt;  1:  217492415     chr2  217035649 217042355        FALSE                0</span></span>
-<span id="cb1-48"><a href="#cb1-48"></a><span class="co">#&gt;  2:  216651600     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-49"><a href="#cb1-49"></a><span class="co">#&gt;  3:  217292530     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-50"><a href="#cb1-50"></a><span class="co">#&gt;  4:  216273140     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-51"><a href="#cb1-51"></a><span class="co">#&gt;  5:  216551968     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-52"><a href="#cb1-52"></a><span class="co">#&gt;  6:  216883553     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-53"><a href="#cb1-53"></a><span class="co">#&gt;  7:  216698549     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-54"><a href="#cb1-54"></a><span class="co">#&gt;  8:  216696003     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-55"><a href="#cb1-55"></a><span class="co">#&gt;  9:  216908390     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-56"><a href="#cb1-56"></a><span class="co">#&gt; 10:  217166250     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-57"><a href="#cb1-57"></a><span class="co">#&gt;     target.trans.count  distance count expected      p.value   q.value</span></span>
-<span id="cb1-58"><a href="#cb1-58"></a><span class="co">#&gt;  1:                  0  452710.0    28 6.222070 0.0001352420 0.2346449</span></span>
-<span id="cb1-59"><a href="#cb1-59"></a><span class="co">#&gt;  2:                  0  783114.0    16 2.992273 0.0004798454 0.8172368</span></span>
-<span id="cb1-60"><a href="#cb1-60"></a><span class="co">#&gt;  3:                  0  142625.0    33 8.889424 0.0010581410 0.8172368</span></span>
-<span id="cb1-61"><a href="#cb1-61"></a><span class="co">#&gt;  4:                  0 1162800.5     8 2.101973 0.0019527803 0.8172368</span></span>
-<span id="cb1-62"><a href="#cb1-62"></a><span class="co">#&gt;  5:                  0  882404.5    11 2.722403 0.0021130042 0.8172368</span></span>
-<span id="cb1-63"><a href="#cb1-63"></a><span class="co">#&gt;  6:                  0  552173.0    11 3.822236 0.0036069810 0.8172368</span></span>
-<span id="cb1-64"><a href="#cb1-64"></a><span class="co">#&gt;  7:                  0  736638.0    16 4.162590 0.0043689364 0.8172368</span></span>
-<span id="cb1-65"><a href="#cb1-65"></a><span class="co">#&gt;  8:                  0  742106.0    15 3.999764 0.0055330101 0.8172368</span></span>
-<span id="cb1-66"><a href="#cb1-66"></a><span class="co">#&gt;  9:                  0  526483.5    11 4.150239 0.0063231596 0.8172368</span></span>
-<span id="cb1-67"><a href="#cb1-67"></a><span class="co">#&gt; 10:                  0  269410.0    24 8.030272 0.0063767687 0.8172368</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(chicane);</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: gamlss.tr</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: gamlss.dist</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: MASS</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: gamlss</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: splines</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: gamlss.data</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;gamlss.data&#39;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:datasets&#39;:</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     sleep</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: nlme</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: parallel</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  **********   GAMLSS Version 5.3-4  **********</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; For more on GAMLSS look at https://www.gamlss.com/</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Type gamlssNews() to see new features/changes/bug fixes.</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: data.table</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># example BAM file, baits, and restriction fragments</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>bam <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&#39;extdata&#39;</span>, <span class="st">&#39;Bre80_2q35.bam&#39;</span>, <span class="at">package =</span> <span class="st">&#39;chicane&#39;</span>);</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>baits <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&#39;extdata&#39;</span>, <span class="st">&#39;2q35.bed&#39;</span>, <span class="at">package =</span> <span class="st">&#39;chicane&#39;</span>);</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>fragments <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&#39;extdata&#39;</span>, <span class="st">&#39;GRCh38_HindIII_chr2.bed.gz&#39;</span>, <span class="at">package =</span> <span class="st">&#39;chicane&#39;</span>); <span class="co"># HindIII fragments on chromosome 2</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>( <span class="fu">bedtools.installed</span>() ) {</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  chicane.results <span class="ot">&lt;-</span> <span class="fu">chicane</span>(</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">bam =</span> bam,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">baits =</span> baits,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">fragments =</span> fragments</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>( chicane.results[ <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> ] );</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>The <code>chicane</code> function returns a <code>data.table</code> object sorted by q-value. Each row contains information about the target and bait fragments, and the observed and expected number of reads linking the two fragments.</p>
 </div>
 <div id="preprocessing" class="section level1">
 <h1>Pre-processing data</h1>
-<p>The <code>chicane</code> function can operate directly on BAM files. To convert the BAM file into a text file, R calls the shell script <code>prepare_bam.sh</code>. This script relies on <a href="http://bedtools.readthedocs.io/en/latest/index.html">bedtools</a> to select reads overlapping the captured fragments and identify the restriction fragments corresponding to each read. The reads are also filtered to remove those in which both reads map to the same fragment. The resulting data is read into a <a href="https://CRAN.R-project.org/package=data.table"><code>data.table</code></a> object, and the number of reads linking any two fragments is calculated.</p>
-<p>For users that have a digested genome output from HiCUP, this needs to be converted to BED format to be compatible with bedtools. CHiCANE includes a helper function, <code>convert.hicup.digest.bed()</code>, which can be used to convert a digested genome in HiCUP format to a BED file of the restiction digest fragments. Any BED file containing the coordinates of restriction enzyme digested fragments of the genome build used according to the experiment are appropriate to be used with CHiCANE.</p>
-<p>The third and final input required is a baitmap as a BED file containing the coordinates of the fragments which contain a bait in the capture step of the experiment. This can be obtained by conducting a <code>bedtools intersect</code> command on the fragment digest above and a BED file with the coordinates of the probes included on the array used in the capture step.</p>
-<p>These three files can be supplied to the <code>chicane()</code> function directly as it will work as a wrapper function for preparing the data and interaction calling together. However, to speed up model fitting, it is possible to pre-process the data with the <code>prepare.data()</code> function and run <code>chicane</code> directly on the resulting data table. Furthermore, running in this step-wise manner is useful for those wanting to add custom covariates not already included in the data table or test variations of parameters and/or distibutions in the interaction calling. To first compare biological replicates using the <code>compare.replicates()</code> function, <code>prepare.data()</code> should be run on each replicate separately to assess concordance before deciding to merge them. This processing can take a while (~45 minutes for a 19GB BAM file on a commodity computer with 13GB RAM), and only needs to be done once for each BAM.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="cf">if</span>( <span class="kw">bedtools.installed</span>() ) {</span>
-<span id="cb2-2"><a href="#cb2-2"></a>  interaction.data &lt;-<span class="st"> </span><span class="kw">prepare.data</span>(</span>
-<span id="cb2-3"><a href="#cb2-3"></a>    <span class="dt">bam =</span> bam,</span>
-<span id="cb2-4"><a href="#cb2-4"></a>    <span class="dt">baits =</span> baits,</span>
-<span id="cb2-5"><a href="#cb2-5"></a>    <span class="dt">fragments =</span> fragments</span>
-<span id="cb2-6"><a href="#cb2-6"></a>    );</span>
-<span id="cb2-7"><a href="#cb2-7"></a>}</span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt; Taking input= as a system command (&#39;sh /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rinst1291a42eb2ffb/chicane/bin/prepare_bam.sh -b /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rinst1291a42eb2ffb/chicane/extdata/Bre80_2q35.bam -c /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rinst1291a42eb2ffb/chicane/extdata/2q35.bed -f /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rinst1291a42eb2ffb/chicane/extdata/GRCh38_HindIII_chr2.bed.gz -d /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/RtmpdNMaET/Rbuild1291a65ddc5e4/chicane/vignettes &#39;) and a variable has been used in the expression passed to `input=`. Please use fread(cmd=...). There is a security concern if you are creating an app, and the app could have a malicious user, and the app is not running in a secure environment; e.g. the app is running as root. Please read item 5 in the NEWS file for v1.11.6 for more information and for the option to suppress this message.</span></span></code></pre></div>
+<p>Before running the main <code>chicane()</code> function, a minumum of <strong>three</strong> input files must be obtained. The <code>chicane()</code> function, which is the main interaction calling step, can be run on these three input files directly as it will work as a wrapper function to prepare the data and the run interaction calling in a single step. Alternatively, there is a <code>prepare.data()</code> function which allows a user to run data preparation on these same three input files to make an interactions data table, which can subsequently be used as input for interaction calling separately in a step-wise fashion (as well as a number of other useful functions as discussed below). This section dicusses how to obtain each of the <strong>three</strong> <strong>required</strong> inputs, followed by a discussion of the <strong>optional</strong> preparation of an interactions data table.</p>
+<p>The <strong>first</strong> required input is at least one BAM file containing mapped interaction reads. To convert the BAM file into a text file, R calls the shell script <code>prepare_bam.sh</code>. This script relies on <a href="http://bedtools.readthedocs.io/en/latest/index.html">bedtools</a> to identify the restriction fragments corresponding to each read (based on the second required input, the <span class="math inline">\(in\)</span> <span class="math inline">\(silico\)</span> genome digest) and select reads with at least one end overlapping the baitmap file (the third required input). The reads are also filtered to remove those in which both reads map to the same fragment. The resulting data is read into a <a href="https://CRAN.R-project.org/package=data.table"><code>data.table</code></a> object, and the number of reads linking any two fragments is calculated.</p>
+<p>The <strong>second</strong> required input is the <span class="math inline">\(in\)</span> <span class="math inline">\(silico\)</span> digest file, which contains the coordinates of the fragments created by the restriction enzyme (<span class="math inline">\(e.g.\)</span> HindIII) used in the experiment, in BED format. For users that have a digested genome output from HiCUP, this needs to be converted to a strict 3 column, header-free BED format to be compatible with bedtools. CHiCANE includes a helper function, <code>convert.hicup.digest.bed()</code>, which can be used to convert a digested genome in HiCUP format to a BED file of the restiction digest fragments. Any BED file containing the coordinates of restriction enzyme digested fragments of the genome build used according to the experiment are appropriate to be used with CHiCANE. For the purposes of this vignette, the <code>fragments</code> variable is assigned to the HindIII fragments of GRCh38 chromosome 2 (sample data included in the package) at the top of this document. Here is an example of what this should look like showing the top six entries in the example fragments file included in the package:</p>
+<pre><code>chr2     0 15298
+chr2 15298 16049
+chr2 16049 18132
+chr2 18132 24992
+chr2 24992 28070
+chr2 28070 28179</code></pre>
+<p>The <strong>third</strong> and final input required is a baitmap in BED format containing the coordinates of only the restriction digested fragments which contain a bait from the capture step of the experiment. This can be obtained by conducting a <code>bedtools intersect</code> command on the fragment digest above and a BED file with the coordinates of the individual probes included on the array used in the capture step. The following is an example command to create the baitmap, then limit it to only unique fragments with an overlap of at least 20bp:</p>
+<pre><code># intersect restriction fragments file with coordinates for probes included on the array
+bedtools intersect -wo -a /path/to/fragments.bed -b /path/to/capture_regions.bed \
+&gt; /path/to/fragments_overlap_full.bed
+# limit to overlap of at least 20bp and unique fragments only
+awk &#39;$7&gt;=20 {print $1 &quot;\t&quot; $2 &quot;\t&quot; $3}&#39; /path/to/fragments_overlap_full.bed | uniq &gt; /path/to/baitmap.bed</code></pre>
+<p>The final output of the above command <code>(baitmap.bed)</code> is then used as the <code>baits</code> parameter in either the <code>chicane</code> or <code>prepare.data</code> function calls. At the top of this vignette we have set <code>baits</code> to the sample baitmap at the 2q35 locus which is included in the package. As an example of how this file should look, this is how the BED file for the sample baits at 2q35 would appear:</p>
+<pre><code>chr2 217035649 217042355
+chr2 217430817 217437011</code></pre>
+<p><strong>NOTE:</strong> The BED format used for the fragments and baits parameters is a header-free, tab-separated, 3 column (chr, start, end) format. Containing <strong>strictly</strong> 3 columns is necessary both as input to the CHiCANE function calls and for the snippet of code above which creates the baitmap to function properly.</p>
+<p>To speed up model fitting, it is possible to pre-process the data with the <code>prepare.data()</code> function and run <code>chicane</code> directly on the resulting data table. Furthermore, running in this step-wise manner is useful for those wanting to add custom covariates not already included in the data table or test variations of parameters and/or distibutions in the interaction calling. To first compare biological replicates using the <code>compare.replicates()</code> function, <code>prepare.data()</code> should be run on each replicate separately to assess concordance before deciding to merge them. This processing can take a while (~45 minutes for a 19GB BAM file on a commodity computer with 16GB RAM), and only needs to be done once for each BAM.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>( <span class="fu">bedtools.installed</span>() ) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  interaction.data <span class="ot">&lt;-</span> <span class="fu">prepare.data</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">bam =</span> bam,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">baits =</span> baits,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">fragments =</span> fragments</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>The interaction data object contains details of the fragments, and the number of reads linking the two fragments.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="cf">if</span>( <span class="kw">bedtools.installed</span>() ) <span class="kw">print</span>(interaction.data);</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt;                      target.id                  bait.id target.chr target.start</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt;    1: chr2:200013520-200014510 chr2:217035649-217042355       chr2    200013520</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt;    2: chr2:200018581-200020582 chr2:217035649-217042355       chr2    200018581</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt;    3: chr2:200020582-200023537 chr2:217430817-217437011       chr2    200020582</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt;    4: chr2:200033118-200034885 chr2:217430817-217437011       chr2    200033118</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt;    5: chr2:200040560-200041826 chr2:217430817-217437011       chr2    200040560</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt;   ---                                                                          </span></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt; 4477: chr2:229867689-229872871 chr2:217035649-217042355       chr2    229867689</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt; 4478: chr2:229872871-229875614 chr2:217035649-217042355       chr2    229872871</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt; 4479: chr2:229882404-229887121 chr2:217430817-217437011       chr2    229882404</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt; 4480: chr2:229894321-229904945 chr2:217035649-217042355       chr2    229894321</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt; 4481: chr2:229917543-229919836 chr2:217430817-217437011       chr2    229917543</span></span>
-<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt;       target.end bait.chr bait.start  bait.end bait.to.bait bait.trans.count</span></span>
-<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#&gt;    1:  200014510     chr2  217035649 217042355        FALSE                0</span></span>
-<span id="cb3-16"><a href="#cb3-16"></a><span class="co">#&gt;    2:  200020582     chr2  217035649 217042355        FALSE                0</span></span>
-<span id="cb3-17"><a href="#cb3-17"></a><span class="co">#&gt;    3:  200023537     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb3-18"><a href="#cb3-18"></a><span class="co">#&gt;    4:  200034885     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb3-19"><a href="#cb3-19"></a><span class="co">#&gt;    5:  200041826     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb3-20"><a href="#cb3-20"></a><span class="co">#&gt;   ---                                                                       </span></span>
-<span id="cb3-21"><a href="#cb3-21"></a><span class="co">#&gt; 4477:  229872871     chr2  217035649 217042355        FALSE                0</span></span>
-<span id="cb3-22"><a href="#cb3-22"></a><span class="co">#&gt; 4478:  229875614     chr2  217035649 217042355        FALSE                0</span></span>
-<span id="cb3-23"><a href="#cb3-23"></a><span class="co">#&gt; 4479:  229887121     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb3-24"><a href="#cb3-24"></a><span class="co">#&gt; 4480:  229904945     chr2  217035649 217042355        FALSE                0</span></span>
-<span id="cb3-25"><a href="#cb3-25"></a><span class="co">#&gt; 4481:  229919836     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb3-26"><a href="#cb3-26"></a><span class="co">#&gt;       target.trans.count distance count</span></span>
-<span id="cb3-27"><a href="#cb3-27"></a><span class="co">#&gt;    1:                  0 17024987     1</span></span>
-<span id="cb3-28"><a href="#cb3-28"></a><span class="co">#&gt;    2:                  0 17019420     1</span></span>
-<span id="cb3-29"><a href="#cb3-29"></a><span class="co">#&gt;    3:                  0 17411854     2</span></span>
-<span id="cb3-30"><a href="#cb3-30"></a><span class="co">#&gt;    4:                  0 17399912     1</span></span>
-<span id="cb3-31"><a href="#cb3-31"></a><span class="co">#&gt;    5:                  0 17392721     1</span></span>
-<span id="cb3-32"><a href="#cb3-32"></a><span class="co">#&gt;   ---                                  </span></span>
-<span id="cb3-33"><a href="#cb3-33"></a><span class="co">#&gt; 4477:                  0 12831278     1</span></span>
-<span id="cb3-34"><a href="#cb3-34"></a><span class="co">#&gt; 4478:                  0 12835240     1</span></span>
-<span id="cb3-35"><a href="#cb3-35"></a><span class="co">#&gt; 4479:                  0 12450848     1</span></span>
-<span id="cb3-36"><a href="#cb3-36"></a><span class="co">#&gt; 4480:                  0 12860631     1</span></span>
-<span id="cb3-37"><a href="#cb3-37"></a><span class="co">#&gt; 4481:                  0 12484776     1</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>( <span class="fu">bedtools.installed</span>() ) <span class="fu">print</span>(interaction.data);</span></code></pre></div>
 <p>The <code>interactions</code> parameter of the <code>chicane()</code> function can take either a <code>data.table</code> object from <code>prepare.data</code> or the path to such a table.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="cf">if</span>( <span class="kw">bedtools.installed</span>() ) {</span>
-<span id="cb4-2"><a href="#cb4-2"></a>  file.name &lt;-<span class="st"> </span><span class="kw">tempfile</span>(<span class="st">&#39;interaction_data&#39;</span>);</span>
-<span id="cb4-3"><a href="#cb4-3"></a>  <span class="kw">write.table</span>(interaction.data, file.name, <span class="dt">row.names =</span> <span class="ot">FALSE</span>);</span>
-<span id="cb4-4"><a href="#cb4-4"></a>  chicane.results &lt;-<span class="st"> </span><span class="kw">chicane</span>(<span class="dt">interactions =</span> file.name); </span>
-<span id="cb4-5"><a href="#cb4-5"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>( <span class="fu">bedtools.installed</span>() ) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  file.name <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="st">&#39;interaction_data&#39;</span>);</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write.table</span>(interaction.data, file.name, <span class="at">row.names =</span> <span class="cn">FALSE</span>);</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  chicane.results <span class="ot">&lt;-</span> <span class="fu">chicane</span>(<span class="at">interactions =</span> file.name); </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="statistical-model" class="section level1">
 <h1>Statistical model</h1>
@@ -522,31 +331,31 @@ Var(Y) = \mu + \frac{\mu^2}{\theta}
 <div id="adjusting-for-covariates" class="section level2">
 <h2>Adjusting for covariates</h2>
 <p>CHiCANE allows users to specify additional covariates that can be added to the model with the <code>adjustment.terms</code> parameter. For example, we can add a term to adjust for the chromosome of the target fragment as shown below.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">data</span>(bre80);</span>
-<span id="cb5-2"><a href="#cb5-2"></a>adjusted.results &lt;-<span class="st"> </span><span class="kw">chicane</span>(</span>
-<span id="cb5-3"><a href="#cb5-3"></a>  <span class="dt">interactions =</span> bre80, </span>
-<span id="cb5-4"><a href="#cb5-4"></a>  <span class="dt">adjustment.terms =</span> <span class="st">&#39;target.chr&#39;</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>  );</span>
-<span id="cb5-6"><a href="#cb5-6"></a></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="kw">print</span>( adjusted.results[ <span class="dv">1</span><span class="op">:</span><span class="dv">5</span> ] );</span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt;                   target.id                  bait.id target.chr target.start</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; 1:    chr19:1155128-1228414 chr2:217035649-217042355      chr19      1155128</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt; 2: chr1:117125276-117135137 chr2:217035649-217042355       chr1    117125276</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="co">#&gt; 3:   chr1:14950583-14951791 chr2:217035649-217042355       chr1     14950583</span></span>
-<span id="cb5-12"><a href="#cb5-12"></a><span class="co">#&gt; 4:   chr1:49076960-49080684 chr2:217035649-217042355       chr1     49076960</span></span>
-<span id="cb5-13"><a href="#cb5-13"></a><span class="co">#&gt; 5: chr3:145680459-145682483 chr2:217035649-217042355       chr3    145680459</span></span>
-<span id="cb5-14"><a href="#cb5-14"></a><span class="co">#&gt;    target.end bait.chr bait.start  bait.end bait.to.bait bait.trans.count</span></span>
-<span id="cb5-15"><a href="#cb5-15"></a><span class="co">#&gt; 1:    1228414     chr2  217035649 217042355        FALSE             9494</span></span>
-<span id="cb5-16"><a href="#cb5-16"></a><span class="co">#&gt; 2:  117135137     chr2  217035649 217042355        FALSE             9494</span></span>
-<span id="cb5-17"><a href="#cb5-17"></a><span class="co">#&gt; 3:   14951791     chr2  217035649 217042355        FALSE             9494</span></span>
-<span id="cb5-18"><a href="#cb5-18"></a><span class="co">#&gt; 4:   49080684     chr2  217035649 217042355        FALSE             9494</span></span>
-<span id="cb5-19"><a href="#cb5-19"></a><span class="co">#&gt; 5:  145682483     chr2  217035649 217042355        FALSE             9494</span></span>
-<span id="cb5-20"><a href="#cb5-20"></a><span class="co">#&gt;    target.trans.count distance count expected   p.value   q.value</span></span>
-<span id="cb5-21"><a href="#cb5-21"></a><span class="co">#&gt; 1:                  2       NA     2 1.003963 0.2656989 0.6417435</span></span>
-<span id="cb5-22"><a href="#cb5-22"></a><span class="co">#&gt; 2:                  2       NA     2 1.003992 0.2657096 0.6417435</span></span>
-<span id="cb5-23"><a href="#cb5-23"></a><span class="co">#&gt; 3:                  2       NA     2 1.003992 0.2657096 0.6417435</span></span>
-<span id="cb5-24"><a href="#cb5-24"></a><span class="co">#&gt; 4:                  2       NA     2 1.003992 0.2657096 0.6417435</span></span>
-<span id="cb5-25"><a href="#cb5-25"></a><span class="co">#&gt; 5:                  2       NA     2 1.004014 0.2657179 0.6417435</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(bre80);</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>adjusted.results <span class="ot">&lt;-</span> <span class="fu">chicane</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">interactions =</span> bre80, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">adjustment.terms =</span> <span class="st">&#39;target.chr&#39;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>( adjusted.results[ <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span> ] );</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   target.id                  bait.id target.chr target.start</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1:    chr19:1155128-1228414 chr2:217035649-217042355      chr19      1155128</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2: chr1:117125276-117135137 chr2:217035649-217042355       chr1    117125276</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3:   chr1:14950583-14951791 chr2:217035649-217042355       chr1     14950583</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4:   chr1:49076960-49080684 chr2:217035649-217042355       chr1     49076960</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5: chr3:145680459-145682483 chr2:217035649-217042355       chr3    145680459</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    target.end bait.chr bait.start  bait.end bait.to.bait bait.trans.count</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1:    1228414     chr2  217035649 217042355        FALSE             9494</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2:  117135137     chr2  217035649 217042355        FALSE             9494</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3:   14951791     chr2  217035649 217042355        FALSE             9494</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4:   49080684     chr2  217035649 217042355        FALSE             9494</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5:  145682483     chr2  217035649 217042355        FALSE             9494</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    target.trans.count distance count expected   p.value   q.value</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1:                  2       NA     2 1.003963 0.2656989 0.6417435</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2:                  2       NA     2 1.003992 0.2657096 0.6417435</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3:                  2       NA     2 1.003992 0.2657096 0.6417435</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4:                  2       NA     2 1.003992 0.2657096 0.6417435</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5:                  2       NA     2 1.004014 0.2657179 0.6417435</span></span></code></pre></div>
 <p>The <code>adjustment.terms</code> parameter also supports expressions such as log transformations. Multiple adjustment terms can be added by passing as a vector.</p>
 <div id="custom-covariates" class="section level3">
 <h3>Custom covariates</h3>
@@ -560,14 +369,14 @@ Var(Y) = \mu + \frac{\mu^2}{\theta}
 </div>
 <div id="filtering-baits-and-targets" class="section level2">
 <h2>Filtering baits and targets</h2>
-<p>By default, all baits and targets are included when fitting the CHiCANE model. An alternative approach is to filter out baits and fragments with low <span class="citation">(Dryden et al. 2014)</span> or high <span class="citation">(Cairns et al. 2016)</span> degree of “interactibility”, which is inferred via <span class="math inline">\(trans\)</span> counts for each bait. CHiCANE also supports this filtering through the <code>bait.filters</code> and <code>target.filters</code> parameters.</p>
+<p>By default, all baits and targets are included when fitting the CHiCANE model. An alternative approach is to filter out baits and fragments with low <span class="citation">(Dryden et al. 2014)</span> or high <span class="citation">(Cairns et al. 2016)</span> degree of “interactibility,” which is inferred via <span class="math inline">\(trans\)</span> counts for each bait. CHiCANE also supports this filtering through the <code>bait.filters</code> and <code>target.filters</code> parameters.</p>
 <p>Each of these take a vector of length two, where each element corresponds to the proportion of fragments that should be considered to fall below the “lower limit” and “upper limit.” For example, passing in <code>bait.filters = c(0.3, 0.9)</code> means that the baits with the lowest 30% or highest 10% of <span class="math inline">\(trans\)</span> counts will be removed before fitting the model.</p>
 <p>Filtering fragments may affect multiple testing correction by changing the number of tests performed.</p>
 </div>
 <div id="merging-biological-replicates" class="section level2">
 <h2>Merging biological replicates</h2>
 <p>The helper function <code>compare.replicates()</code> can be used to assess concordance between biological replicates before deciding whether to merge them to improve signal to noise ratio. This is done by conducting the <code>prepare.data()</code> step on each BAM separately before passing to the <code>compare.replicates()</code> function.</p>
-<p>CHiCANE can merge replicates at the data processing step. If more than one BAM file is available, these can be passed as a vector to the <code>bam</code> parameter of the <code>chicane()</code> and <code>prepare.data()</code> functions. The <code>replicate.merging.method</code> parameter determines how replicates are merged. Available options are ‘sum’ and ‘weighted-sum’, with the former being the default.</p>
+<p>CHiCANE can merge replicates at the data processing step. If more than one BAM file is available, these can be passed as a vector to the <code>bam</code> parameter of the <code>chicane()</code> and <code>prepare.data()</code> functions. The <code>replicate.merging.method</code> parameter determines how replicates are merged. Available options are ‘sum’ and ‘weighted-sum,’ with the former being the default.</p>
 </div>
 <div id="assessing-model-fits" class="section level2">
 <h2>Assessing model fits</h2>
@@ -594,7 +403,7 @@ Var(Y) = \mu + \frac{\mu^2}{\theta}
 </div>
 <div id="visualising-interaction-peaks-in-washu-epigenome-browser" class="section level2">
 <h2>Visualising interaction peaks in WashU Epigenome Browser</h2>
-<p>CHiCANE also contains a function to convert its results into a format compatible with the WashU Epigenome Browser <span class="citation">(Li et al. 2019)</span>, <code>create.standard.format()</code>. The path to significant interaction calling results is provided to the <code>chicane.results</code> parameter and the desired name for the output file is passed to <code>file.name</code>. Once standard format is obtained it can be uploaded to the browser from the ‘Tracks’ dropdown, selecting ‘Local Text tracks’. In the upload window select ‘long-range format by CHiCANE’ as the text file type and then your standard format file in ‘Browse’. Once the track is loaded in the browser, you can right click on the track and set the Display Mode to ‘ARC’.</p>
+<p>CHiCANE also contains a function to convert its results into a format compatible with the WashU Epigenome Browser <span class="citation">(Li et al. 2019)</span>, <code>convert.standard.format()</code>. The path to significant interaction calling results is provided to the <code>chicane.results</code> parameter and the desired name for the output file is passed to <code>file.name</code>. Once standard format is obtained it can be uploaded to the browser from the ‘Tracks’ dropdown, selecting ‘Local Text tracks.’ In the upload window select ‘long-range format by CHiCANE’ as the text file type and then your standard format file in ‘Browse.’ Once the track is loaded in the browser, you can right click on the track and set the Display Mode to ‘ARC.’</p>
 </div>
 <div id="locus-plot" class="section level2">
 <h2>Locus plots</h2>
@@ -608,17 +417,17 @@ Var(Y) = \mu + \frac{\mu^2}{\theta}
 <li>Interactions below user-specified FDR threshold</li>
 </ol>
 <p>The user needs to provide the genome build to the <code>genome</code> parameter and coordinates of the locus desired to be plotted to the <code>chr</code>, <code>start</code>, and <code>end</code> parameters. A genome annotation file in GTF format needs to be provided to <code>gene.data</code>. The genomic feature chosen to be included will be passed as a BED format file to <code>genomic.features</code> and the desired name for this track is passed as <code>feature.name</code>. Finally, the path to the FULL interaction calls table is passed to <code>interaction.data</code> and the name for the output plot is set by <code>file.name</code>. By default only interactions below an FDR threshold of 0.05 will be included in the interactions track; a user can override this default by setting the `fdr.filter’ parameter. A brief example keeping all other parameters at default is shown below:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="cf">if</span>( <span class="kw">bedtools.installed</span>() ) {</span>
-<span id="cb6-2"><a href="#cb6-2"></a>  <span class="kw">create.locus.plot</span>(</span>
-<span id="cb6-3"><a href="#cb6-3"></a>    <span class="dt">genome =</span> <span class="st">&#39;hg38&#39;</span>,</span>
-<span id="cb6-4"><a href="#cb6-4"></a>    <span class="dt">chr =</span> <span class="st">&#39;chr2&#39;</span>, <span class="dt">start =</span> <span class="dv">111100000</span>, <span class="dt">end =</span> <span class="dv">112200000</span>,</span>
-<span id="cb6-5"><a href="#cb6-5"></a>    <span class="dt">gene.data =</span> <span class="st">&#39;/path/to/gene_data.gtf&#39;</span>,</span>
-<span id="cb6-6"><a href="#cb6-6"></a>    <span class="dt">genomic.features =</span> <span class="st">&#39;/path/to/baitmap.bed&#39;</span>,</span>
-<span id="cb6-7"><a href="#cb6-7"></a>    <span class="dt">feature.name =</span> <span class="st">&#39;baits&#39;</span>,</span>
-<span id="cb6-8"><a href="#cb6-8"></a>    <span class="dt">interaction.data =</span> <span class="st">&#39;/path/to/interaction_calls.txt&#39;</span>,</span>
-<span id="cb6-9"><a href="#cb6-9"></a>    <span class="dt">file.name =</span> <span class="st">&#39;/path/to/locus_plot.pdf&#39;</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a>    ); </span>
-<span id="cb6-11"><a href="#cb6-11"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>( <span class="fu">bedtools.installed</span>() ) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">create.locus.plot</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">genome =</span> <span class="st">&#39;hg38&#39;</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">chr =</span> <span class="st">&#39;chr2&#39;</span>, <span class="at">start =</span> <span class="dv">111100000</span>, <span class="at">end =</span> <span class="dv">112200000</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gene.data =</span> <span class="st">&#39;/path/to/gene_data.gtf&#39;</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">genomic.features =</span> <span class="st">&#39;/path/to/baitmap.bed&#39;</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">feature.name =</span> <span class="st">&#39;baits&#39;</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">interaction.data =</span> <span class="st">&#39;/path/to/interaction_calls.txt&#39;</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">file.name =</span> <span class="st">&#39;/path/to/locus_plot.pdf&#39;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    ); </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="background-interactions" class="section level2">
 <h2>Background Interactions</h2>
@@ -630,169 +439,169 @@ Var(Y) = \mu + \frac{\mu^2}{\theta}
 <p>The code in this workflow is intended to be run on Baxter T-47D from the Zenodo directory of Supplementary Data for our manuscript at: <a href="https://zenodo.org/record/4073433" class="uri">https://zenodo.org/record/4073433</a></p>
 <p>First pre-processing of input files needs to be completed as discussed above (see <a href="#preprocessing">Pre-Processing Data</a>). The BAM files referred to in this vignette have been created using HiCUP, the digested fragments were processed with the <code>convert.hicup.digest.bed()</code> function, and the baitmap was created via <code>bedtools intersect</code> between the aforementioned fragments and array bait probes used in the capture step. The fragments used here (hg38, HindIII digested) are found in Zenodo directory under <code>data/</code> and the baitmap is found in <code>data/captured_fragments/T47D/</code> as used in the <code>prepare.data()</code> call below.</p>
 <p>The interactions data table can then be prepared with these processed inputs (aligned BAMs, fragments BED, and baitmap BED). The resulting output can then be saved before being passed to the main <code>chicane()</code> function for interaction calling. Once completed save both the full interaction calls results as well as calls filtered for significance to be used for different purposes.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="cf">if</span>( <span class="kw">bedtools.installed</span>() ) {</span>
-<span id="cb7-2"><a href="#cb7-2"></a></span>
-<span id="cb7-3"><a href="#cb7-3"></a>  <span class="co"># initial prep of interactions data table</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a>  interaction.data &lt;-<span class="st"> </span><span class="kw">prepare.data</span>(</span>
-<span id="cb7-5"><a href="#cb7-5"></a>    <span class="dt">bam =</span> <span class="kw">list.files</span>(<span class="st">&#39;data/bams/T47D&#39;</span>, <span class="dt">pattern =</span> <span class="st">&#39;.bam&#39;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>),</span>
-<span id="cb7-6"><a href="#cb7-6"></a>    <span class="dt">baits =</span> <span class="st">&#39;data/captured_fragments/T47D/Baxter_captured_fragments.bed&#39;</span>,</span>
-<span id="cb7-7"><a href="#cb7-7"></a>    <span class="dt">fragments =</span> <span class="st">&#39;data/GRCh38_HindIII_fragments.bed&#39;</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a>    );</span>
-<span id="cb7-9"><a href="#cb7-9"></a></span>
-<span id="cb7-10"><a href="#cb7-10"></a>  <span class="co"># save interactions data table</span></span>
-<span id="cb7-11"><a href="#cb7-11"></a>  file.name &lt;-<span class="st"> </span><span class="kw">tempfile</span>(<span class="st">&#39;interaction_data&#39;</span>);</span>
-<span id="cb7-12"><a href="#cb7-12"></a>  <span class="kw">write.table</span>(interaction.data, file.name, <span class="dt">row.names =</span> <span class="ot">FALSE</span>);</span>
-<span id="cb7-13"><a href="#cb7-13"></a></span>
-<span id="cb7-14"><a href="#cb7-14"></a>  <span class="co"># run interaction calling and save model fit plots and statistics</span></span>
-<span id="cb7-15"><a href="#cb7-15"></a>  chicane.results &lt;-<span class="st"> </span><span class="kw">chicane</span>(</span>
-<span id="cb7-16"><a href="#cb7-16"></a>    <span class="dt">interactions =</span> file.name, </span>
-<span id="cb7-17"><a href="#cb7-17"></a>    <span class="dt">interim.data.dir =</span> <span class="st">&#39;graphs/T47D/model_fits&#39;</span></span>
-<span id="cb7-18"><a href="#cb7-18"></a>    ); </span>
-<span id="cb7-19"><a href="#cb7-19"></a></span>
-<span id="cb7-20"><a href="#cb7-20"></a>  <span class="co"># save full interaction calls table</span></span>
-<span id="cb7-21"><a href="#cb7-21"></a>  <span class="kw">write.table</span>(</span>
-<span id="cb7-22"><a href="#cb7-22"></a>    chicane.results, </span>
-<span id="cb7-23"><a href="#cb7-23"></a>    <span class="dt">file =</span> <span class="st">&#39;data/chicane/T47D/interaction_calls.txt&#39;</span>, </span>
-<span id="cb7-24"><a href="#cb7-24"></a>    <span class="dt">row.names =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb7-25"><a href="#cb7-25"></a>    <span class="dt">quote =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb7-26"><a href="#cb7-26"></a>    <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span></span>
-<span id="cb7-27"><a href="#cb7-27"></a>    );</span>
-<span id="cb7-28"><a href="#cb7-28"></a></span>
-<span id="cb7-29"><a href="#cb7-29"></a>  <span class="co"># filter for significant only and save these results separately</span></span>
-<span id="cb7-30"><a href="#cb7-30"></a>  significant.results &lt;-<span class="st"> </span>chicane.results[q.value <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>]</span>
-<span id="cb7-31"><a href="#cb7-31"></a></span>
-<span id="cb7-32"><a href="#cb7-32"></a>  <span class="kw">write.table</span>(</span>
-<span id="cb7-33"><a href="#cb7-33"></a>    significant.results, </span>
-<span id="cb7-34"><a href="#cb7-34"></a>    <span class="dt">file =</span> <span class="st">&#39;data/chicane/T47D/interaction_calls_significant.txt&#39;</span>, </span>
-<span id="cb7-35"><a href="#cb7-35"></a>    <span class="dt">row.names =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb7-36"><a href="#cb7-36"></a>    <span class="dt">quote =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb7-37"><a href="#cb7-37"></a>    <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span></span>
-<span id="cb7-38"><a href="#cb7-38"></a>    );</span>
-<span id="cb7-39"><a href="#cb7-39"></a></span>
-<span id="cb7-40"><a href="#cb7-40"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>( <span class="fu">bedtools.installed</span>() ) {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># initial prep of interactions data table</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  interaction.data <span class="ot">&lt;-</span> <span class="fu">prepare.data</span>(</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">bam =</span> <span class="fu">list.files</span>(<span class="st">&#39;data/bams/T47D&#39;</span>, <span class="at">pattern =</span> <span class="st">&#39;.bam&#39;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">baits =</span> <span class="st">&#39;data/captured_fragments/T47D/Baxter_captured_fragments.bed&#39;</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fragments =</span> <span class="st">&#39;data/GRCh38_HindIII_fragments.bed&#39;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># save interactions data table</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  file.name <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="st">&#39;interaction_data&#39;</span>);</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write.table</span>(interaction.data, file.name, <span class="at">row.names =</span> <span class="cn">FALSE</span>);</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># run interaction calling and save model fit plots and statistics</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  chicane.results <span class="ot">&lt;-</span> <span class="fu">chicane</span>(</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">interactions =</span> file.name, </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">interim.data.dir =</span> <span class="st">&#39;graphs/T47D/model_fits&#39;</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    ); </span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># save full interaction calls table</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write.table</span>(</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    chicane.results, </span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> <span class="st">&#39;data/chicane/T47D/interaction_calls.txt&#39;</span>, </span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">row.names =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">quote =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">&#39;</span><span class="sc">\t</span><span class="st">&#39;</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter for significant only and save these results separately</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  significant.results <span class="ot">&lt;-</span> chicane.results[q.value <span class="sc">&lt;</span> <span class="fl">0.05</span>]</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write.table</span>(</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    significant.results, </span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> <span class="st">&#39;data/chicane/T47D/interaction_calls_significant.txt&#39;</span>, </span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">row.names =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">quote =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">&#39;</span><span class="sc">\t</span><span class="st">&#39;</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>After completion of interaction calling, the model fit plots and statistics in the <code>interim.data.dir</code> should be examined to ensure goodness of fit (detailed discussion of this in manuscript). Additionally, it is useful to examine the proportion of bait-to-bait, <span class="math inline">\(cis\)</span> and <span class="math inline">\(trans\)</span> interactions in the significant calls and the number of interaction calls by distance bins, which can be done with the following code:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="cf">if</span>( <span class="kw">bedtools.installed</span>() ) {</span>
-<span id="cb8-2"><a href="#cb8-2"></a></span>
-<span id="cb8-3"><a href="#cb8-3"></a>  <span class="co"># calculate proportions by interaction type</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a>  total &lt;-<span class="st"> </span><span class="kw">nrow</span>(significant.results);</span>
-<span id="cb8-5"><a href="#cb8-5"></a>  trans.prop &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">is.na</span>(significant.results<span class="op">$</span>distance))<span class="op">/</span>total;</span>
-<span id="cb8-6"><a href="#cb8-6"></a>  cis.prop &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="op">!</span><span class="kw">is.na</span>(significant.results<span class="op">$</span>distance))<span class="op">/</span>total;</span>
-<span id="cb8-7"><a href="#cb8-7"></a>  b2b.prop &lt;-<span class="st"> </span><span class="kw">sum</span>(significant.results<span class="op">$</span>bait.to.bait)<span class="op">/</span>total;</span>
-<span id="cb8-8"><a href="#cb8-8"></a>  int.data &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;trans&#39;</span> =<span class="st"> </span>trans.prop, <span class="st">&#39;cis&#39;</span> =<span class="st"> </span>cis.prop, <span class="st">&#39;bait.to.bait&#39;</span> =<span class="st"> </span>b2b.prop);</span>
-<span id="cb8-9"><a href="#cb8-9"></a>  <span class="kw">print</span>(int.data);</span>
-<span id="cb8-10"><a href="#cb8-10"></a></span>
-<span id="cb8-11"><a href="#cb8-11"></a>  <span class="co"># get number of interactions by distance bins</span></span>
-<span id="cb8-12"><a href="#cb8-12"></a>  binned.data &lt;-<span class="st"> </span><span class="ot">NULL</span>;</span>
-<span id="cb8-13"><a href="#cb8-13"></a></span>
-<span id="cb8-14"><a href="#cb8-14"></a>  distance.bins &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb8-15"><a href="#cb8-15"></a>    <span class="st">&quot;0-10kbp&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">1e4</span>),</span>
-<span id="cb8-16"><a href="#cb8-16"></a>    <span class="st">&quot;10-100kbp&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="fl">1e4</span>, <span class="fl">1e5</span>),</span>
-<span id="cb8-17"><a href="#cb8-17"></a>    <span class="st">&quot;100kbp-1Mbp&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="fl">1e5</span>, <span class="fl">1e6</span>),</span>
-<span id="cb8-18"><a href="#cb8-18"></a>    <span class="st">&quot;1-10Mbp&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="fl">1e6</span>, <span class="fl">1e7</span>),</span>
-<span id="cb8-19"><a href="#cb8-19"></a>    <span class="st">&quot;10-100Mbp&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="fl">1e7</span>, <span class="fl">1e8</span>),</span>
-<span id="cb8-20"><a href="#cb8-20"></a>    <span class="st">&quot;100-1000Mbp&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="fl">1e8</span>, <span class="fl">1e9</span>)</span>
-<span id="cb8-21"><a href="#cb8-21"></a>    );</span>
-<span id="cb8-22"><a href="#cb8-22"></a></span>
-<span id="cb8-23"><a href="#cb8-23"></a>  <span class="cf">for</span>(dist.i <span class="cf">in</span> <span class="kw">names</span>(distance.bins)){</span>
-<span id="cb8-24"><a href="#cb8-24"></a>    bin.sum &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">which</span>(significant.results<span class="op">$</span>distance <span class="op">&gt;=</span><span class="st"> </span>distance.bins[[dist.i]][<span class="dv">1</span>] <span class="op">&amp;</span><span class="st"> </span>significant.results<span class="op">$</span>distance <span class="op">&lt;</span><span class="st"> </span>distance.bins[[dist.i]][<span class="dv">2</span>]));</span>
-<span id="cb8-25"><a href="#cb8-25"></a>    binned.data &lt;-<span class="st"> </span><span class="kw">cbind</span>(binned.data, bin.sum);</span>
-<span id="cb8-26"><a href="#cb8-26"></a>    }</span>
-<span id="cb8-27"><a href="#cb8-27"></a></span>
-<span id="cb8-28"><a href="#cb8-28"></a>  <span class="kw">colnames</span>(binned.data) &lt;-<span class="st"> </span><span class="kw">names</span>(distance.bins);</span>
-<span id="cb8-29"><a href="#cb8-29"></a>  <span class="kw">print</span>(binned.data);</span>
-<span id="cb8-30"><a href="#cb8-30"></a></span>
-<span id="cb8-31"><a href="#cb8-31"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>( <span class="fu">bedtools.installed</span>() ) {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calculate proportions by interaction type</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  total <span class="ot">&lt;-</span> <span class="fu">nrow</span>(significant.results);</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  trans.prop <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(significant.results<span class="sc">$</span>distance))<span class="sc">/</span>total;</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  cis.prop <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(significant.results<span class="sc">$</span>distance))<span class="sc">/</span>total;</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  b2b.prop <span class="ot">&lt;-</span> <span class="fu">sum</span>(significant.results<span class="sc">$</span>bait.to.bait)<span class="sc">/</span>total;</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  int.data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;trans&#39;</span> <span class="ot">=</span> trans.prop, <span class="st">&#39;cis&#39;</span> <span class="ot">=</span> cis.prop, <span class="st">&#39;bait.to.bait&#39;</span> <span class="ot">=</span> b2b.prop);</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(int.data);</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get number of interactions by distance bins</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  binned.data <span class="ot">&lt;-</span> <span class="cn">NULL</span>;</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  distance.bins <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;0-10kbp&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1e4</span>),</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;10-100kbp&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">1e4</span>, <span class="fl">1e5</span>),</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;100kbp-1Mbp&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">1e5</span>, <span class="fl">1e6</span>),</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;1-10Mbp&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">1e6</span>, <span class="fl">1e7</span>),</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;10-100Mbp&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">1e7</span>, <span class="fl">1e8</span>),</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;100-1000Mbp&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">1e8</span>, <span class="fl">1e9</span>)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(dist.i <span class="cf">in</span> <span class="fu">names</span>(distance.bins)){</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    bin.sum <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">which</span>(significant.results<span class="sc">$</span>distance <span class="sc">&gt;=</span> distance.bins[[dist.i]][<span class="dv">1</span>] <span class="sc">&amp;</span> significant.results<span class="sc">$</span>distance <span class="sc">&lt;</span> distance.bins[[dist.i]][<span class="dv">2</span>]));</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    binned.data <span class="ot">&lt;-</span> <span class="fu">cbind</span>(binned.data, bin.sum);</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(binned.data) <span class="ot">&lt;-</span> <span class="fu">names</span>(distance.bins);</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(binned.data);</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Once the interaction calls are determined to be reasonable, it is useful to examine the significant interactions in context. Uploading the files to the WashU Epigenome Browser is a quick and user-friendly way to do so. Use the CHiCANE helper function to easily convert to the correct format for the browser.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="cf">if</span>( <span class="kw">bedtools.installed</span>() ) {</span>
-<span id="cb9-2"><a href="#cb9-2"></a></span>
-<span id="cb9-3"><a href="#cb9-3"></a>  <span class="co"># make a browser compatible file from significant interactions</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a>  browser.file &lt;-<span class="st"> </span><span class="kw">tempfile</span>(<span class="st">&#39;significant_calls_standard.txt&#39;</span>)</span>
-<span id="cb9-5"><a href="#cb9-5"></a>  <span class="kw">create.standard.format</span>(</span>
-<span id="cb9-6"><a href="#cb9-6"></a>    <span class="dt">chicane.results =</span> <span class="st">&#39;data/chicane/T47D/interaction_calls_significant.txt&#39;</span>,</span>
-<span id="cb9-7"><a href="#cb9-7"></a>    <span class="dt">file.name =</span> browser.file</span>
-<span id="cb9-8"><a href="#cb9-8"></a>    );</span>
-<span id="cb9-9"><a href="#cb9-9"></a></span>
-<span id="cb9-10"><a href="#cb9-10"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>( <span class="fu">bedtools.installed</span>() ) {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># make a browser compatible file from significant interactions</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  browser.file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="st">&#39;significant_calls_standard.txt&#39;</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">convert.standard.format</span>(</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">chicane.results =</span> <span class="st">&#39;data/chicane/T47D/interaction_calls_significant.txt&#39;</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">file.name =</span> browser.file</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Viewing in the browser will help to elucidate interaction peaks for loci of interest, then a user can make a plot of interactions at a particular locus using another of CHiCANE’s helper functions. In the following example we plot interactions at the 2q35 locus.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="cf">if</span>( <span class="kw">bedtools.installed</span>() ) {</span>
-<span id="cb10-2"><a href="#cb10-2"></a></span>
-<span id="cb10-3"><a href="#cb10-3"></a>  <span class="co"># set genome annotation file </span></span>
-<span id="cb10-4"><a href="#cb10-4"></a>  gene.ann &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&#39;extdata&#39;</span>, <span class="st">&#39;gencode_2q35.gtf&#39;</span>, <span class="dt">package =</span> <span class="st">&#39;chicane&#39;</span>);</span>
-<span id="cb10-5"><a href="#cb10-5"></a></span>
-<span id="cb10-6"><a href="#cb10-6"></a>  <span class="co"># generate 2q35 locus plot</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a>  <span class="kw">create.locus.plot</span>(</span>
-<span id="cb10-8"><a href="#cb10-8"></a>    <span class="dt">genome =</span> <span class="st">&#39;hg38&#39;</span>,</span>
-<span id="cb10-9"><a href="#cb10-9"></a>    <span class="dt">chr =</span> <span class="st">&#39;chr2&#39;</span>,</span>
-<span id="cb10-10"><a href="#cb10-10"></a>    <span class="dt">start =</span> <span class="dv">216600000</span>,</span>
-<span id="cb10-11"><a href="#cb10-11"></a>    <span class="dt">end =</span> <span class="dv">217140000</span>,</span>
-<span id="cb10-12"><a href="#cb10-12"></a>    <span class="dt">gene.data =</span> gene.ann,</span>
-<span id="cb10-13"><a href="#cb10-13"></a>    <span class="dt">genomic.features =</span> <span class="st">&#39;data/captured_fragments/T47D/Baxter_captured_fragments.bed&#39;</span>,</span>
-<span id="cb10-14"><a href="#cb10-14"></a>    <span class="dt">feature.name =</span> <span class="st">&#39;baits&#39;</span>,</span>
-<span id="cb10-15"><a href="#cb10-15"></a>    <span class="dt">interaction.data =</span> <span class="st">&#39;data/chicane/T47D/interaction_calls.txt&#39;</span>,</span>
-<span id="cb10-16"><a href="#cb10-16"></a>    <span class="dt">file.name =</span> <span class="st">&#39;graphs/T47D/2q35.pdf&#39;</span></span>
-<span id="cb10-17"><a href="#cb10-17"></a>    );</span>
-<span id="cb10-18"><a href="#cb10-18"></a></span>
-<span id="cb10-19"><a href="#cb10-19"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>( <span class="fu">bedtools.installed</span>() ) {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># set genome annotation file </span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  gene.ann <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&#39;extdata&#39;</span>, <span class="st">&#39;gencode_2q35.gtf&#39;</span>, <span class="at">package =</span> <span class="st">&#39;chicane&#39;</span>);</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># generate 2q35 locus plot</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">create.locus.plot</span>(</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">genome =</span> <span class="st">&#39;hg38&#39;</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">chr =</span> <span class="st">&#39;chr2&#39;</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">start =</span> <span class="dv">216600000</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">end =</span> <span class="dv">217140000</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">gene.data =</span> gene.ann,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">genomic.features =</span> <span class="st">&#39;data/captured_fragments/T47D/Baxter_captured_fragments.bed&#39;</span>,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">feature.name =</span> <span class="st">&#39;baits&#39;</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">interaction.data =</span> <span class="st">&#39;data/chicane/T47D/interaction_calls.txt&#39;</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">file.name =</span> <span class="st">&#39;graphs/T47D/2q35.pdf&#39;</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="session-info" class="section level1">
 <h1>Session Info</h1>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">sessionInfo</span>();</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt; R version 3.6.1 (2019-07-05)</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="co">#&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="co">#&gt; Running under: macOS Sierra 10.12.6</span></span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="co">#&gt; </span></span>
-<span id="cb11-6"><a href="#cb11-6"></a><span class="co">#&gt; Matrix products: default</span></span>
-<span id="cb11-7"><a href="#cb11-7"></a><span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib</span></span>
-<span id="cb11-8"><a href="#cb11-8"></a><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib</span></span>
-<span id="cb11-9"><a href="#cb11-9"></a><span class="co">#&gt; </span></span>
-<span id="cb11-10"><a href="#cb11-10"></a><span class="co">#&gt; locale:</span></span>
-<span id="cb11-11"><a href="#cb11-11"></a><span class="co">#&gt; [1] C/en_GB.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8</span></span>
-<span id="cb11-12"><a href="#cb11-12"></a><span class="co">#&gt; </span></span>
-<span id="cb11-13"><a href="#cb11-13"></a><span class="co">#&gt; attached base packages:</span></span>
-<span id="cb11-14"><a href="#cb11-14"></a><span class="co">#&gt; [1] parallel  splines   stats     graphics  grDevices utils     datasets </span></span>
-<span id="cb11-15"><a href="#cb11-15"></a><span class="co">#&gt; [8] methods   base     </span></span>
-<span id="cb11-16"><a href="#cb11-16"></a><span class="co">#&gt; </span></span>
-<span id="cb11-17"><a href="#cb11-17"></a><span class="co">#&gt; other attached packages:</span></span>
-<span id="cb11-18"><a href="#cb11-18"></a><span class="co">#&gt; [1] chicane_0.1.5     data.table_1.12.8 gamlss.tr_5.1-0   gamlss_5.1-6     </span></span>
-<span id="cb11-19"><a href="#cb11-19"></a><span class="co">#&gt; [5] nlme_3.1-148      gamlss.data_5.1-4 gamlss.dist_5.1-6 MASS_7.3-51.6    </span></span>
-<span id="cb11-20"><a href="#cb11-20"></a><span class="co">#&gt; </span></span>
-<span id="cb11-21"><a href="#cb11-21"></a><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
-<span id="cb11-22"><a href="#cb11-22"></a><span class="co">#&gt;  [1] Rcpp_1.0.4.6         compiler_3.6.1       formatR_1.7         </span></span>
-<span id="cb11-23"><a href="#cb11-23"></a><span class="co">#&gt;  [4] bedr_1.0.7           futile.logger_1.4.3  iterators_1.0.12    </span></span>
-<span id="cb11-24"><a href="#cb11-24"></a><span class="co">#&gt;  [7] R.methodsS3_1.8.0    futile.options_1.0.1 R.utils_2.9.2       </span></span>
-<span id="cb11-25"><a href="#cb11-25"></a><span class="co">#&gt; [10] tools_3.6.1          testthat_2.3.2       digest_0.6.25       </span></span>
-<span id="cb11-26"><a href="#cb11-26"></a><span class="co">#&gt; [13] evaluate_0.14        lattice_0.20-41      rlang_0.4.9         </span></span>
-<span id="cb11-27"><a href="#cb11-27"></a><span class="co">#&gt; [16] Matrix_1.2-18        foreach_1.5.0        yaml_2.2.1          </span></span>
-<span id="cb11-28"><a href="#cb11-28"></a><span class="co">#&gt; [19] VennDiagram_1.6.20   xfun_0.14            stringr_1.4.0       </span></span>
-<span id="cb11-29"><a href="#cb11-29"></a><span class="co">#&gt; [22] knitr_1.28           grid_3.6.1           R6_2.4.1            </span></span>
-<span id="cb11-30"><a href="#cb11-30"></a><span class="co">#&gt; [25] survival_3.1-12      rmarkdown_2.1        lambda.r_1.2.4      </span></span>
-<span id="cb11-31"><a href="#cb11-31"></a><span class="co">#&gt; [28] magrittr_1.5         codetools_0.2-16     htmltools_0.4.0     </span></span>
-<span id="cb11-32"><a href="#cb11-32"></a><span class="co">#&gt; [31] stringi_1.4.6        R.oo_1.23.0</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>();</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R version 4.1.0 (2021-05-18)</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Platform: x86_64-conda-linux-gnu (64-bit)</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running under: CentOS Linux 8 (Core)</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix products: default</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BLAS/LAPACK: /data/scratch/DBC/UBCN/BCRBIOIN/SHARED/software/conda_envs/R-4.1.0/lib/libopenblasp-r0.3.15.so</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; locale:</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] C</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; attached base packages:</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] parallel  splines   stats     graphics  grDevices utils     datasets </span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [8] methods   base     </span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; other attached packages:</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] chicane_0.1.6     data.table_1.14.0 gamlss.tr_5.1-7   gamlss_5.3-4     </span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] nlme_3.1-152      gamlss.data_6.0-1 gamlss.dist_5.3-2 MASS_7.3-54      </span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] bslib_0.2.5.1        compiler_4.1.0       formatR_1.11        </span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4] jquerylib_0.1.4      bedr_1.0.7           futile.logger_1.4.3 </span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] iterators_1.0.13     R.methodsS3_1.8.1    futile.options_1.0.1</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10] R.utils_2.10.1       tools_4.1.0          testthat_3.0.3      </span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] digest_0.6.27        jsonlite_1.7.2       evaluate_0.14       </span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [16] lattice_0.20-44      rlang_0.4.11         foreach_1.5.1       </span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] Matrix_1.3-4         yaml_2.2.1           VennDiagram_1.6.20  </span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [22] xfun_0.24            stringr_1.4.0        knitr_1.33          </span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] sass_0.4.0           grid_4.1.0           R6_2.5.0            </span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [28] survival_3.2-11      rmarkdown_2.9        lambda.r_1.2.4      </span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [31] magrittr_2.0.1       codetools_0.2-18     htmltools_0.5.1.1   </span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [34] stringi_1.6.2        R.oo_1.24.0</span></span></code></pre></div>
 </div>
 <div id="acknowledgements" class="section level1">
 <h1>Acknowledgements</h1>
 <p>Development of CHiCANE was supported by <a href="https://breastcancernow.org:443/">Breast Cancer Now</a>.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
-<h1>References</h1>
-<div id="refs" class="references">
-<div id="ref-baxter2018">
-<p>Baxter, Joseph S, Olivia C Leavy, Nicola H Dryden, Sarah Maguire, Nichola Johnson, Vita Fedele, Nikiana Simigdala, et al. 2018. “Capture Hi-c Identifies Putative Target Genes at 33 Breast Cancer Risk Loci.” <em>Nature Communications</em> 9 (1): 1028.</p>
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-baxter2018" class="csl-entry">
+Baxter, Joseph S, Olivia C Leavy, Nicola H Dryden, Sarah Maguire, Nichola Johnson, Vita Fedele, Nikiana Simigdala, et al. 2018. <span>“Capture Hi-c Identifies Putative Target Genes at 33 Breast Cancer Risk Loci.”</span> <em>Nature Communications</em> 9 (1): 1028.
 </div>
-<div id="ref-cairns2016">
-<p>Cairns, Jonathan, Paula Freire-Pritchett, Steven W Wingett, Csilla Várnai, Andrew Dimond, Vincent Plagnol, Daniel Zerbino, et al. 2016. “CHiCAGO: Robust Detection of Dna Looping Interactions in Capture Hi-c Data.” <em>Genome Biology</em> 17 (1): 127.</p>
+<div id="ref-cairns2016" class="csl-entry">
+Cairns, Jonathan, Paula Freire-Pritchett, Steven W Wingett, Csilla Várnai, Andrew Dimond, Vincent Plagnol, Daniel Zerbino, et al. 2016. <span>“CHiCAGO: Robust Detection of DNA Looping Interactions in Capture Hi-c Data.”</span> <em>Genome Biology</em> 17 (1): 127.
 </div>
-<div id="ref-dryden2014">
-<p>Dryden, Nicola H, Laura R Broome, Frank Dudbridge, Nichola Johnson, Nick Orr, Stefan Schoenfelder, Takashi Nagano, et al. 2014. “Unbiased Analysis of Potential Targets of Breast Cancer Susceptibility Loci by Capture Hi-c.” <em>Genome Research</em> 24 (11): 1854–68.</p>
+<div id="ref-dryden2014" class="csl-entry">
+Dryden, Nicola H, Laura R Broome, Frank Dudbridge, Nichola Johnson, Nick Orr, Stefan Schoenfelder, Takashi Nagano, et al. 2014. <span>“Unbiased Analysis of Potential Targets of Breast Cancer Susceptibility Loci by Capture Hi-c.”</span> <em>Genome Research</em> 24 (11): 1854–68.
 </div>
-<div id="ref-gviz">
-<p>Hahne, Florian, and Robert Ivanek. 2016. “Statistical Genomics: Methods and Protocols.” In, edited by Ewy Mathé and Sean Davis, 335–51. New York, NY: Springer New York. <a href="https://doi.org/10.1007/978-1-4939-3578-9_16">https://doi.org/10.1007/978-1-4939-3578-9_16</a>.</p>
+<div id="ref-gviz" class="csl-entry">
+Hahne, Florian, and Robert Ivanek. 2016. <span>“Statistical Genomics: Methods and Protocols.”</span> In, edited by Ewy Mathé and Sean Davis, 335–51. New York, NY: Springer New York. <a href="https://doi.org/10.1007/978-1-4939-3578-9_16">https://doi.org/10.1007/978-1-4939-3578-9_16</a>.
 </div>
-<div id="ref-10.1093/nar/gkz348">
-<p>Li, Daofeng, Silas Hsu, Deepak Purushotham, Renee L Sears, and Ting Wang. 2019. “WashU Epigenome Browser update 2019.” <em>Nucleic Acids Research</em> 47 (W1): W158–W165. <a href="https://doi.org/10.1093/nar/gkz348">https://doi.org/10.1093/nar/gkz348</a>.</p>
+<div id="ref-10.1093/nar/gkz348" class="csl-entry">
+Li, Daofeng, Silas Hsu, Deepak Purushotham, Renee L Sears, and Ting Wang. 2019. <span>“<span class="nocase">WashU Epigenome Browser update 2019</span>.”</span> <em>Nucleic Acids Research</em> 47 (W1): W158–65. <a href="https://doi.org/10.1093/nar/gkz348">https://doi.org/10.1093/nar/gkz348</a>.
 </div>
-<div id="ref-stasinopoulos2016">
-<p>Stasinopoulos, Mikis, and Bob Rigby. 2016. <em>Gamlss.tr: Generating and Fitting Truncated “Gamlss.family” Distributions</em>. <a href="https://CRAN.R-project.org/package=gamlss.tr">https://CRAN.R-project.org/package=gamlss.tr</a>.</p>
+<div id="ref-stasinopoulos2016" class="csl-entry">
+Stasinopoulos, Mikis, and Bob Rigby. 2016. <em>Gamlss.tr: Generating and Fitting Truncated <span>‘Gamlss.family’</span> Distributions</em>. <a href="https://CRAN.R-project.org/package=gamlss.tr">https://CRAN.R-project.org/package=gamlss.tr</a>.
 </div>
 </div>
 </div>

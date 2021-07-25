@@ -147,7 +147,7 @@ print( adjusted.results[ 1:5 ] );
 #  
 #    # make a browser compatible file from significant interactions
 #    browser.file <- tempfile('significant_calls_standard.txt')
-#    create.standard.format(
+#    convert.standard.format(
 #      chicane.results = 'data/chicane/T47D/interaction_calls_significant.txt',
 #      file.name = browser.file
 #      );
