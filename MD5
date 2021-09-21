@@ -1,7 +1,7 @@
-b98e4b1f1373341abf6aa230d72977b4 *DESCRIPTION
+d34172c2ae747b75f2f2b4c2c351739f *DESCRIPTION
 4760b8cea42bdf9e2bd0ee4e5ffa14b2 *NAMESPACE
-b385d2c43d26f212682e9708fd81cab9 *NEWS
-508b9910bb91c795bc52550d13a3b474 *R/add.covariates.R
+93cfbcf63974f524105299ef4a86b2a5 *NEWS
+7ba7302aff9bc05429c604f44d53ccaa *R/add.covariates.R
 e141b54fdd60761cab361879a3a8622e *R/add.fragment.coordinates.R
 6a1695d418ea4f7d421e23b4fa1e79d8 *R/bedtools.installed.R
 1f7ee93e66ca073118d74f824097cafa *R/bre80.R
@@ -9,7 +9,7 @@ e141b54fdd60761cab361879a3a8622e *R/add.fragment.coordinates.R
 ae945e4b0ba2dbf234eb778f22a98a32 *R/check.split.data.numerical.fit.R
 b4051a680f988a0392db2a9f97a205e7 *R/chicane-pkg.R
 c617036da54a54b65682b05f64d0ceda *R/chicane.R
-495ca88e49f9e221940e05a57b539119 *R/combine.replicates.R
+5c4a6bd17c7063f33f926ac1dccc6817 *R/combine.replicates.R
 7a4e68cba3dec350340291ec81aacfb5 *R/compare.replicates.R
 33819fefb190916a00ddea1c67e4d4c7 *R/convert.bam.R
 87f82d85bcf9d45345c1f8a594cc4a31 *R/convert.hicup.digest.bed.R
@@ -47,10 +47,10 @@ f3c68b5f083dda85ec5addc8f3e53fd0 *data/bre80.RData
 604e8d443a30b6b19b9a6287000cca9c *inst/bin/prepare_bam.sh
 59b6fcb114f4232e12af6652c9b373c0 *inst/doc/Getting_Started.R
 515585c33dedb19a8f1f7c748ebef7e3 *inst/doc/Getting_Started.Rmd
-faff1f28099f1d5705a86e41243167b2 *inst/doc/Getting_Started.html
+ee3ac4ba1134a745d4304e0dfda247b2 *inst/doc/Getting_Started.html
 7f163cdd3bdc19996d98ff1898a0b06d *inst/doc/Visualising_Interactions.R
 43a62fba28efa85b10aa6dcc17827b09 *inst/doc/Visualising_Interactions.Rmd
-04116ea0b1108cfe5d9e25b76ddabc94 *inst/doc/Visualising_Interactions.html
+2e0b49081a1b12fb2fe254cedf1635ab *inst/doc/Visualising_Interactions.html
 9694870bc2e4418cc0da3ff1268baefa *inst/extdata/2q35.bed
 8e0324f0ea4ef14fc866fdc9d6617c0c *inst/extdata/Bre80_2q35.bam
 77de0629d4337e8589101295e928d2b0 *inst/extdata/GRCh38_HindIII_chr2.bed.gz

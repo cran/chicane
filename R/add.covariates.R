@@ -58,7 +58,7 @@ add.covariates <- function( interaction.data ) {
 		by.y = 'fragment.id',
 		all.x = TRUE
 		);
-	names(interaction.data)[ 'trans.count' == names(interaction.data) ] <- 'bait.trans.count';
+	setnames(interaction.data, 'trans.count', 'bait.trans.count');
 
 	# target count
 	interaction.data <- merge(
@@ -68,8 +68,7 @@ add.covariates <- function( interaction.data ) {
 		by.y = 'fragment.id',
 		all.x = TRUE
 		);
-
-	names(interaction.data)[ 'trans.count' == names(interaction.data) ] <- 'target.trans.count';
+	setnames(interaction.data, 'trans.count', 'target.trans.count');
 
 	# CALCULATE DISTANCE
 	interaction.data[, distance := get.distance(interaction.data)];

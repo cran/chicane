@@ -1,3 +1,8 @@
+chicane v0.1.7                                                  2021-09-20
+--------------------------------------------------
+* enabling future compatability with data.table v1.14.2 by changing syntax
+ names(data.table)['x' == names(data.table)] <- 'y' to setnames(data.table, 'x', 'y')
+
 chicane v0.1.6                                                  2021-07-20
 --------------------------------------------------
 * updated vignettes' section: Pre-processing data to detail creation of baitmap and fragments

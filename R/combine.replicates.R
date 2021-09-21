@@ -78,7 +78,7 @@ combine.replicates <- function(replicates, method = c('sum', 'weighted-sum') ) {
 			];
 
 		# rename raw data to reflect count is one of many
-		names(raw.data)[ 'count' == names(raw.data) ] <- paste0('count.', i);
+		setnames(raw.data, 'count', paste0('count.', i));
 
 		if( is.null(merged.data) ) {
 			merged.data <- raw.data;
