@@ -1,3 +1,8 @@
+chicane v0.1.8                                                  2021-11-03
+--------------------------------------------------
+* graceful handling of Gviz-UCSC error when retrieving chromosome lengths in vignettes
+  when using R-4.1.0
+
 chicane v0.1.7                                                  2021-09-20
 --------------------------------------------------
 * enabling future compatability with data.table v1.14.2 by changing syntax

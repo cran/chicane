@@ -51,7 +51,12 @@ options(ucscChromosomeNames = FALSE);
 locus <- list(chr = 'chr2', start = 217035649, end = 217042355);
 locus.id <- paste0(locus$chr, ':', locus$start, '-', locus$end);
 
-ideogram.track <- IdeogramTrack(genome = 'hg38', chromosome = locus$chr);
+ideogram.track <- tryCatch({
+	IdeogramTrack(genome = 'hg38', chromosome = locus$chr);
+	}, error = function(e) {
+	cat(e$message, '\n')
+	});
+
 genome.axis.track <- GenomeAxisTrack();
 
 # get counts and interactions involving specific locus
@@ -91,22 +96,25 @@ gene.track <- GeneRegionTrack(
     );
 
 # plot
-plotTracks(
-    list(
-        ideogram.track, 
-        genome.axis.track, 
-        gene.track,
-        interaction.count.track,
-        interaction.track
-        ),
-    sizes = c(0.4, 1, 1, 4, 3),
-    type = 'histogram',
-    transcriptAnnotation = 'symbol',
-    collapseTranscripts = 'longest',
-    col = NULL,
-    from = locus$start - 6e5,
-    to = locus$end + 8e5
-    );
+# handle Gviz - UCSC incompatibility with R-4.1.0
+if (!is.null(ideogram.track)) {
+    plotTracks(
+        list(
+            ideogram.track, 
+            genome.axis.track, 
+            gene.track,
+            interaction.count.track,
+            interaction.track
+            ),
+        sizes = c(0.4, 1, 1, 4, 3),
+        type = 'histogram',
+        transcriptAnnotation = 'symbol',
+        collapseTranscripts = 'longest',
+        col = NULL,
+        from = locus$start - 6e5,
+        to = locus$end + 8e5
+        );
+    }
 }
 ```
 
@@ -177,27 +185,29 @@ gene.track <- GeneRegionTrack(
     name = 'Genes'
     );
 
-plotTracks(
-    c(
-        list(
-            ideogram.track, 
-            genome.axis.track
-        ),
-        read.tracks,
-        list(
-            interaction.track,
-            bait.track,
-            gene.track
-            )
-        ),
-    sizes = c(0.4, 1, rep(0.2, length(read.tracks)), 2, 0.5, 1),
-    # sizes = c(0.4, 1, 1, 0.5, 1),
-    transcriptAnnotation = 'symbol',
-    collapseTranscripts = 'longest',
-    type = 'hist',
-    col = NULL,
-    from = 216150000,
-    to = 217800000
-    );
+# handle Gviz - UCSC incompatibility with R-4.1.0
+if (!is.null(ideogram.track)) {
+    plotTracks(
+        c(
+            list(
+                ideogram.track, 
+                genome.axis.track
+            ),
+            read.tracks,
+            list(
+                interaction.track,
+                bait.track,
+                gene.track
+                )
+            ),
+        sizes = c(0.4, 1, rep(0.2, length(read.tracks)), 2, 0.5, 1),
+        transcriptAnnotation = 'symbol',
+        collapseTranscripts = 'longest',
+        type = 'hist',
+        col = NULL,
+        from = 216150000,
+        to = 217800000
+        );
+    }
 }
 ```

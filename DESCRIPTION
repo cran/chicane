@@ -1,8 +1,8 @@
 Package: chicane
 Title: Capture Hi-C Analysis Engine
 Type: Package
-Version: 0.1.7
-Date: 2021-09-20
+Version: 0.1.8
+Date: 2021-11-03
 Authors@R: c(
   person("Erle", "Holgersen", role = "aut"),
   person("Olivia", "Leavy", role = "aut"),
@@ -30,6 +30,6 @@ Additional_repositories: http://R-Forge.R-project.org/
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2021-09-20 14:02:42 UTC; shaider
+Packaged: 2021-11-03 18:11:43 UTC; shaider
 Repository: CRAN
-Date/Publication: 2021-09-21 13:10:41 UTC
+Date/Publication: 2021-11-06 15:00:16 UTC

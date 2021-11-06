@@ -1,6 +1,6 @@
-d34172c2ae747b75f2f2b4c2c351739f *DESCRIPTION
+101e9b16c1868a1761f2e48e64cf6175 *DESCRIPTION
 4760b8cea42bdf9e2bd0ee4e5ffa14b2 *NAMESPACE
-93cfbcf63974f524105299ef4a86b2a5 *NEWS
+40a1eb240975786ef2a2e3999f6741a5 *NEWS
 7ba7302aff9bc05429c604f44d53ccaa *R/add.covariates.R
 e141b54fdd60761cab361879a3a8622e *R/add.fragment.coordinates.R
 6a1695d418ea4f7d421e23b4fa1e79d8 *R/bedtools.installed.R
@@ -15,7 +15,7 @@ c617036da54a54b65682b05f64d0ceda *R/chicane.R
 87f82d85bcf9d45345c1f8a594cc4a31 *R/convert.hicup.digest.bed.R
 796133fcf1cedd261a60ff3a6b663832 *R/convert.standard.format.R
 676afba2772c4bae60f97a78861eaeb8 *R/convert.to.one.based.R
-c3992c1e628cb49e4f0078d27fcfce6c *R/create.locus.plot.R
+d78d84f67ca02ecfa134b5a33d4c6ab8 *R/create.locus.plot.R
 31f3cdf1583493484d01655e69607551 *R/create.modelfit.plot.R
 250ae5f95e123075eb471af96d06f84f *R/distance.bin.R
 0783ec85e870e4f6661189ea8942fcaf *R/distance.split.R
@@ -42,15 +42,15 @@ bebec770c45504212ba57ca7522d6624 *R/smart.split.R
 ccd73f636bbfa07f208140eb367dc3bb *R/stratified.enrichment.sample.R
 d9f4d32650c1ae239871c2e1f277df39 *R/test.enrichment.R
 c747a30c3cb78dcf2b5bd82a48e110de *R/verify.interaction.data.R
-9c27c000694bc8d49dbf868ba508c369 *build/vignette.rds
+a6f6d1b68d4608976dac8e2765668ec1 *build/vignette.rds
 f3c68b5f083dda85ec5addc8f3e53fd0 *data/bre80.RData
 604e8d443a30b6b19b9a6287000cca9c *inst/bin/prepare_bam.sh
 59b6fcb114f4232e12af6652c9b373c0 *inst/doc/Getting_Started.R
 515585c33dedb19a8f1f7c748ebef7e3 *inst/doc/Getting_Started.Rmd
-ee3ac4ba1134a745d4304e0dfda247b2 *inst/doc/Getting_Started.html
-7f163cdd3bdc19996d98ff1898a0b06d *inst/doc/Visualising_Interactions.R
-43a62fba28efa85b10aa6dcc17827b09 *inst/doc/Visualising_Interactions.Rmd
-2e0b49081a1b12fb2fe254cedf1635ab *inst/doc/Visualising_Interactions.html
+cd901cdd7dc1015f772e8c1e99937fda *inst/doc/Getting_Started.html
+e4460047fff31cb2537ab0b3543ac7ce *inst/doc/Visualising_Interactions.R
+c1db5ada2e3d987e7360de934fd0c85b *inst/doc/Visualising_Interactions.Rmd
+92aba25b150715f36816020f37b7f739 *inst/doc/Visualising_Interactions.html
 9694870bc2e4418cc0da3ff1268baefa *inst/extdata/2q35.bed
 8e0324f0ea4ef14fc866fdc9d6617c0c *inst/extdata/Bre80_2q35.bam
 77de0629d4337e8589101295e928d2b0 *inst/extdata/GRCh38_HindIII_chr2.bed.gz
@@ -120,5 +120,5 @@ e5f4e3e314c0e145ce0d7a262a322afb *tests/testthat/test_read.bed.R
 dfaa597ab4e515a47238a735dbdf5875 *tests/testthat/test_test.enrichment.R
 7ffffa975fd2fa765b26e3ccc0ad6200 *tests/testthat/test_verify.interaction.data.R
 515585c33dedb19a8f1f7c748ebef7e3 *vignettes/Getting_Started.Rmd
-43a62fba28efa85b10aa6dcc17827b09 *vignettes/Visualising_Interactions.Rmd
+c1db5ada2e3d987e7360de934fd0c85b *vignettes/Visualising_Interactions.Rmd
 3328e02afd7ccfd6597a4f30cb225587 *vignettes/bibliography.bib

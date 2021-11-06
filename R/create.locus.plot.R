@@ -75,7 +75,13 @@ create.locus.plot <- function(
 
 	### MAIN ######################################################################
 
-	ideogram.track <- Gviz::IdeogramTrack(genome = genome, chromosome = chr);
+	ideogram.track <- tryCatch({
+		Gviz::IdeogramTrack(genome = genome, chromosome = chr);
+		}, error = function(e) {
+		cat(e$message, '\n')
+		});
+	if (is.null(ideogram.track)) { return (FALSE); }
+
 	genome.axis.track <- Gviz::GenomeAxisTrack();
 
 	genes.track <- Gviz::GeneRegionTrack(

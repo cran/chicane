@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2021-09-20" />
+<meta name="date" content="2021-11-03" />
 
 <title>Getting Started with Capture Hi-C Analysis Engine</title>
 
@@ -161,7 +161,7 @@ div.csl-indent {
 
 
 <h1 class="title toc-ignore">Getting Started with <strong>C</strong>apture <strong>Hi-C</strong> <strong>An</strong>alysis <strong>E</strong>ngine</h1>
-<h4 class="date">2021-09-20</h4>
+<h4 class="date">2021-11-03</h4>
 
 
 <div id="TOC">
@@ -229,55 +229,54 @@ div.csl-indent {
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; For more on GAMLSS look at https://www.gamlss.com/</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Type gamlssNews() to see new features/changes/bug fixes.</span></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: data.table</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># example BAM file, baits, and restriction fragments</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>bam <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&#39;extdata&#39;</span>, <span class="st">&#39;Bre80_2q35.bam&#39;</span>, <span class="at">package =</span> <span class="st">&#39;chicane&#39;</span>);</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>baits <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&#39;extdata&#39;</span>, <span class="st">&#39;2q35.bed&#39;</span>, <span class="at">package =</span> <span class="st">&#39;chicane&#39;</span>);</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>fragments <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&#39;extdata&#39;</span>, <span class="st">&#39;GRCh38_HindIII_chr2.bed.gz&#39;</span>, <span class="at">package =</span> <span class="st">&#39;chicane&#39;</span>); <span class="co"># HindIII fragments on chromosome 2</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>( <span class="fu">bedtools.installed</span>() ) {</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  chicane.results <span class="ot">&lt;-</span> <span class="fu">chicane</span>(</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">bam =</span> bam,</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">baits =</span> baits,</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">fragments =</span> fragments</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    );</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>( chicane.results[ <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> ] );</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Taking input= as a system command (&#39;sh /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/Rtmp2XOYaD/Rinst13336100cce0/chicane/bin/prepare_bam.sh -b /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/Rtmp2XOYaD/Rinst13336100cce0/chicane/extdata/Bre80_2q35.bam -c /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/Rtmp2XOYaD/Rinst13336100cce0/chicane/extdata/2q35.bed -f /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/Rtmp2XOYaD/Rinst13336100cce0/chicane/extdata/GRCh38_HindIII_chr2.bed.gz -d /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/Rtmp2XOYaD/Rbuild13336223db430/chicane/vignettes &#39;) and a variable has been used in the expression passed to `input=`. Please use fread(cmd=...). There is a security concern if you are creating an app, and the app could have a malicious user, and the app is not running in a secure environment; e.g. the app is running as root. Please read item 5 in the NEWS file for v1.11.6 for more information and for the option to suppress this message.</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    target.id                  bait.id target.chr target.start</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1: chr2:217491009-217492415 chr2:217035649-217042355       chr2    217491009</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2: chr2:216650000-216651600 chr2:217430817-217437011       chr2    216650000</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3: chr2:217290048-217292530 chr2:217430817-217437011       chr2    217290048</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4: chr2:216269087-216273140 chr2:217430817-217437011       chr2    216269087</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  5: chr2:216551051-216551968 chr2:217430817-217437011       chr2    216551051</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  6: chr2:216879929-216883553 chr2:217430817-217437011       chr2    216879929</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7: chr2:216696003-216698549 chr2:217430817-217437011       chr2    216696003</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8: chr2:216687613-216696003 chr2:217430817-217437011       chr2    216687613</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  9: chr2:216906471-216908390 chr2:217430817-217437011       chr2    216906471</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10: chr2:217162758-217166250 chr2:217430817-217437011       chr2    217162758</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     target.end bait.chr bait.start  bait.end bait.to.bait bait.trans.count</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1:  217492415     chr2  217035649 217042355        FALSE                0</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2:  216651600     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3:  217292530     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4:  216273140     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  5:  216551968     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  6:  216883553     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7:  216698549     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8:  216696003     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  9:  216908390     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10:  217166250     chr2  217430817 217437011        FALSE                0</span></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     target.trans.count  distance count expected      p.value   q.value</span></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1:                  0  452710.0    28 6.222070 0.0001352420 0.2346449</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2:                  0  783114.0    16 2.992273 0.0004798454 0.8172368</span></span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3:                  0  142625.0    33 8.889424 0.0010581410 0.8172368</span></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4:                  0 1162800.5     8 2.101973 0.0019527803 0.8172368</span></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  5:                  0  882404.5    11 2.722403 0.0021130042 0.8172368</span></span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  6:                  0  552173.0    11 3.822236 0.0036069810 0.8172368</span></span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7:                  0  736638.0    16 4.162590 0.0043689364 0.8172368</span></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8:                  0  742106.0    15 3.999764 0.0055330101 0.8172368</span></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  9:                  0  526483.5    11 4.150239 0.0063231596 0.8172368</span></span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10:                  0  269410.0    24 8.030272 0.0063767687 0.8172368</span></span></code></pre></div>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># example BAM file, baits, and restriction fragments</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>bam <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&#39;extdata&#39;</span>, <span class="st">&#39;Bre80_2q35.bam&#39;</span>, <span class="at">package =</span> <span class="st">&#39;chicane&#39;</span>);</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>baits <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&#39;extdata&#39;</span>, <span class="st">&#39;2q35.bed&#39;</span>, <span class="at">package =</span> <span class="st">&#39;chicane&#39;</span>);</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>fragments <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&#39;extdata&#39;</span>, <span class="st">&#39;GRCh38_HindIII_chr2.bed.gz&#39;</span>, <span class="at">package =</span> <span class="st">&#39;chicane&#39;</span>); <span class="co"># HindIII fragments on chromosome 2</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>( <span class="fu">bedtools.installed</span>() ) {</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  chicane.results <span class="ot">&lt;-</span> <span class="fu">chicane</span>(</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">bam =</span> bam,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">baits =</span> baits,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">fragments =</span> fragments</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>( chicane.results[ <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> ] );</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Taking input= as a system command (&#39;sh /tmp/RtmpdNJTjh/Rinsta536160f7fb70/chicane/bin/prepare_bam.sh -b /tmp/RtmpdNJTjh/Rinsta536160f7fb70/chicane/extdata/Bre80_2q35.bam -c /tmp/RtmpdNJTjh/Rinsta536160f7fb70/chicane/extdata/2q35.bed -f /tmp/RtmpdNJTjh/Rinsta536160f7fb70/chicane/extdata/GRCh38_HindIII_chr2.bed.gz -d /tmp/RtmpdNJTjh/Rbuilda536136379101/chicane/vignettes &#39;) and a variable has been used in the expression passed to `input=`. Please use fread(cmd=...). There is a security concern if you are creating an app, and the app could have a malicious user, and the app is not running in a secure environment; e.g. the app is running as root. Please read item 5 in the NEWS file for v1.11.6 for more information and for the option to suppress this message.</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    target.id                  bait.id target.chr target.start</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1: chr2:217491009-217492415 chr2:217035649-217042355       chr2    217491009</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2: chr2:216650000-216651600 chr2:217430817-217437011       chr2    216650000</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3: chr2:217290048-217292530 chr2:217430817-217437011       chr2    217290048</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4: chr2:216269087-216273140 chr2:217430817-217437011       chr2    216269087</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  5: chr2:216551051-216551968 chr2:217430817-217437011       chr2    216551051</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  6: chr2:216879929-216883553 chr2:217430817-217437011       chr2    216879929</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7: chr2:216696003-216698549 chr2:217430817-217437011       chr2    216696003</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8: chr2:216687613-216696003 chr2:217430817-217437011       chr2    216687613</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  9: chr2:216906471-216908390 chr2:217430817-217437011       chr2    216906471</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10: chr2:217162758-217166250 chr2:217430817-217437011       chr2    217162758</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     target.end bait.chr bait.start  bait.end bait.to.bait bait.trans.count</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1:  217492415     chr2  217035649 217042355        FALSE                0</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2:  216651600     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3:  217292530     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4:  216273140     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  5:  216551968     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  6:  216883553     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7:  216698549     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8:  216696003     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  9:  216908390     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10:  217166250     chr2  217430817 217437011        FALSE                0</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     target.trans.count  distance count expected      p.value   q.value</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1:                  0  452710.0    28 6.222070 0.0001352420 0.2346449</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2:                  0  783114.0    16 2.992273 0.0004798454 0.8172368</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3:                  0  142625.0    33 8.889424 0.0010581410 0.8172368</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4:                  0 1162800.5     8 2.101973 0.0019527803 0.8172368</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  5:                  0  882404.5    11 2.722403 0.0021130042 0.8172368</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  6:                  0  552173.0    11 3.822236 0.0036069810 0.8172368</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7:                  0  736638.0    16 4.162590 0.0043689364 0.8172368</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8:                  0  742106.0    15 3.999764 0.0055330101 0.8172368</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  9:                  0  526483.5    11 4.150239 0.0063231596 0.8172368</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10:                  0  269410.0    24 8.030272 0.0063767687 0.8172368</span></span></code></pre></div>
 <p>The <code>chicane</code> function returns a <code>data.table</code> object sorted by q-value. Each row contains information about the target and bait fragments, and the observed and expected number of reads linking the two fragments.</p>
 </div>
 <div id="preprocessing" class="section level1">
@@ -309,7 +308,7 @@ chr2 217430817 217437011</code></pre>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">fragments =</span> fragments</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    );</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Taking input= as a system command (&#39;sh /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/Rtmp2XOYaD/Rinst13336100cce0/chicane/bin/prepare_bam.sh -b /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/Rtmp2XOYaD/Rinst13336100cce0/chicane/extdata/Bre80_2q35.bam -c /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/Rtmp2XOYaD/Rinst13336100cce0/chicane/extdata/2q35.bed -f /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/Rtmp2XOYaD/Rinst13336100cce0/chicane/extdata/GRCh38_HindIII_chr2.bed.gz -d /private/var/folders/ch/h71q7lwx2wdb07ry2mlp337r000k4d/T/Rtmp2XOYaD/Rbuild13336223db430/chicane/vignettes &#39;) and a variable has been used in the expression passed to `input=`. Please use fread(cmd=...). There is a security concern if you are creating an app, and the app could have a malicious user, and the app is not running in a secure environment; e.g. the app is running as root. Please read item 5 in the NEWS file for v1.11.6 for more information and for the option to suppress this message.</span></span></code></pre></div>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Taking input= as a system command (&#39;sh /tmp/RtmpdNJTjh/Rinsta536160f7fb70/chicane/bin/prepare_bam.sh -b /tmp/RtmpdNJTjh/Rinsta536160f7fb70/chicane/extdata/Bre80_2q35.bam -c /tmp/RtmpdNJTjh/Rinsta536160f7fb70/chicane/extdata/2q35.bed -f /tmp/RtmpdNJTjh/Rinsta536160f7fb70/chicane/extdata/GRCh38_HindIII_chr2.bed.gz -d /tmp/RtmpdNJTjh/Rbuilda536136379101/chicane/vignettes &#39;) and a variable has been used in the expression passed to `input=`. Please use fread(cmd=...). There is a security concern if you are creating an app, and the app could have a malicious user, and the app is not running in a secure environment; e.g. the app is running as root. Please read item 5 in the NEWS file for v1.11.6 for more information and for the option to suppress this message.</span></span></code></pre></div>
 <p>The interaction data object contains details of the fragments, and the number of reads linking the two fragments.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>( <span class="fu">bedtools.installed</span>() ) <span class="fu">print</span>(interaction.data);</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                      target.id                  bait.id target.chr target.start</span></span>
@@ -617,38 +616,37 @@ Var(Y) = \mu + \frac{\mu^2}{\theta}
 <div id="session-info" class="section level1">
 <h1>Session Info</h1>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>();</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R version 4.1.0 (2021-05-18)</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running under: macOS Big Sur 10.16</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R version 3.6.0 (2019-04-26)</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Platform: x86_64-conda_cos6-linux-gnu (64-bit)</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running under: CentOS Linux 8 (Core)</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix products: default</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.dylib</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; locale:</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] C/en_GB.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; attached base packages:</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] parallel  splines   stats     graphics  grDevices utils     datasets </span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [8] methods   base     </span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; other attached packages:</span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] chicane_0.1.7     data.table_1.14.0 gamlss.tr_5.1-7   gamlss_5.3-4     </span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] nlme_3.1-152      gamlss.data_6.0-1 gamlss.dist_5.3-2 MASS_7.3-54      </span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] bslib_0.2.5.1        compiler_4.1.0       formatR_1.11        </span></span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4] jquerylib_0.1.4      bedr_1.0.7           futile.logger_1.4.3 </span></span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] iterators_1.0.13     R.methodsS3_1.8.1    futile.options_1.0.1</span></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10] R.utils_2.10.1       tools_4.1.0          testthat_3.0.4      </span></span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] digest_0.6.27        jsonlite_1.7.2       evaluate_0.14       </span></span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [16] lattice_0.20-44      rlang_0.4.11         foreach_1.5.1       </span></span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] Matrix_1.3-4         yaml_2.2.1           VennDiagram_1.6.20  </span></span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [22] xfun_0.24            stringr_1.4.0        knitr_1.33          </span></span>
-<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] sass_0.4.0           grid_4.1.0           R6_2.5.0            </span></span>
-<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [28] survival_3.2-11      rmarkdown_2.9        lambda.r_1.2.4      </span></span>
-<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [31] magrittr_2.0.1       codetools_0.2-18     htmltools_0.5.1.1   </span></span>
-<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [34] stringi_1.6.2        R.oo_1.24.0</span></span></code></pre></div>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BLAS/LAPACK: /data/scratch/DBC/UBCN/BCRBIOIN/SHARED/software/conda_envs/R-3.6.0/lib/R/lib/libRblas.so</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; locale:</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] C</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; attached base packages:</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] parallel  splines   stats     graphics  grDevices utils     datasets </span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [8] methods   base     </span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; other attached packages:</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] chicane_0.1.8     data.table_1.14.0 gamlss.tr_5.1-7   gamlss_5.3-4     </span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] nlme_3.1-151      gamlss.data_6.0-1 gamlss.dist_5.3-2 MASS_7.3-53.1    </span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] bslib_0.2.4          compiler_3.6.0       formatR_1.11        </span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4] jquerylib_0.1.4      bedr_1.0.7           futile.logger_1.4.3 </span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] iterators_1.0.13     R.methodsS3_1.8.1    futile.options_1.0.1</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10] R.utils_2.10.1       tools_3.6.0          testthat_3.0.2      </span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] digest_0.6.27        jsonlite_1.7.2       evaluate_0.14       </span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [16] lattice_0.20-41      rlang_0.4.11         foreach_1.5.1       </span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] Matrix_1.3-2         yaml_2.2.1           VennDiagram_1.6.20  </span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [22] xfun_0.22            stringr_1.4.0        knitr_1.34          </span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] sass_0.3.1           grid_3.6.0           R6_2.5.1            </span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [28] survival_3.2-10      rmarkdown_2.11       lambda.r_1.2.4      </span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [31] magrittr_2.0.1       codetools_0.2-18     htmltools_0.5.1.1   </span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [34] stringi_1.5.3        R.oo_1.24.0</span></span></code></pre></div>
 </div>
 <div id="acknowledgements" class="section level1">
 <h1>Acknowledgements</h1>
